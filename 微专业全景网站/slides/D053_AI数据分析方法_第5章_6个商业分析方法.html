@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第5章：6个常用的商业分析方法 - AI数据分析课程</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #1a1a2e; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #7C3AED; z-index: 100; }
+        .header h1 { font-size: 1.5em; background: linear-gradient(90deg, #7C3AED, #6D28D9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-info { display: flex; gap: 20px; align-items: center; }
+        .header-info span { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9em; }
+        .toc-btn { background: linear-gradient(135deg, #7C3AED, #6D28D9); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 0.95em; transition: transform 0.3s, box-shadow 0.3s; }
+        .toc-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+        .slides-wrapper { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; min-height: calc(100vh - 140px); display: none; padding: 30px 40px 20px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); animation: fadeIn 0.5s ease; }
+        .slide.active { display: flex; flex-direction: column; min-height: calc(100vh - 140px); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .slide-header { background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%); color: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .slide-header h2 { font-size: 1.5em; }
+        .slide-number-badge { background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 16px; font-size: 0.9em; }
+        .slide-content { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; overflow: visible; }
+        .slide-content.single-column { grid-template-columns: 1fr; }
+        .content-box { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: visible; }
+        .content-box h3 { color: #7C3AED; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #7C3AED; }
+        .content-box ul { list-style: none; }
+        .content-box li { padding: 10px 0; padding-left: 25px; position: relative; font-size: 1.05em; color: #374151; }
+        .content-box li::before { content: '▶'; position: absolute; left: 0; color: #7C3AED; font-size: 0.8em; }
+        .highlight-box { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #7C3AED; }
+        .highlight-box h4 { color: #7C3AED; margin-bottom: 10px; }
+        .highlight-box.green { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left-color: #10b981; }
+        .highlight-box.blue { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-left-color: #3b82f6; }
+        .code-block { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 10px; font-family: 'Consolas', monospace; font-size: 0.85em; overflow-x: auto; line-height: 1.6; }
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 12px 30px; display: flex; justify-content: center; align-items: center; gap: 30px; border-top: 2px solid #7C3AED; height: 60px; }
+        .nav-btn { background: linear-gradient(135deg, #7C3AED, #6D28D9); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; }
+        .nav-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-text { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.95em; min-width: 70px; text-align: center; }
+        .page-nav-sidebar { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.95); padding: 12px 8px; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); z-index: 100; max-height: calc(100vh - 200px); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .page-dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; cursor: pointer; transition: all 0.3s; flex-shrink: 0; }
+        .page-dot.active { background: #7C3AED; transform: scale(1.4); }
+        .page-dot:hover { background: #9ca3af; transform: scale(1.2); }
+        .toc-sidebar { position: fixed; top: 0; left: -400px; width: 400px; height: 100vh; background: white; box-shadow: 5px 0 30px rgba(0,0,0,0.3); z-index: 200; transition: left 0.3s ease; display: flex; flex-direction: column; }
+        .toc-sidebar.open { left: 0; }
+        .toc-header { background: linear-gradient(135deg, #7C3AED, #6D28D9); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .toc-header h3 { font-size: 1.3em; }
+        .close-btn { background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; }
+        .toc-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .toc-item { padding: 15px; margin: 8px 0; background: #f3f4f6; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
+        .toc-item:hover { background: #e5e7eb; transform: translateX(5px); }
+        .toc-item.active { background: linear-gradient(135deg, #7C3AED, #6D28D9); color: white; }
+        .toc-item-number { background: #7C3AED; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .toc-item.active .toc-item-number { background: white; color: #7C3AED; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+        .overlay.show { display: block; }
+        .keyboard-hint { position: fixed; bottom: 80px; right: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; z-index: 50; }
+        .key { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 3px; }
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; margin-right: 8px; margin-bottom: 8px; }
+        .tag-blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .tag-green { background: rgba(16,185,129,0.1); color: #10b981; }
+        .tag-orange { background: rgba(245,158,11,0.1); color: #d97706; }
+        .tag-purple { background: rgba(139,92,246,0.1); color: #7c3aed; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center; }
+    </style>
+
+</head>
+<body>
+    <div class="header">
+        <h1>💼 第5章：6个常用的商业分析方法</h1>
+        <div class="header-info">
+            <span>⏱️ 90分钟</span>
+            <span>📖 20页</span>
+            <button class="toc-btn" onclick="toggleTOC()">📑 目录</button>
+        </div>
+    </div>
+
+    <div class="slides-wrapper">
+        <div class="slide active" data-title="课程封面"><div class="Slide-header"><h2>💼 第5章：6个常用的商业分析方法</h2><span class="slide-number-badge">第 1 / 20 页</span></div><div class="slide-content single-column"><div class="content-box" style="text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;"><h3 style="border:none;font-size:2em;margin-bottom:30px;">🎯 课程目标</h3><ul style="text-align:left;max-width:700px;"><li>掌握6种核心商业分析方法的原理与应用</li><li>学会使用AI工具辅助商业分析</li><li>能够根据业务场景选择合适的分析框架</li><li>完成实际案例的商业分析练习</li></ul><div style="margin-top:30px;"><span class="tag tag-purple">⏱️ 90分钟</span><span class="tag tag-blue">📖 20页</span><span class="tag tag-orange">💼 商业实战</span></div></div></div></div><div class="slide" data-title="📑 课程内容概览"><div class="Slide-header"><h2>📑 课程内容概览</h2><span class="slide-number-badge">第 2 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>6大商业分析方法</h3><div class="three-col"><div class="card"><h4>波特五力</h4></div><div class="card"><h4>SWOT</h4></div><div class="card"><h4>PEST</h4></div><div class="card"><h4>4P营销</h4></div><div class="card"><h4>AARRR</h4></div><div class="card"><h4>RFM</h4></div></div></div><div class="content-box"><h3>课程安排</h3><ul><li>战略分析：波特五力、SWOT、PEST（页3-8）</li><li>营销分析：4P、AARRR（页9-14）</li><li>客户分析：RFM、AI辅助（页15-18）</li><li>实战案例与总结（页19-20）</li></ul></div></div></div><div class="slide" data-title="🏢 1. 波特五力模型"><div class="Slide-header"><h2>🏢 1. 波特五力模型</h2><span class="slide-number-badge">第 3 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>模型概述</h3><p style="margin:15px 0;">波特五力模型由迈克尔·波特提出，用于分析行业竞争结构和吸引力。</p><div class="highlight-box blue"><h4>五力要素</h4><ul><li>供应商议价能力</li><li>买方议价能力</li><li>新进入者威胁</li><li>替代品威胁</li><li>行业内竞争</li></ul></div></div><div class="content-box"><h3>应用场景</h3><ul><li><b>战略规划</b>：评估行业吸引力</li><li><b>投资决策</b>：判断市场进入时机</li><li><b>竞争策略</b>：制定差异化战略</li><li><b>行业研究</b>：撰写行业分析报告</li></ul><div class="highlight-box" style="margin-top:20px;"><h4>💡 AI提示词</h4><p>"用波特五力模型分析[行业名称]的竞争结构"</p></div></div></div></div><div class="slide" data-title="📋 2. SWOT分析"><div class="Slide-header"><h2>📋 2. SWOT分析</h2><span class="slide-number-badge">第 4 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>SWOT框架</h3><div class="highlight-box"><h4>内部因素</h4><ul><li><b>S</b> Strengths 优势</li><li><b>W</b> Weaknesses 劣势</li></ul></div><div class="highlight-box" style="margin-top:10px;background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border-left-color:#9333ea;"><h4>外部因素</h4><ul><li><b>O</b> Opportunities 机会</li><li><b>T</b> Threats 威胁</li></ul></div></div><div class="content-box"><h3>策略矩阵</h3><ul><li><b>SO策略</b>：利用优势抓住机会</li><li><b>WO策略</b>：克服劣势抓住机会</li><li><b>ST策略</b>：利用优势回避威胁</li><li><b>WT策略</b>：减少劣势回避威胁</li></ul><div class="highlight-box" style="margin-top:20px;"><h4>💡 使用技巧</h4><p>每项SWOT要素需具体、可量化、可验证</p></div></div></div></div><div class="slide" data-title="🌐 3. PEST分析"><div class="Slide-header"><h2>🌐 3. PEST分析</h2><span class="slide-number-badge">第 5 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>PEST四维度</h3><div class="highlight-box"><h4>P 政治/Policy</h4><p>政府政策、法规、政治稳定性</p></div><div class="highlight-box blue" style="margin-top:10px;"><h4>E 经济/Economic</h4><p>GDP、CPI、利率、汇率、消费趋势</p></div></div><div class="content-box"><div class="highlight-box green"><h4>S 社会/Social</h4><p>人口结构、教育水平、消费习惯、价值观</p></div><div class="highlight-box" style="margin-top:10px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-left-color:#f59e0b;"><h4 style="color:#d97706;">T 技术/Technological</h4><p>技术创新、研发投入、数字化转型</p></div></div></div></div><div class="slide" data-title="📣 4. 4P营销理论"><div class="Slide-header"><h2>📣 4. 4P营销理论</h2><span class="slide-number-badge">第 6 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>4P营销组合</h3><div class="highlight-box"><h4>Product 产品</h4><ul><li>功能、品质、设计</li><li>品牌、包装、服务</li></ul></div><div class="highlight-box blue" style="margin-top:10px;"><h4>Price 价格</h4><ul><li>定价策略、折扣政策</li><li>支付方式、信用期</li></ul></div></div><div class="content-box"><div class="highlight-box green"><h4>Place 渠道</h4><ul><li>线上/线下渠道</li><li>渠道覆盖、物流配送</li></ul></div><div class="highlight-box" style="margin-top:10px;background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-left-color:#ec4899;"><h4 style="color:#db2777;">Promotion 促销</h4><ul><li>广告、公关、促销</li><li>内容营销、社交媒体</li></ul></div></div></div></div><div class="slide" data-title="🚀 5. AARRR模型"><div class="Slide-header"><h2>🚀 5. AARRR模型</h2><span class="slide-number-badge">第 7 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>AARRR增长漏斗</h3><div class="highlight-box"><h4>A - Acquisition 获取</h4><p>用户从哪来？成本多少？</p></div><div class="highlight-box blue" style="margin-top:10px;"><h4>A - Activation 激活</h4><p>用户是否体验到核心价值？</p></div><div class="highlight-box green" style="margin-top:10px;"><h4>R - Retention 留存</h4><p>用户会回来吗？</p></div></div><div class="content-box"><div class="highlight-box"><h4>R - Revenue 收入</h4><p>如何从用户身上赚钱？</p></div><div class="highlight-box" style="margin-top:10px;background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-left-color:#ec4899;"><h4 style="color:#db2777;">R - Referral 推荐</h4><p>用户会推荐给他人吗？</p></div><div class="highlight-box" style="margin-top:20px;"><h4>💡 增长指标</h4><p>CAC、LTV、ARPU、churn rate</p></div></div></div></div><div class="slide" data-title="👥 6. RFM分析"><div class="Slide-header"><h2>👥 6. RFM分析</h2><span class="slide-number-badge">第 8 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>RFM模型</h3><div class="highlight-box"><h4>R - Recency 最近一次购买</h4><p>用户上次购买距今多久？越近越好</p></div><div class="highlight-box blue" style="margin-top:10px;"><h4>F - Frequency 购买频率</h4><p>用户在特定周期购买多少次？越多越好</p></div><div class="highlight-box green" style="margin-top:10px;"><h4>M - Monetary 购买金额</h4><p>用户累计消费多少？越多越好</p></div></div><div class="content-box"><h3>客户分群</h3><ul><li><b>高价值客户</b>：RFM都高，重点维护</li><li><b>潜力客户</b>：F、M高，R低，唤醒</li><li><b>流失风险</b>：R低，需召回</li><li><b>低价值客户</b>：RFM都低，谨慎投入</li></ul><div class="code-block" style="margin-top:15px;">-- RFM SQL计算
+SELECT user_id, DATEDIFF(NOW(), MAX(order_date)) as R, COUNT(order_id) as F, SUM(amount) as M FROM orders GROUP BY user_id;</div></div></div></div><div class="slide" data-title="🤖 AI辅助商业分析"><div class="Slide-header"><h2>🤖 AI辅助商业分析</h2><span class="slide-number-badge">第 9 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>ChatGPT商业分析能力</h3><div class="highlight-box"><h4>📋 框架应用</h4><ul><li>生成SWOT分析初稿</li><li>补充波特五力要素</li><li>制定4P营销策略</li></ul></div></div><div class="content-box"><h3>AI提示词模板</h3><div class="code-block"># SWOT分析提示词
+"请为[公司名称]进行SWOT分析"</div></div></div></div><div class="slide" data-title="📊 商业案例分析"><div class="Slide-header"><h2>📊 商业案例分析</h2><span class="slide-number-badge">第 10 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>案例：某电商平台分析</h3><p>分析某头部电商平台的竞争优势</p></div><div class="content-box"><h3>分析结论</h3><ul><li>供应商议价能力强</li><li>新进入者威胁中等</li></ul></div></div></div><div class="slide" data-title="🏢 波特五力应用"><div class="Slide-header"><h2>🏢 波特五力应用</h2><span class="slide-number-badge">第 11 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>五力分析详解</h3><p>各力的影响因素分析</p></div><div class="content-box"><h3>策略建议</h3><p>基于五力分析的竞争策略</p></div></div></div><div class="slide" data-title="📋 SWOT实战"><div class="Slide-header"><h2>📋 SWOT实战</h2><span class="slide-number-badge">第 12 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>SWOT分析练习</h3><p>为一家创业公司做SWOT</p></div><div class="content-box"><h3>策略制定</h3><p>SO、WO、ST、WT策略</p></div></div></div>
+    </div>
+
+    <div class="footer">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ 上一页</button>
+        <span class="page-text" id="pageText">1 / 20</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一页 ▶</button>
+    </div>
+
+    <div class="page-nav-sidebar" id="pageNavSidebar"></div>
+
+    <div class="overlay" id="overlay" onclick="toggleTOC()"></div>
+
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-header">
+            <h3>📑 课程目录</h3>
+            <button class="close-btn" onclick="toggleTOC()">×</button>
+        </div>
+        <div class="toc-list" id="tocList">
+            <div class="toc-item" onclick="goToSlide(0)"><span class="toc-item-number">1</span><span class="toc-item-title">课程封面</span></div><div class="toc-item" onclick="goToSlide(1)"><span class="toc-item-number">2</span><span class="toc-item-title">📑 课程内容概览</span></div><div class="toc-item" onclick="goToSlide(2)"><span class="toc-item-number">3</span><span class="toc-item-title">🏢 1. 波特五力模型</span></div><div class="toc-item" onclick="goToSlide(3)"><span class="toc-item-number">4</span><span class="toc-item-title">📋 2. SWOT分析</span></div><div class="toc-item" onclick="goToSlide(4)"><span class="toc-item-number">5</span><span class="toc-item-title">🌐 3. PEST分析</span></div><div class="toc-item" onclick="goToSlide(5)"><span class="toc-item-number">6</span><span class="toc-item-title">📣 4. 4P营销理论</span></div><div class="toc-item" onclick="goToSlide(6)"><span class="toc-item-number">7</span><span class="toc-item-title">🚀 5. AARRR模型</span></div><div class="toc-item" onclick="goToSlide(7)"><span class="toc-item-number">8</span><span class="toc-item-title">👥 6. RFM分析</span></div><div class="toc-item" onclick="goToSlide(8)"><span class="toc-item-number">9</span><span class="toc-item-title">🤖 AI辅助商业分析</span></div><div class="toc-item" onclick="goToSlide(9)"><span class="toc-item-number">10</span><span class="toc-item-title">📊 商业案例分析</span></div><div class="toc-item" onclick="goToSlide(10)"><span class="toc-item-number">11</span><span class="toc-item-title">🏢 波特五力应用</span></div><div class="toc-item" onclick="goToSlide(11)"><span class="toc-item-number">12</span><span class="toc-item-title">📋 SWOT实战</span></div>
+        </div>
+    </div>
+
+    <div class="keyboard-hint">
+        使用 <span class="key">←</span> <span class="key">→</span> 键翻页
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const pageNavSidebar = document.getElementById('pageNavSidebar');
+        const pageText = document.getElementById('pageText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tocSidebar = document.getElementById('tocSidebar');
+        const overlay = document.getElementById('overlay');
+        const tocList = document.getElementById('tocList');
+
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dot.title = `第${i + 1}页`;
+            pageNavSidebar.appendChild(dot);
+        }
+
+        function initTOC() {
+            tocList.innerHTML = '';
+            slides.forEach((slide, i) => {
+                const title = slide.getAttribute('data-title') || `第${i + 1}页`;
+                const item = document.createElement('div');
+                item.className = 'toc-item' + (i === 0 ? ' active' : '');
+                item.onclick = () => goToSlide(i);
+                item.innerHTML = `<span class="toc-item-number">${i + 1}</span><span class="toc-item-title">${title}</span>`;
+                tocList.appendChild(item);
+            });
+        }
+        initTOC();
+
+        function updateSlide() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === currentSlide) slide.classList.add('active');
+            });
+            const dots = pageNavSidebar.querySelectorAll('.page-dot');
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+            pageText.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            const tocItems = tocList.querySelectorAll('.toc-item');
+            tocItems.forEach((item, i) => item.classList.toggle('active', i === currentSlide));
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            document.querySelector('.slides-wrapper').scrollTop = 0;
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+        function goToSlide(index) { if (index >= 0 && index < totalSlides) { currentSlide = index; updateSlide(); closeTOC(); } }
+        function toggleTOC() { tocSidebar.classList.toggle('open'); overlay.classList.toggle('show'); }
+        function closeTOC() { tocSidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'Escape') closeTOC();
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="人工智能（AI）技术应用微专业课程管理：课程档案、资料完整性核查、当前有效课程资料与内容取舍治理。">
+<title>人工智能（AI）技术应用微专业 · 课程管理</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---------- 关联页面（三个 index 页面统一的横向入口） ---------- */
+.peer-nav{margin:0 0 26px;padding:14px 16px;background:#fff;border:1px solid #e4e8f1;
+  border-radius:12px;box-shadow:0 1px 3px rgba(24,35,70,.05)}
+.peer-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.peer-head b{font-size:12.5px;letter-spacing:.06em;color:#2f3fa8}
+.peer-head span{font-size:11.5px;color:#6d7690}
+.peer-links{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.peer-link{display:block;padding:10px 12px;border:1px solid #dde3f1;border-radius:9px;
+  background:#fafbff;text-decoration:none;color:inherit}
+.peer-link b{display:block;font-size:13px;color:#2f3fa8;line-height:1.5}
+.peer-link span{display:block;font-size:11.5px;color:#6d7690;line-height:1.55;margin-top:3px}
+a.peer-link:hover{border-color:#9fb0ff;background:#eef1ff;text-decoration:none}
+.peer-link.is-current{border-color:#c9d4ff;background:#eef1ff;cursor:default}
+.peer-link.is-current b{color:#1a2135}
+.peer-link.is-current b:after{content:" · 当前页面";font-size:11px;font-weight:400;color:#6d7690}
+@media (max-width:760px){.peer-links{grid-template-columns:1fr}}
+@media print{.peer-nav{display:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="打开导航">☰</button>
+  <a class="brand" href="#/overview">
+    <span class="logo">AI</span>
+    <span>微专业课程管理<small>大连财经学院 · 管理学院</small></span>
+  </a>
+  <div class="search-wrap">
+    <span class="search-ico">⌕</span>
+    <input type="text" id="globalSearch" placeholder="检索在库课程资料…" autocomplete="off">
+    <kbd>/</kbd>
+    <div class="suggest" id="suggest"></div>
+  </div>
+  <div class="top-stat" id="topStat"></div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"><nav id="navTree"></nav></aside>
+  <main class="main" id="main">
+    <nav class="peer-nav" aria-label="关联页面互达">
+      <div class="peer-head"><b>关联页面</b><span>同属「人工智能（AI）技术应用微专业」建设成果 · 点击可互达并返回</span></div>
+      <div class="peer-links">
+        <a class="peer-link" href="../微专业PPT总结/index.html#overview"><b>微专业建设专题报告</b><span>六份 PPT 完整总结 · 最佳实践路线图 · 报告总览</span></a>
+        <a class="peer-link" href="../课程大纲/index.html#overview"><b>课程教学大纲汇编</b><span>6 门课程大纲全文 · 课程总览 · Word 下载</span></a>
+        <span class="peer-link is-current" aria-current="page"><b>微专业课程管理</b><span>课程档案 · 资料完整性核查 · 建设参考与治理</span></span>
+      </div>
+    </nav>
+  </main>
+  <aside class="toc" id="toc">
+    <h4>本页目录</h4>
+    <div id="tocLinks"></div>
+    <div id="tocBox"></div>
+  </aside>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <b id="modalTitle">在线预览</b>
+      <a class="btn solid" id="modalWord" href="#">下载 Word 版本</a>
+      <a class="btn gray" id="modalOrig" href="#">下载原始文件</a>
+      <a class="btn gray" id="modalOpen" href="#" target="_blank">新窗口打开</a>
+      <button class="x" id="modalClose" aria-label="关闭">×</button>
+    </div>
+    <iframe id="modalFrame" title="文档在线预览"></iframe>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

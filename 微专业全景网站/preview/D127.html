@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 继承 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D127_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E7%BB%A7%E6%89%BF.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D127_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E7%BB%A7%E6%89%BF.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 继承</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>继承.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/继承.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>256.5 KB</td></tr><tr><th>Word 版本</th><td>D127_课件PPT_[宁悦PPT.zip] 继承.docx</td></tr></table><div class="content"><h3>第 1 页 · 6.3  继承机制</h3>
+<p>6.3  继承机制</p>
+<p>继承是用来实现代码复用和设计复用的机制，是面向对象程序设计的重要特性之一。设计一个新类时，如果可以继承一个已有的设计良好的类然后进行二次开发，无疑会大幅度减少开发工作量。<br>在继承关系中，已有的、设计好的类称为父类或基类，新设计的类称为子类或派生类。派生类可以继承父类的公有成员，但是不能继承其私有成员。如果需要在派生类中调用基类的方法，可以使用内置函数super()或者通过“基类名.方法名()”的方式来实现这一目的。<br>Python支持多继承，如果父类中有相同的方法名，而在子类中使用时没有指定父类名，则Python解释器将从左向右按顺序进行搜索。</p>
+<p>1</p>
+<hr>
+<h3>第 2 页 · 6.3  继承机制</h3>
+<p>6.3  继承机制</p>
+<p>构造函数、私有方法以及普通公开方法的继承原理。<br><br>&gt;&gt;&gt; class A(object):<br>	    def _ _init_ _(self):   #构造方法可能会被派生类继承<br>	        self._ _private()<br>	        self.public()<br><br>	    def _ _private(self):  #私有方法在派生类中不能直接访问<br>	        print(&#x27;_ _private() method in A&#x27;)	<br>	<br>	    def public(self):     #公开方法在派生类中可以直接访问，也可以被覆盖<br>	        print(&#x27;public() method in A&#x27;)</p>
+<p>2</p>
+<hr>
+<h3>第 3 页 · 6.3  继承机制</h3>
+<p>6.3  继承机制</p>
+<p>&gt;&gt;&gt; class B(A):                 # 类B没有构造方法，会继承基类的构造方法<br>	    def _ _private(self):   # 这不会覆盖基类的私有方法<br>	        print(&#x27;_ _private() method in B&#x27;)<br>	<br>	    def public(self):       # 覆盖了继承自A类的公开方法public<br>            print(&#x27;public() method in B&#x27;)<br><br>&gt;&gt;&gt; b = B()                     # 自动调用基类构造方法<br>_ _private() method in A<br>public() method in B</p>
+<p>3</p>
+<hr>
+<h3>第 4 页 · 6.3  继承机制</h3>
+<p>6.3  继承机制</p>
+<p>&gt;&gt;&gt; class C(A):<br>	        def __init__(self):     #显式定义构造函数<br>	            self._ _private()    #这里调用的是类C的私有方法<br>	            self.public()<br><br>	        def _ _private(self):<br>	            print(&#x27;_ _private() method in C&#x27;)<br><br>        def public(self):<br>	            print(&#x27;public() method in C&#x27;)	<br><br>&gt;&gt;&gt; c = C()                 #调用类C的构造方法<br>__private() method in C<br>public() method in C</p>
+<p>4</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

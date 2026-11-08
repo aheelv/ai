@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 方法 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D124_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%96%B9%E6%B3%95.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D124_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%96%B9%E6%B3%95.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 方法</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>方法.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/方法.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>347.5 KB</td></tr><tr><th>Word 版本</th><td>D124_课件PPT_[宁悦PPT.zip] 方法.docx</td></tr></table><div class="content"><h3>第 1 页 · 6.2  方法</h3>
+<p>6.2  方法</p>
+<p>在类中定义的方法可以粗略分为四大类：公有方法、私有方法、静态方法和类方法。<br>私有方法的名字以两个下划线“_ _”开始，每个对象都有自己的公有方法和私有方法，在这两类方法中可以访问属于类和对象的成员；<br>公有方法通过对象名直接调用，私有方法不能通过对象名直接调用，只能在属于对象的方法中通过self调用或在外部通过Python支持的特殊方式来调用。<br>如果通过类名来调用属于对象的公有方法，需要显式为该方法的self参数传递一个对象名，用来明确指定访问哪个对象的数据成员。</p>
+<p>1</p>
+<hr>
+<h3>第 2 页 · 6.2  方法</h3>
+<p>6.2  方法</p>
+<p>在Python中，静态方法和类方法的主要区别在于它们如何访问类属性和实例属性。<br>1.静态方法：<br>静态方法是类的函数，不接受self参数，可以被类直接调用，也可以被类的对象调用。它不能访问类的任何属性或方法。</p>
+<p>2</p>
+<figure><img loading="lazy" src="../media/D124/D124_s02_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 3 页 · 6.2  方法</h3>
+<p>6.2  方法</p>
+<p>在Python中，静态方法和类方法的主要区别在于它们如何访问类属性和实例属性。<br>2.类方法：<br>类方法是类的函数，它的第一个参数是类本身，通常以cls作为参数名。类方法可以访问类的属性，但不能访问实例的属性。</p>
+<p>3</p>
+<figure><img loading="lazy" src="../media/D124/D124_s03_02.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 4 页 · 6.2  方法</h3>
+<p>6.2  方法</p>
+<p>3.对比：<br>静态方法和类方法的主要区别在于如何访问类属性和实例属性。静态方法不能访问类或实例属性，而类方法可以访问类属性。<br>4.总结：<br>静态方法：不需要访问类或实例属性。<br>类方法：需要访问类属性，不需要访问实例属性。</p>
+<p>4</p>
+<hr>
+<h3>第 5 页 · &gt;&gt;&gt; class Root:</h3>
+<p>&gt;&gt;&gt; class Root:<br>    _ _total = 0              #类属性<br>    def _ _init_ _(self, v):    #构造方法<br>        self._ _value = v<br>        Root._ _total += 1<br><br>    def show(self):           #普通实例方法，公有方法<br>        print(&#x27;self._ _value:&#x27;, self._ _value)<br>        print(&#x27;Root._ _total:&#x27;, Root._ _total)<br><br>    @classmethod              #修饰器，声明类方法<br>    def classShowTotal(cls):  #类方法<br>        print(cls._ _total)<br><br>    @staticmethod             #修饰器，声明静态方法<br>    def staticShowTotal():    #静态方法<br>        print(Root._ _total)</p>
+<p>6.2  方法</p>
+<p>5</p>
+<hr>
+<h3>第 6 页 · 6.2  方法</h3>
+<p>6.2  方法</p>
+<p>&gt;&gt;&gt; r = Root(3)<br>&gt;&gt;&gt; r.classShowTotal()              #通过对象来调用类方法<br>1<br>&gt;&gt;&gt; r.staticShowTotal()             #通过对象来调用静态方法<br>1<br>&gt;&gt;&gt; r.show()<br>self.__value: 3<br>Root.__total: 1<br><br>&gt;&gt;&gt; rr = Root(5)<br>&gt;&gt;&gt; Root.classShowTotal()           #通过类名调用类方法<br>2<br>&gt;&gt;&gt; Root.staticShowTotal()          #通过类名调用静态方法<br>2</p>
+<p>6</p>
+<hr>
+<h3>第 7 页 · 6.2  方法</h3>
+<p>6.2  方法</p>
+<p>&gt;&gt;&gt; Root.show()    #试图通过类名直接调用实例方法，失败<br>TypeError: unbound method show() must be called with Root instance as first argument (got nothing instead)<br>&gt;&gt;&gt; Root.show(r)   #但是可以通过这种方法来调用方法并访问实例成员<br>self.__value: 3<br>Root.__total: 2<br>&gt;&gt;&gt; Root.show(rr)  #通过类名调用实例方法时为self参数显式传递对象名<br>self.__value: 5<br>Root.__total: 2</p>
+<p>7</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

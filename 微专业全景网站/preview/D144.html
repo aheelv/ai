@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 简单绘图 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D144_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E7%AE%80%E5%8D%95%E7%BB%98%E5%9B%BE.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D144_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E7%AE%80%E5%8D%95%E7%BB%98%E5%9B%BE.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 简单绘图</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>简单绘图.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容四/简单绘图.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>678.7 KB</td></tr><tr><th>Word 版本</th><td>D144_课件PPT_[宁悦PPT.zip] 简单绘图.docx</td></tr></table><div class="content"><h3>第 1 页 · 11.2.1 绘制折线图</h3>
+<p>11.2.1 绘制折线图</p>
+<p>折线图（ Line Chart ）是一种将数据点按照顺序连接起来的图形。可以看作是将数据点按照 x 轴坐标顺序连接起来的图形。折线图的主要功能是查看因变量 y 随着自变量 x 改变的趋势，最适合用于显示随时间（根据常用比例设置）而变化的连续数据。同时还可以看出数量的差异，増长趋势的变化。pyplot 中绘制折线图的函数为 plot ，其基本使用语法如下。 <br>plt.plot(x,y,linestyle)<br>其中x表示x轴对应的数据，y表示y轴对应的数据，linestyle表示线条样式。</p>
+<figure><img loading="lazy" src="../media/D144/D144_s01_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 2 页 · 11.2.1 绘制折线图</h3>
+<p>11.2.1 绘制折线图</p>
+<figure><img loading="lazy" src="../media/D144/D144_s02_02.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D144/D144_s02_03.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 3 页 · 11.2.2  绘制柱形图</h3>
+<p>11.2.2  绘制柱形图</p>
+<p>柱形图，是统计报告图的一种，由一系列高度不等的纵向条纹或线段表示数据分布的情况，一般用横轴表示数据所属类别，用纵轴表示数量或占比。柱形图一般用于描述分类型数据，每根柱子宽度固定，柱子之间会有间距。在柱形图中，一般将分类型字段设为横坐标，而将统计值设为纵坐标。<br>pyplot中绘制柱形图的函数为bar（ ）函数，其一般语法如下：<br>plt.bar(x,height,width,color)</p>
+<div class="tw"><table><tbody><tr><td>参数</td><td>描述</td></tr><tr><td>x</td><td>x轴数据</td></tr><tr><td>height</td><td>y轴数据</td></tr><tr><td>width</td><td>柱状的宽度</td></tr><tr><td>color</td><td>柱状填充颜色</td></tr></tbody></table></div>
+<hr>
+<h3>第 4 页 · 11.2.2  绘制柱形图</h3>
+<p>11.2.2  绘制柱形图</p>
+<figure><img loading="lazy" src="../media/D144/D144_s04_04.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D144/D144_s04_05.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 5 页 · 11.2.3 绘制饼图</h3>
+<p>11.2.3 绘制饼图</p>
+<p>饼图可以显示一个数据序列（图表中绘制的相关数据点）中各项大小与各项总和的比例每个数据序列具有唯一的颜色，并且与图例中的颜色是对应的。饼图以圆形代表研究对象的整体，用以圆心为共同顶点的各个不同扇形显示各组成部分在整体中所占的比例，一般可用图例表明各扇形所代表的项目的名称及其所占百分比。<br> pyplot 模块提供了 pie 函数用来绘制饼图，其一般用法为：<br> plt.pie (x ,explod,labels,color,radius,autopct)</p>
+<div class="tw"><table><tbody><tr><td>参数</td><td>描述</td></tr><tr><td>x</td><td>表示每份饼片的数据</td></tr><tr><td>explod</td><td>表示每份饼片边缘偏离半径的百分比</td></tr><tr><td>labels</td><td>表示每份饼片的标签</td></tr><tr><td>color</td><td>表示每份饼片的颜色</td></tr><tr><td>radius</td><td>表示饼图的半径</td></tr><tr><td>autopct</td><td>表示数值百分比的样式</td></tr></tbody></table></div>
+<hr>
+<h3>第 6 页 · 11.2.3 绘制饼图</h3>
+<p>11.2.3 绘制饼图</p>
+<figure><img loading="lazy" src="../media/D144/D144_s06_06.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D144/D144_s06_07.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 7 页 · 11.2.4  组合图形的绘制</h3>
+<p>11.2.4  组合图形的绘制</p>
+<figure><img loading="lazy" src="../media/D144/D144_s07_08.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D144/D144_s07_09.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

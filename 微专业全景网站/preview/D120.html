@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 元组 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D120_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%85%83%E7%BB%84.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D120_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%85%83%E7%BB%84.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 元组</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>元组.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/元组.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>248.1 KB</td></tr><tr><th>Word 版本</th><td>D120_课件PPT_[宁悦PPT.zip] 元组.docx</td></tr></table><div class="content"><h3>第 1 页 · 3.3  元组</h3>
+<p>3.3  元组</p>
+<p>元组和列表类似，但属于不可变序列，元组一旦创建，用任何方法都不可以修改其元素。<br>元组的定义方式和列表相同，但定义时所有元素是放在一对圆括号“（）”中，而不是方括号中。</p>
+<hr>
+<h3>第 2 页 · 3.3.1  元组创建与删除</h3>
+<p>3.3.1  元组创建与删除</p>
+<p>使用“=”将一个元组赋值给变量<br><br>&gt;&gt;&gt; a_tuple = (&#x27;a&#x27;, &#x27;b&#x27;, &#x27;mpilgrim&#x27;, &#x27;z&#x27;, &#x27;example&#x27;)<br>&gt;&gt;&gt; a_tuple<br>(&#x27;a&#x27;, &#x27;b&#x27;, &#x27;mpilgrim&#x27;, &#x27;z&#x27;, &#x27;example&#x27;)<br>&gt;&gt;&gt; a = (3)<br>&gt;&gt;&gt; a<br>3<br>&gt;&gt;&gt; a = (3,)             #包含一个元素的元组，最后必须多写个逗号<br>&gt;&gt;&gt; a<br>(3,)<br>&gt;&gt;&gt; a = 3,               #也可以这样创建元组<br>&gt;&gt;&gt; a<br>(3,)<br>&gt;&gt;&gt; x = ()               #空元组</p>
+<hr>
+<h3>第 3 页 · 3.3.1  元组创建与删除</h3>
+<p>3.3.1  元组创建与删除</p>
+<p>使用tuple函数将其他序列转换为元组。<br><br>&gt;&gt;&gt; tuple(&#x27;abcdefg&#x27;)                    #把字符串转换为元组<br>(&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;)<br>&gt;&gt;&gt; aList<br>[-1, -4, 6, 7.5, -2.3, 9, -11]<br>&gt;&gt;&gt; tuple(aList)                        #把列表转换为元组<br>(-1, -4, 6, 7.5, -2.3, 9, -11)<br>&gt;&gt;&gt; s = tuple()                         #空元组<br>&gt;&gt;&gt; s<br>()</p>
+<hr>
+<h3>第 4 页 · 3.3.2  元组与列表的区别</h3>
+<p>3.3.2  元组与列表的区别</p>
+<p>元组一旦定义就不允许更改。<br>元组没有append()、extend()和insert()等方法，无法向元组中添加元素。<br>元组没有remove()或pop()方法，也无法对元组元素（del()）进行删除操作，但是使用del可以删除元组对象。</p>
+<hr>
+<h3>第 5 页 · 3.3.2  元组与列表的区别</h3>
+<p>3.3.2  元组与列表的区别</p>
+<p>元组的速度比列表更快。如果定义了一系列常量值，主要用途仅是对它进行遍历或者其他类似操作的话，那么一般使用元组而不用列表。<br>元组对不需要改变的数据进行“写保护”将使得代码更加安全。<br>元组可用作字典的“键”，也可以作为集合的元素。列表不能作为字典的“键”，包含列表、字典、集合或其他类型可变对象的元组也不能做字典的“键”。</p>
+<hr>
+<h3>第 6 页 · 3.3.2  元组与列表的区别</h3>
+<p>3.3.2  元组与列表的区别</p>
+<p>虽然元组是不可变序列，如果元组中包含列表或其他类型的可变序列，这些对象是可变的，但元组元素的引用仍是不可变的。<br>&gt;&gt;&gt; x = ([1, 2], 3)<br>&gt;&gt;&gt; x[0][0] = 5<br>&gt;&gt;&gt; x<br>([5, 2], 3)<br>&gt;&gt;&gt; x[0].append(8)<br>&gt;&gt;&gt; x<br>([5, 2, 8], 3)<br>&gt;&gt;&gt; x[0] = x[0]+[10]<br>TypeError: &#x27;tuple&#x27; object does not support item assignment<br>&gt;&gt;&gt; x<br>([5, 2, 8], 3)</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

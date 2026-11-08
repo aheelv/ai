@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 分类与Logistic回归 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D132_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%88%86%E7%B1%BB%E4%B8%8ELogistic%E5%9B%9E%E5%BD%92.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D132_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%88%86%E7%B1%BB%E4%B8%8ELogistic%E5%9B%9E%E5%BD%92.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 分类与Logistic回归</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>分类与Logistic回归.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容三/分类与Logistic回归.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>1.5 MB</td></tr><tr><th>Word 版本</th><td>D132_课件PPT_[宁悦PPT.zip] 分类与Logistic回归.docx</td></tr></table><div class="content"><h3>第 1 页 · 岭回归、LASSO回归和弹性网络</h3>
+<p>岭回归、LASSO回归和弹性网络</p>
+<p>模型误差 = 偏差（Bias）+ 方差（Variance）+ 数据本身的误差</p>
+<p>岭回归</p>
+<p>LASSO回归</p>
+<p>弹性网络</p>
+<figure><img loading="lazy" src="../media/D132/D132_s01_05.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>通过正则化防止过拟合</p>
+<p>from sklearn.linear_model import Ridge,RidgeCV<br>rigdeCV = RidgeCV(alphas=Lambdas,normalize=True,scoring=&#x27;neg_mean_squared_error&#x27;,cv=15) rigdeCV.fit(X_train,Y_train)<br>predictedResult = rigdeCV.predict(X_test)</p>
+<p>lasso_cv = LassoCV(alphas=Lambdas,normalize=True,cv=10,max_iter=10000)</p>
+<hr>
+<h3>第 2 页 · 非线性回归模型</h3>
+<p>非线性回归模型</p>
+<p>在统计学中，非线性回归是回归分析的一种形式， 非线性模型是由一个或多个自变量非线性组合。<br>一些常见非线性模型<br>分段函数<br>样条曲线<br>多项式函数<br>其他</p>
+<figure><img loading="lazy" src="../media/D132/D132_s02_06.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 3 页 · 非线性回归</h3>
+<p>非线性回归</p>
+<figure><img loading="lazy" src="../media/D132/D132_s03_07.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s03_08.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s03_09.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s03_10.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 4 页 · 非线性回归</h3>
+<p>非线性回归</p>
+<figure><img loading="lazy" src="../media/D132/D132_s04_11.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>思考：如果多个自变量之间是相互独立或弱相关的，能否分别研究因变量与各个自变量的关系，然后加权求和，求出整个非线性回归方程？<br>分段函数求解或许是一种可行的选择。</p>
+<figure><img loading="lazy" src="../media/D132/D132_s04_12.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s04_13.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s04_14.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s04_17.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>Logistic回归</p>
+<hr>
+<h3>第 5 页 · 实战案例研讨</h3>
+<p>实战案例研讨</p>
+<figure><img loading="lazy" src="../media/D132/D132_s05_18.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 6 页 · 耐热导线工厂质量管理数据分析</h3>
+<figure><img loading="lazy" src="../media/D132/D132_s06_19.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>耐热导线工厂质量管理数据分析</p>
+<figure><img loading="lazy" src="../media/D132/D132_s06_20.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 7 页 · 杆的抗拉强度和丝的直径的关系（1）</h3>
+<p>杆的抗拉强度和丝的直径的关系（1）</p>
+<figure><img loading="lazy" src="../media/D132/D132_s07_23.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s07_24.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>上述经验公式失灵了？</p>
+<figure><img loading="lazy" src="../media/D132/D132_s07_25.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s07_26.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>业界经验估计</p>
+<hr>
+<h3>第 8 页 · 杆的抗拉强度和丝的直径的关系（2）</h3>
+<figure><img loading="lazy" src="../media/D132/D132_s08_27.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>杆的抗拉强度和丝的直径的关系（2）</p>
+<figure><img loading="lazy" src="../media/D132/D132_s08_28.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>使用区间概念近似杆材强度与单线线径之间的非线性关系。</p>
+<figure><img loading="lazy" src="../media/D132/D132_s08_29.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s08_30.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<div class="tw"><table><tbody><tr><td></td><td>回归方程</td><td>拟合优度</td></tr><tr><td>拟合线</td><td>L:y=155.29+10.47x</td><td>64.22%</td></tr><tr><td>拟合线上限</td><td>L1: y=159.01+11.52x</td><td></td></tr><tr><td>拟合线下限</td><td>L2: y=151.57+9.42x</td><td></td></tr></tbody></table></div>
+<p>思路的创新</p>
+<hr>
+<h3>第 9 页 · 练习题-身高预测</h3>
+<p>练习题-身高预测</p>
+<p>根据样本的足长和步幅数据，拟合它们与身高的关系？<br>提示：可以使用多元（线性）回归、神经网络等方法。</p>
+<figure><img loading="lazy" src="../media/D132/D132_s09_32.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D132/D132_s09_33.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

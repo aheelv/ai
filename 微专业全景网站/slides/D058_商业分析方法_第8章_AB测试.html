@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第7章：A/B测试 - 商业分析方法</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #1a1a2e; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #F59E0B; z-index: 100; }
+        .header h1 { font-size: 1.5em; background: linear-gradient(90deg, #FBBF24, #F59E0B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-info { display: flex; gap: 20px; align-items: center; }
+        .header-info span { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9em; }
+        .toc-btn { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; }
+        .toc-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4); }
+        .slides-wrapper { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; min-height: calc(100vh - 140px); display: none; padding: 30px 40px 20px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); animation: fadeIn 0.5s ease; }
+        .slide.active { display: flex; flex-direction: column; min-height: calc(100vh - 140px); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .slide-header { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .slide-header h2 { font-size: 1.5em; }
+        .slide-number-badge { background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 16px; font-size: 0.9em; }
+        .slide-content { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; overflow: visible; }
+        .slide-content.single-column { grid-template-columns: 1fr; }
+        .slide-content.three-column { grid-template-columns: 1fr 1fr 1fr; }
+        .content-box { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: visible; }
+        .content-box.scroll { max-height: calc(100vh - 320px); overflow-y: auto; }
+        .content-box h3 { color: #D97706; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #F59E0B; }
+        .content-box ul { list-style: none; }
+        .content-box li { padding: 10px 0; padding-left: 25px; position: relative; font-size: 1.05em; color: #374151; }
+        .content-box li::before { content: '▶'; position: absolute; left: 0; color: #F59E0B; font-size: 0.8em; }
+        .highlight-box { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #F59E0B; }
+        .highlight-box h4 { color: #D97706; margin-bottom: 10px; }
+        .highlight-box.green { background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%); border-left-color: #10B981; }
+        .highlight-box.green h4 { color: #059669; }
+        .highlight-box.blue { background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%); border-left-color: #3B82F6; }
+        .highlight-box.blue h4 { color: #1D4ED8; }
+        .highlight-box.red { background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%); border-left-color: #EF4444; }
+        .highlight-box.red h4 { color: #DC2626; }
+        .code-block { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 10px; font-family: 'Consolas', monospace; font-size: 0.85em; overflow-x: auto; line-height: 1.6; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; height: auto; padding: 10px 0; }
+        .chart-container img { max-width: 100%; max-height: none; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 12px 30px; display: flex; justify-content: center; align-items: center; gap: 30px; border-top: 2px solid #F59E0B; height: 60px; }
+        .nav-btn { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        .nav-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-text { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.95em; min-width: 70px; text-align: center; }
+        .page-nav-sidebar { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.95); padding: 12px 8px; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); z-index: 100; max-height: calc(100vh - 200px); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .page-nav-sidebar::-webkit-scrollbar { width: 4px; }
+        .page-nav-sidebar::-webkit-scrollbar-thumb { background: #F59E0B; border-radius: 2px; }
+        .page-dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; cursor: pointer; transition: all 0.3s; flex-shrink: 0; }
+        .page-dot.active { background: #F59E0B; transform: scale(1.4); }
+        .page-dot:hover { background: #9ca3af; transform: scale(1.2); }
+        .toc-sidebar { position: fixed; top: 0; left: -400px; width: 400px; height: 100vh; background: white; box-shadow: 5px 0 30px rgba(0,0,0,0.3); z-index: 200; transition: left 0.3s ease; display: flex; flex-direction: column; }
+        .toc-sidebar.open { left: 0; }
+        .toc-header { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .toc-header h3 { font-size: 1.3em; }
+        .close-btn { background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; }
+        .toc-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .toc-item { padding: 15px; margin: 8px 0; background: #f3f4f6; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
+        .toc-item:hover { background: #e5e7eb; transform: translateX(5px); }
+        .toc-item.active { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; }
+        .toc-item-number { background: #F59E0B; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .toc-item.active .toc-item-number { background: white; color: #F59E0B; }
+        .toc-item-title { font-size: 0.95em; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+        .overlay.show { display: block; }
+        .keyboard-hint { position: fixed; bottom: 80px; right: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; z-index: 50; }
+        .key { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 3px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 第7章：A/B测试</h1>
+        <div class="header-info">
+            <span>⏱️ 90分钟</span>
+            <span>📖 20页</span>
+            <span>📊 10个图表</span>
+            <button class="toc-btn" onclick="toggleTOC()">📑 目录</button>
+        </div>
+    </div>
+
+    <div class="slides-wrapper">
+        <!-- 第1页：课程封面 -->
+        <div class="slide active" data-title="课程封面">
+            <div class="slide-header">
+                <h2>📚 第7章：A/B测试</h2>
+                <span class="slide-number-badge">第 1 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 style="border: none; font-size: 2em; margin-bottom: 30px;">🎯 课程目标</h3>
+                    <ul style="text-align: left; max-width: 600px;">
+                        <li>理解A/B测试的核心原理和应用价值</li>
+                        <li>掌握A/B测试的完整设计流程</li>
+                        <li>学会进行统计显著性检验</li>
+                        <li>能够设计和分析真实的A/B测试实验</li>
+                        <li>了解多变量测试和常见陷阱</li>
+                    </ul>
+                    <div class="highlight-box" style="margin-top: 30px; max-width: 600px;">
+                        <h4>💡 什么是A/B测试？</h4>
+                        <p>A/B测试是一种对照实验方法，通过将用户随机分配到对照组和实验组，比较不同方案的效果差异，用数据驱动决策。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第2页：A/B测试概述 -->
+        <div class="slide" data-title="A/B测试概述">
+            <div class="slide-header">
+                <h2>📖 A/B测试概述</h2>
+                <span class="slide-number-badge">第 2 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心流程</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_ab_test_overview.png" alt="A/B测试概述">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>为什么需要A/B测试？</h3>
+                    <ul>
+                        <li><strong>数据驱动</strong>：用数据说话，避免主观决策</li>
+                        <li><strong>降低风险</strong>：小流量测试，降低全量上线风险</li>
+                        <li><strong>量化效果</strong>>：精确测量每个改动的影响</li>
+                        <li><strong>持续优化</strong>：不断迭代改进产品</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>✅ 应用场景</h4>
+                        <ul>
+                            <li>UI设计优化：按钮颜色、文案、布局</li>
+                            <li>功能迭代：新功能效果验证</li>
+                            <li>运营策略：促销活动、优惠券</li>
+                            <li>算法优化：推荐算法、搜索排序</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第3页：漏斗转化 -->
+        <div class="slide" data-title="漏斗转化">
+            <div class="slide-header">
+                <h2>📊 漏斗与转化分析</h2>
+                <span class="slide-number-badge">第 3 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>用户转化漏斗</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_funnel_conversion.png" alt="漏斗转化">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>关键指标</h3>
+                    <ul>
+                        <li><strong>访问量</strong>：进入页面的总人数</li>
+                        <li><strong>转化率</strong>：完成目标的用户比例</li>
+                        <li><strong>流失率</strong>：在某个环节流失的用户比例</li>
+                        <li><strong>单步转化率</strong>：相邻步骤间的转化</li>
+                    </ul>
+                    <div class="code-block" style="margin-top: 20px;">
+转化率 = 完成人数 / 进入人数 × 100%
+
+流失率 = 流失人数 / 进入人数 × 100%
+
+总体转化率 = 各步转化率连乘
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第4页：统计显著性 -->
+        <div class="slide" data-title="统计显著性">
+            <div class="slide-header">
+                <h2>📐 统计显著性检验</h2>
+                <span class="slide-number-badge">第 4 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box scroll">
+                    <h3>核心概念</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_statistical_significance.png" alt="统计显著性">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>统计检验公式</h3>
+                    <div class="code-block">
+# Z检验公式
+Z = (μ₁ - μ₂) / √(σ₁²/n₁ + σ₂²/n₂)
+
+# P值计算
+P = 2 × (1 - Φ(|Z|))
+
+# 显著性判断
+if P < 0.05: 显著
+if P < 0.01: 高度显著
+if P >= 0.05: 不显著
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>✅ 判断标准</h4>
+                        <ul>
+                            <li>P < 0.05：实验组显著优于对照组</li>
+                            <li>P ≥ 0.05：无法证明差异存在</li>
+                            <li>同时关注置信区间</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第5页：样本量计算 -->
+        <div class="slide" data-title="样本量计算">
+            <div class="slide-header">
+                <h2>📊 样本量计算</h2>
+                <span class="slide-number-badge">第 5 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>样本量公式</h3>
+                    <div class="code-block">
+# 样本量计算公式
+n = 16 × σ² / Δ²
+
+其中：
+- n: 每组所需样本量
+- σ: 标准差（根据历史数据估算）
+- Δ: 最小可检测差异 (MDE)
+
+# 简化版
+n ≈ 16 × (p₁ × (1-p₁) + p₂ × (1-p₂)) / (p₁ - p₂)²
+
+# 常用工具
+- G Power
+- Evan Miller计算器
+- Python: statsmodels
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>影响因素</h3>
+                    <ul>
+                        <li><strong>基准转化率</strong>：基准越高，所需样本越大</li>
+                        <li><strong>最小提升</strong>：想检测的最小提升幅度</li>
+                        <li><strong>显著性水平</strong>：α=0.05，通常固定</li>
+                        <li><strong>统计功效</strong>：1-β，通常要求≥80%</li>
+                    </ul>
+                    <div class="highlight-box blue">
+                        <h4>📈 示例</h4>
+                        <p>基准转化率5%，想检测10%相对提升<br>
+                        所需样本量：约 31,000 / 组</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第6页：测试设计流程 -->
+        <div class="slide" data-title="测试设计">
+            <div class="slide-header">
+                <h2>🔬 A/B测试设计流程</h2>
+                <span class="slide-number-badge">第 6 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>完整设计流程</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_ab_test_design.png" alt="测试设计">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>关键步骤</h3>
+                    <ul>
+                        <li><strong>📋 假设定义</strong>：明确业务目标，提出可检验假设</li>
+                        <li><strong>📊 方案设计</strong>：确定分流比例，计算样本量</li>
+                        <li><strong>🔬 实验实施</strong>：技术实现，确保分流均匀</li>
+                        <li><strong>📈 结果分析</strong>：统计检验，评估效果</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>💡 黄金法则</h4>
+                        <p>先计算样本量，再开始实验！<br>
+                        避免" peek" - 不要提前看结果</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第7页：UI设计案例 -->
+        <div class="slide" data-title="UI设计案例">
+            <div class="slide-header">
+                <h2>💼 实战案例：UI设计优化</h2>
+                <span class="slide-number-badge">第 7 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>测试设计</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_case_ui_design.png" alt="UI设计案例">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>实验结果</h3>
+                    <ul>
+                        <li><strong>点击率</strong>：12% → 18%，提升50%</li>
+                        <li><strong>注册率</strong>：5.2% → 8.7%，提升67%</li>
+                        <li><strong>转化率</strong>：3.1% → 5.6%，提升81%</li>
+                        <li><strong>满意度</strong>：4.2 → 4.5，小幅提升</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>✅ 统计结论</h4>
+                        <p>所有核心指标均达到统计显著 (P < 0.05)<br>
+                        建议：全量上线新版本</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第8页：多变量测试 -->
+        <div class="slide" data-title="多变量测试">
+            <div class="slide-header">
+                <h2>🔄 多变量测试 (MVT)</h2>
+                <span class="slide-number-badge">第 8 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>MVT vs A/B测试</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_multivariate_testing.png" alt="多变量测试">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>选择建议</h3>
+                    <ul>
+                        <li><strong>流量小</strong>：用A/B测试，一次改一处</li>
+                        <li><strong>流量大</strong>：用MVT，同时测多组合</li>
+                        <li><strong>资源有限</strong>：优先测最关键的改动</li>
+                        <li><strong>快速迭代</strong>：A/B更灵活</li>
+                    </ul>
+                    <div class="highlight-box blue">
+                        <h4>📊 组合数量计算</h4>
+                        <p>假设：按钮3种 × 标题3种 × 图片2种<br>
+                        总组合数 = 3 × 3 × 2 = 18种</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第9页：常见陷阱 -->
+        <div class="slide" data-title="常见陷阱">
+            <div class="slide-header">
+                <h2>⚠️ A/B测试常见陷阱</h2>
+                <span class="slide-number-badge">第 9 / 20 页</span>
+            </div>
+            <div class="slide-content three-column">
+                <div class="content-box">
+                    <h3>样本量不足</h3>
+                    <ul>
+                        <li>提前停止测试</li>
+                        <li>看到显著结果就停止</li>
+                    </ul>
+                    <div class="highlight-box red">
+                        <h4>解决</h4>
+                        <p>必须达到计算样本量</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>新奇效应</h3>
+                    <ul>
+                        <li>新功能吸引注意</li>
+                        <li>习惯后效果消失</li>
+                    </ul>
+                    <div class="highlight-box red">
+                        <h4>解决</h4>
+                        <p>延长测试周期观察</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>选择偏差</h3>
+                    <ul>
+                        <li>分流不均匀</li>
+                        <li>用户特征不一致</li>
+                    </ul>
+                    <div class="highlight-box red">
+                        <h4>解决</h4>
+                        <p>AA测试验证分流</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第10页：定价策略案例 -->
+        <div class="slide" data-title="定价策略案例">
+            <div class="slide-header">
+                <h2>💰 实战案例：定价策略测试</h2>
+                <span class="slide-number-badge">第 10 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>测试结果</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_case_pricing.png" alt="定价策略">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>实验分析</h3>
+                    <ul>
+                        <li><strong>基础版</strong>：收入下降，但吸引了更多用户</li>
+                        <li><strong>标准版</strong>：最受欢迎，收入大幅增长</li>
+                        <li><strong>高级版</strong>：高净值用户偏好，影响较小</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>💡 建议</h4>
+                        <p>调整定价策略，突出标准版性价比<br>
+                        预估月收入增加约75%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第11页：结果分析报告 -->
+        <div class="slide" data-title="结果分析报告">
+            <div class="slide-header">
+                <h2>📋 A/B测试结果分析报告</h2>
+                <span class="slide-number-badge">第 11 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>报告模板</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_test_result_analysis.png" alt="结果分析">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>报告要素</h3>
+                    <ul>
+                        <li><strong>测试概述</strong>：名称、时间、样本量</li>
+                        <li><strong>核心指标</strong>：对照组 vs 实验组对比</li>
+                        <li><strong>统计结论</strong>：P值、置信区间</li>
+                        <li><strong>业务建议</strong>：是否上线，如何落地</li>
+                    </ul>
+                    <div class="highlight-box blue">
+                        <h4>⚠️ 注意事项</h4>
+                        <ul>
+                            <li>关注辅助指标是否下降</li>
+                            <li>考虑用户分群效果差异</li>
+                            <li>评估长期用户价值影响</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第12页：AA测试 -->
+        <div class="slide" data-title="AA测试">
+            <div class="slide-header">
+                <h2>🔄 AA测试验证</h2>
+                <span class="slide-number-badge">第 12 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box">
+                    <h3>什么是AA测试？</h3>
+                    <div class="highlight-box blue">
+                        <h4>定义</h4>
+                        <p>在正式A/B测试之前，先进行AA测试，即两个对照组的测试，用于验证分流是否均匀。</p>
+                    </div>
+                    <ul style="margin-top: 20px;">
+                        <li><strong>目的</strong>：验证分流算法的正确性</li>
+                        <li><strong>方法</strong>：不做任何改动，两个组应该一致</li>
+                        <li><strong>判断</strong>：如果AA结果差异大，说明分流有问题</li>
+                    </ul>
+                    <div class="code-block" style="margin-top: 20px;">
+# AA测试判断标准
+if 两组核心指标差异 < 5%:
+    分流均匀 ✓
+else:
+    检查分流算法 ⚠️
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第13页：Python实现 -->
+        <div class="slide" data-title="Python实现">
+            <div class="slide-header">
+                <h2>🐍 Python A/B测试分析</h2>
+                <span class="slide-number-badge">第 13 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box scroll">
+                    <h3>统计检验代码</h3>
+                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# 假设检验数据
+control = np.array([...])  # 对照组数据
+treatment = np.array([...])  # 实验组数据
+
+# 方法1: Z检验
+n1, n2 = len(control), len(treatment)
+p1, p2 = control.mean(), treatment.mean()
+var1, var2 = control.var(), treatment.var()
+
+z = (p1 - p2) / np.sqrt(var1/n1 + var2/n2)
+p_value = 2 * (1 - stats.norm.cdf(abs(z)))
+
+# 方法2: T检验
+t_stat, p_value = stats.ttest_ind(control, treatment)
+
+# 方法3: 卡方检验 (用于比例)
+from scipy.stats import chi2_contingency
+obs = [[control.sum(), n1 - control.sum()],
+       [treatment.sum(), n2 - treatment.sum()]]
+chi2, p_value, dof, expected = chi2_contingency(obs)
+
+print(f"Z值: {z:.3f}")
+print(f"P值: {p_value:.4f}")
+print(f"结论: {'显著' if p_value < 0.05 else '不显著'}")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第14页：AI辅助 -->
+        <div class="slide" data-title="AI辅助A/B测试">
+            <div class="slide-header">
+                <h2>🤖 AI辅助A/B测试</h2>
+                <span class="slide-number-badge">第 14 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>ChatGPT提示词</h3>
+                    <div class="code-block">
+# 设计A/B测试
+请帮我设计一个注册流程优化的A/B测试：
+
+背景：
+- 当前注册转化率约5%
+- 计划优化注册按钮样式和文案
+- 日活10万，预期改动提升10%
+
+需求：
+1. 建议测试假设
+2. 计算所需样本量
+3. 设计测试周期
+4. 制定分流策略
+
+请给出详细方案。
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>AI应用场景</h3>
+                    <ul>
+                        <li><strong>测试设计</strong>：帮助设计假设和方案</li>
+                        <li><strong>样本计算</strong>：辅助确定样本量</li>
+                        <li><strong>结果解读</strong>：解释统计检验结果</li>
+                        <li><strong>报告撰写</strong>：生成结构化分析报告</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>💡 效率提升</h4>
+                        <p>使用AI辅助，测试设计效率提升40%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第15页：SQL实现 -->
+        <div class="slide" data-title="SQL实现">
+            <div class="slide-header">
+                <h2>📊 SQL实现A/B测试分析</h2>
+                <span class="slide-number-badge">第 15 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box scroll">
+                    <h3>SQL统计检验</h3>
+                    <div class="code-block">
+-- A/B测试结果分析
+WITH ab_results AS (
+    SELECT 
+        experiment_group,
+        COUNT(DISTINCT user_id) AS users,
+        SUM(is_converted) AS conversions,
+        SUM(is_converted) / COUNT(DISTINCT user_id) AS conv_rate
+    FROM experiment_log
+    WHERE experiment_id = 'exp_2024_001'
+    GROUP BY experiment_group
+),
+
+stats AS (
+    SELECT 
+        a.experiment_group AS group_a,
+        b.experiment_group AS group_b,
+        a.conv_rate AS p_a,
+        b.conv_rate AS p_b,
+        a.users AS n_a,
+        b.users AS n_b,
+        (a.conv_rate - b.conv_rate) AS diff,
+        SQRT(a.conv_rate*(1-a.conv_rate)/a.users + 
+             b.conv_rate*(1-b.conv_rate)/b.users) AS se
+    FROM ab_results a
+    JOIN ab_results b ON a.experiment_group < b.experiment_group
+)
+
+SELECT 
+    *,
+    diff / se AS z_score,
+    2 * (1 - ABS(NORMAL(diff/se))) AS p_value,
+    diff - 1.96*se AS ci_lower,
+    diff + 1.96*se AS ci_upper
+FROM stats;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第16页：注意事项 -->
+        <div class="slide" data-title="注意事项">
+            <div class="slide-header">
+                <h2>⚠️ A/B测试实施注意事项</h2>
+                <span class="slide-number-badge">第 16 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>技术要点</h3>
+                    <ul>
+                        <li><strong>分流一致性</strong>：同一用户始终看到同一版本</li>
+                        <li><strong>排除干扰</strong>：避免其他运营活动影响</li>
+                        <li><strong>数据埋点</strong>：确保关键行为准确上报</li>
+                        <li><strong>监控告警</strong>：及时发现异常情况</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>业务要点</h3>
+                    <ul>
+                        <li><strong>指标选择</strong>：核心指标+辅助指标</li>
+                        <li><strong>周期选择</strong>：覆盖完整用户周期</li>
+                        <li><strong>分群分析</strong>：不同用户可能有不同反应</li>
+                        <li><strong>长期跟踪</strong>：关注长期影响而非短期</li>
+                    </ul>
+                    <div class="highlight-box orange">
+                        <h4>🎯 最佳实践</h4>
+                        <p>与业务方充分沟通，确保测试有意义</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第17页：章节总结 -->
+        <div class="slide" data-title="章节总结">
+            <div class="slide-header">
+                <h2>📝 第7章总结</h2>
+                <span class="slide-number-badge">第 17 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>知识总结</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch7_ab_test_summary.png" alt="总结">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>核心要点</h3>
+                    <ul>
+                        <li>A/B测试是数据驱动决策的核心方法</li>
+                        <li>统计显著性是判断结果可靠性的关键</li>
+                        <li>样本量计算是实验设计的第一步</li>
+                        <li>避免常见陷阱，确保结果可信</li>
+                        <li>结果需要业务解释和落地建议</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>🎯 实践建议</h4>
+                        <p>每次改动都应通过A/B测试验证效果</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第18页：课后作业 -->
+        <div class="slide" data-title="课后作业">
+            <div class="slide-header">
+                <h2>📋 课后实践作业</h2>
+                <span class="slide-number-badge">第 18 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box">
+                    <h3>实践任务</h3>
+                    <div class="highlight-box blue">
+                        <h4>任务1：设计A/B测试</h4>
+                        <p>假设你负责产品优化，需要测试新的促销方案：</p>
+                        <ul>
+                            <li>1. 明确测试假设和目标</li>
+                            <li>2. 确定核心指标和辅助指标</li>
+                            <li>3. 计算所需样本量（假设当前转化5%，预期提升15%）</li>
+                            <li>4. 设计测试周期</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>任务2：思考题</h4>
+                        <ul>
+                            <li>1. 什么情况下不适合做A/B测试？</li>
+                            <li>2. 如何处理多个指标多个版本的情况？</li>
+                            <li>3. A/B测试与用户调研如何结合使用？</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第19页：常见问题 -->
+        <div class="slide" data-title="常见问题">
+            <div class="slide-header">
+                <h2>❓ A/B测试常见问题</h2>
+                <span class="slide-number-badge">第 19 / 20 页</span>
+            </div>
+            <div class="slide-content three-column">
+                <div class="content-box">
+                    <h3>Q: 测试周期多久？</h3>
+                    <p>通常1-2周，确保覆盖完整用户周期。流量大可缩短。</p>
+                </div>
+                <div class="content-box">
+                    <h3>Q: 显著但不实用？</h3>
+                    <p>看置信区间和业务成本，有时统计显著但实际提升太小不值得。</p>
+                </div>
+                <div class="content-box">
+                    <h3>Q: 可以同时测多个吗？</h3>
+                    <p>可以，但需控制FDR或增加样本量。多变量测试更高效。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第20页：结束页 -->
+        <div class="slide" data-title="结束页">
+            <div class="slide-header">
+                <h2>🎉 第7章学习完成</h2>
+                <span class="slide-number-badge">第 20 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 style="border: none; font-size: 2em; margin-bottom: 30px;">🎯 下章预告</h3>
+                    <div class="highlight-box" style="max-width: 600px; text-align: left;">
+                        <h4>第8章：数据分析报告</h4>
+                        <p>学习如何撰写专业的分析报告，将洞察转化为行动</p>
+                    </div>
+                    <div style="margin-top: 40px;">
+                        <p style="font-size: 1.2em; color: #666;">感谢学习！</p>
+                        <p style="color: #999; margin-top: 10px;">掌握A/B测试，用数据驱动产品优化</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ 上一页</button>
+        <span class="page-text" id="pageText">1 / 20</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一页 ▶</button>
+    </div>
+
+    <div class="page-nav-sidebar" id="pageNavSidebar"></div>
+
+    <div class="overlay" id="overlay" onclick="toggleTOC()"></div>
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-header">
+            <h3>📑 课程目录</h3>
+            <button class="close-btn" onclick="toggleTOC()">×</button>
+        </div>
+        <div class="toc-list" id="tocList"></div>
+    </div>
+
+    <div class="keyboard-hint">使用 <span class="key">←</span> <span class="key">→</span> 或 <span class="key">空格</span> 切换页面</div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const pageText = document.getElementById('pageText');
+        const pageNavSidebar = document.getElementById('pageNavSidebar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tocList = document.getElementById('tocList');
+
+        function init() {
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(i);
+                dot.title = `第${i + 1}页`;
+                pageNavSidebar.appendChild(dot);
+            }
+            slides.forEach((slide, index) => {
+                const item = document.createElement('div');
+                item.className = 'toc-item' + (index === 0 ? ' active' : '');
+                item.innerHTML = `<span class="toc-item-number">${index + 1}</span><span class="toc-item-title">${slide.dataset.title || '第' + (index + 1) + '页'}</span>`;
+                item.onclick = () => { goToSlide(index); toggleTOC(); };
+                tocList.appendChild(item);
+            });
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            pageText.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.querySelectorAll('.page-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+            document.querySelectorAll('.toc-item').forEach((item, index) => {
+                item.classList.toggle('active', index === currentSlide);
+            });
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateNavigation();
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) goToSlide(currentSlide - 1);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+        }
+
+        function toggleTOC() {
+            document.getElementById('tocSidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

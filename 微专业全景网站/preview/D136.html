@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 线性回归 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D136_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D136_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 线性回归</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>线性回归.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容三/线性回归.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>5.4 MB</td></tr><tr><th>Word 版本</th><td>D136_课件PPT_[宁悦PPT.zip] 线性回归.docx</td></tr></table><div class="content"><h3>第 1 页 · 从一个实际问题谈起——身高预测</h3>
+<p>从一个实际问题谈起——身高预测</p>
+<figure><img loading="lazy" src="../media/D136/D136_s01_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s01_02.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>根据样本的足长和步幅数据，拟合它们与身高的关系？可用于公安刑侦</p>
+<figure><img loading="lazy" src="../media/D136/D136_s01_03.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 2 页 · 问题</h3>
+<p>问题</p>
+<p>回归分析与分类方法有什么区别？<br>回归方程的自变量怎么确定？<br>回归分析前需要对自变量做哪些预处理？<br>在回归分析时，自变量的相关性对分析结果有何影响？<br>如何减少回归方程的过拟合问题？<br>噪声数据对回归问题有什么影响？<br>非线性回归如何转化为线性回归问题？</p>
+<hr>
+<h3>第 3 页 · 统计分析</h3>
+<p>统计分析</p>
+<p>回归分析是统计学的重要方法。<br>统计学是研究如何搜集资料、整理资料和进行量化分析、推断的一门科学<br>，在科学计算、工业和金融等领域有着重要应用，统计分析是机器学习的基本方法。<br>与统计分析相关的基本概念有以下几个<br>总体：根据定目的确定的所要 研究事物的全体<br>样本：从总体中随机抽取的若干个体构成的集合<br>推断：以样本所包含的信息为基础对总体的某些特征作出判断、预测和估计<br>推断可靠性：对推断结果从概率上的确认，作为决策的重要依据</p>
+<hr>
+<h3>第 4 页 · 回归分析</h3>
+<p>回归分析</p>
+<p>$0</p>
+<p>$10</p>
+<p>分析一个变量与其他一个（或几个）变量之间的相关关系的统计方法就称为回归分析。常见的回归分析包括线性回归、多元回归、非线性回归、广义线性回归（对数回归、泊松回归）等。回归分析主要内容包括确定连续值变量之间的相关关系，建立回归模型，检验变量之间的相关程度，应用回归模型对变量进行预测等。<br>利润</p>
+<p>$20</p>
+<p>年龄</p>
+<p>20</p>
+<p>60</p>
+<p>40</p>
+<p>minimize</p>
+<p>客户利润和年龄的关系</p>
+<hr>
+<h3>第 5 页 · 损失函数</h3>
+<p>损失函数</p>
+<figure><img loading="lazy" src="../media/D136/D136_s05_36.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 6 页 · 参数估计</h3>
+<p>参数估计</p>
+<p>参数估计是用样本统计量去估计总体的参数，即根据样本数据选择统计量去推断总体的分布或数字特征。<br>参数估计是统计推断的种基本形式，其中除了最基本的最小二乘法和极大似然法、贝叶斯估计、极大后验估计，还有极小化极大熵法等。</p>
+<hr>
+<h3>第 7 页 · 线性回归</h3>
+<p>线性回归</p>
+<p>线性回归是种通过拟合自变量与因变量之间最佳线性关系，来预测目标变量的方法。<br>回归过程是给出一个样本集， 用函数拟合这个样本集，使样本集与拟合函数间的误差最小。<br>回归分析包括以下内容：</p>
+<p>从众多的输入变量中，判断哪些变量对目标变量的影响是显著的<br>确定输入变量与目标变量间的回归模型<br>根据样本估计并检验回归模型及未知参数<br>模型检验与预测精度评估</p>
+<p>如何做？</p>
+<p>线性回归和多元线性回归</p>
+<hr>
+<h3>第 8 页 · 一元线性回归</h3>
+<p>一元线性回归</p>
+<figure><img loading="lazy" src="../media/D136/D136_s08_37.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>一元线性回归是描述两个变量之间线性相关关系的最简单的回归模型，如下图。在散点图中两个变量呈线性关系。一元线性回归模型表示为yabx，其中a和b是系数， 是随机变量。在这个线性模型中，自变量x是非随机变量。随机变量要求服从正态分布。<br>发现一条拟合样本数据的直线，使得样本点尽量靠近直线。</p>
+<hr>
+<h3>第 9 页 · 一元线性回归</h3>
+<p>一元线性回归</p>
+<figure><img loading="lazy" src="../media/D136/D136_s09_38.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 10 页 · 线性回归举例</h3>
+<p>线性回归举例</p>
+<p>已知一个贸易公司某几个月的广告费用和销售额，如下表所示</p>
+<p>可见随着广告费用的增加，公司的销售额也在增加，但是它们并非绝对的线性关系，而是趋向于平均，如下图所示</p>
+<p>上述线性回归模型的公司为：y=1.38*x+30.6，其中x表示广告费用，y表示销售额，通过线性回归的公式就可以预测企业的销售额了</p>
+<div class="tw"><table><tbody><tr><td>广告费（万元）</td><td>10</td><td>13</td><td>22</td><td>37</td><td>45</td><td>48</td><td>59</td><td>65</td><td>66</td><td>68</td><td>68</td><td>71</td><td>84</td><td>88</td><td>89</td><td>89</td></tr><tr><td>销售额（万元）</td><td>19</td><td>60</td><td>71</td><td>74</td><td>69</td><td>89</td><td>146</td><td>130</td><td>153</td><td>144</td><td>128</td><td>123</td><td>127</td><td>125</td><td>154</td><td>150</td></tr></tbody></table></div>
+<figure><img loading="lazy" src="../media/D136/D136_s10_39.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s10_40.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s10_41.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 11 页 · 幻灯片</h3>
+<figure><img loading="lazy" src="../media/D136/D136_s11_42.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s11_43.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 12 页 · 线性回归检验</h3>
+<p>线性回归检验</p>
+<figure><img loading="lazy" src="../media/D136/D136_s12_46.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 13 页 · 梯度下降法求回归系数</h3>
+<figure><img loading="lazy" src="../media/D136/D136_s13_47.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>梯度下降法求回归系数</p>
+<figure><img loading="lazy" src="../media/D136/D136_s13_48.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 14 页 · 通过图片识别PM2.5</h3>
+<p>通过图片识别PM2.5</p>
+<figure><img loading="lazy" src="../media/D136/D136_s14_49.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s14_50.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s14_51.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>预测城市PM2.5（1）</p>
+<p>应用创新</p>
+<hr>
+<h3>第 15 页 · 从衡量图像清晰程度的角度出发，对图像特征进行观察和分析，得到4个解释性变量：灰度差分的方差、清晰度、饱和度、高频含量等</h3>
+<figure><img loading="lazy" src="../media/D136/D136_s15_52.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>从衡量图像清晰程度的角度出发，对图像特征进行观察和分析，得到4个解释性变量：灰度差分的方差、清晰度、饱和度、高频含量等</p>
+<figure><img loading="lazy" src="../media/D136/D136_s15_53.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s15_54.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s15_55.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s15_56.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>预测城市PM2.5（2）</p>
+<hr>
+<h3>第 16 页 · 多元线性回归的拟合优度为0.82</h3>
+<p>多元线性回归的拟合优度为0.82</p>
+<figure><img loading="lazy" src="../media/D136/D136_s16_57.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s16_58.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s16_59.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s16_60.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>预测城市PM2.5（4）</p>
+<hr>
+<h3>第 17 页 · 多元线性回归（1）</h3>
+<p>多元线性回归（1）</p>
+<figure><img loading="lazy" src="../media/D136/D136_s17_61.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 18 页 · 多元线性回归（2）</h3>
+<p>多元线性回归（2）</p>
+<figure><img loading="lazy" src="../media/D136/D136_s18_62.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>n》k</p>
+<hr>
+<h3>第 19 页 · 多元线性回归（3）</h3>
+<p>多元线性回归（3）</p>
+<figure><img loading="lazy" src="../media/D136/D136_s19_63.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>问题：	可逆？自变量之间相互独立</p>
+<figure><img loading="lazy" src="../media/D136/D136_s19_69.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 20 页 · 多元线性回归案例（1）</h3>
+<p>多元线性回归案例（1）</p>
+<p>下表所示我国1988–1998年的城镇居民人均全年耐用消费品支出、人均全年可支配收入和耐用消费品价格指数的统计资料，试建立城镇居民人均全年耐用消费品支出y关于人均全年可支配收入x1和耐用消费品价格指数x2的回归模型。</p>
+<div class="tw"><table><tbody><tr><td>年 份</td><td>人均耐用消费品支出y</td><td>人均全年可支配收入x1</td><td>耐用消费品价格指数x2</td></tr><tr><td>1988</td><td>137.16</td><td>1181.4</td><td>115.96</td></tr><tr><td>1989</td><td>124.56</td><td>1375.7</td><td>133.35</td></tr><tr><td>1990</td><td>107.91</td><td>1510.2</td><td>128.21</td></tr><tr><td>1991</td><td>102.96</td><td>1700.6</td><td>124.85</td></tr><tr><td>1992</td><td>125.24</td><td>2026.6</td><td>122.49</td></tr><tr><td>1993</td><td>162.45</td><td>2577.4</td><td>129.86</td></tr><tr><td>1994</td><td>217.43</td><td>3496.2</td><td>139.52</td></tr><tr><td>1995</td><td>253.42</td><td>4283.0</td><td>140.44</td></tr><tr><td>1996</td><td>251.07</td><td>4838.9</td><td>139.12</td></tr><tr><td>1997</td><td>285.85</td><td>5160.3</td><td>133.35</td></tr><tr><td>1998</td><td>327.26</td><td>5425.1</td><td>126.39</td></tr></tbody></table></div>
+<hr>
+<h3>第 21 页 · 多元线性回归案例（2）</h3>
+<p>多元线性回归案例（2）</p>
+<p>估计的回归方程</p>
+<p>yˆ  158.6251  0.0494 x1  0.9133x2</p>
+<figure><img loading="lazy" src="../media/D136/D136_s21_70.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>R2  SSR  0.948<br>SST<br>R 2  1 SSE /(n  k 1)  0.929<br>SST /(n 1)</p>
+<figure><img loading="lazy" src="../media/D136/D136_s21_71.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D136/D136_s21_72.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>自变量之间相关怎么办？</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

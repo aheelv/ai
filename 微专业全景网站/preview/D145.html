@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 认识Matplotlib · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D145_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E8%AE%A4%E8%AF%86Matplotlib.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D145_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E8%AE%A4%E8%AF%86Matplotlib.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 认识Matplotlib</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>认识Matplotlib.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容四/认识Matplotlib.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>139.0 KB</td></tr><tr><th>Word 版本</th><td>D145_课件PPT_[宁悦PPT.zip] 认识Matplotlib.docx</td></tr></table><div class="content"><h3>第 1 页 · 01</h3>
+<p>01</p>
+<p>认识Matplotlib</p>
+<hr>
+<h3>第 2 页 · 11.1 认识Matplotlib</h3>
+<p>11.1 认识Matplotlib</p>
+<p>Matplotlib 首次发表于2007年，由于在函数设计上参考了 MATLAB ，其名字以“Mat”开头，中间的“ plot ”表示绘图这一作用，而结尾的“ lib ”则表示库。近年来 Matplotlib 在开源社区的推动下，在科学计算领域得到了广泛的应用，成为了 Python 中应用非常广的绘图工具包之一。 Matplotlib 中应用最广的是 matplotlib.pyplot 模块。<br>     matplotlib.pyplot （以下简称 pyplot ）是一个命令风格函数的集合，使 Matplotlib 的机制更像 MATLAB 。每个绘图函数都可对图形进行一些更改，如创建图形，在图形中创建绘图区域，在绘图区域绘制一些线条，使用标签装饰绘图等。</p>
+<hr>
+<h3>第 3 页 · 11.1.1  Matplotlib绘图步骤</h3>
+<p>11.1.1  Matplotlib绘图步骤</p>
+<p>1.导入绘图库<br>在绘图之前，需要导入Matplotlib库中的pyplot模块，其一般格式如下：<br>import matplotlib.pyplot as plt<br>2.创建画布<br>创建画布的主要作用是构建一张空白的绘图窗口（figure），其一般格式如下：<br> plt.figure(figsize=(len,wid))<br>其中len表示画布的长度，wid表示画布的宽度。</p>
+<p>3.创建子图<br>当只需要绘制一副简单的图形时，该步骤可以省略。<br> Matplotlib 中，整个图像为一个 Figure 对象。在 Figure对象中可以包含一个或者多个 子图。在绘图时，可以选择是否将整个绘图窗口划分为多个子图，方便在同一幅图上绘制多个子图。<br>利用 subplot 可以将当前绘图窗口（ figure ）划分为按行、列编号的多个矩形窗格，每一个矩形窗格都对应一个子图。在 Matplotlib 中，可以利用 plt.subplot 逐一创建子图，其一般方法为：<br> plt.subplot ( m , n , k )   ＃添加编号为 k 的子图</p>
+<figure><img loading="lazy" src="../media/D145/D145_s03_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 4 页 · 11.1.1  Matplotlib绘图步骤</h3>
+<p>11.1.1  Matplotlib绘图步骤</p>
+<p>4.添加画布内容<br>添加画布内容是绘图的主体部分。其中添加标题、添加坐标轴名称、绘制图形等步骤是并列的，没有先后顺序，可以先绘制图形，也可以先添加各类标签。但是添加图例一定要在绘制图形之后。</p>
+<div class="tw"><table><tbody><tr><td>函数</td><td>描述</td></tr><tr><td>plt.title</td><td>添加标题，可以指定标题的名称、位置、颜色、字体大小等参数</td></tr><tr><td>plt.xlabel</td><td>添加 x 轴名称，可以指定位置、颜色、字体大小等参数</td></tr><tr><td>plt.ylabel</td><td>添加 y 轴名称，可以指定位置、颜色、字体大小等参数</td></tr><tr><td>plt.lengend</td><td>指定图形的图例，可以指定图例的大小、位置、标签</td></tr><tr><td>plt.xlim</td><td>指定图形 x 轴的范围，只能确定一个数值区间，而无法使用字符串标识</td></tr><tr><td>plt.ylim</td><td>指定图形y 轴的范围，只能确定一个数值区间，而无法使用字符串标识</td></tr><tr><td>plt.xticks</td><td>指定x轴刻度范围</td></tr><tr><td>plt.yticks</td><td>指定y轴刻度范围</td></tr></tbody></table></div>
+<hr>
+<h3>第 5 页 · 11.1.1  Matplotlib绘图步骤</h3>
+<p>11.1.1  Matplotlib绘图步骤</p>
+<p>5.保存与显示图形<br>保存与显示图形的常用函数有两个</p>
+<div class="tw"><table><tbody><tr><td>函数</td><td>描述</td></tr><tr><td>plt.savefig</td><td>保存绘制的图形</td></tr><tr><td>plt.show</td><td>显示图形</td></tr></tbody></table></div>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

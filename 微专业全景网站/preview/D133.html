@@ -1,0 +1,319 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 数据降维 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D133_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%95%B0%E6%8D%AE%E9%99%8D%E7%BB%B4.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D133_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%95%B0%E6%8D%AE%E9%99%8D%E7%BB%B4.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 数据降维</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>数据降维.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容三/数据降维.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>16.6 MB</td></tr><tr><th>Word 版本</th><td>D133_课件PPT_[宁悦PPT.zip] 数据降维.docx</td></tr></table><div class="content"><h3>第 1 页 · 学习目标</h3>
+<p>学习目标</p>
+<p>理解数据降维的基本概念。<br>掌握主成分分析（PCA）、奇异值分解（SVD）、多维缩放<br>（MDS）、等度量映射（Isomap）和局部线性嵌入（LLE）等方法。<br>学会借助 Python 实现数据降维操作。</p>
+<hr>
+<h3>第 2 页 · 数据降维</h3>
+<p>数据降维</p>
+<p>数据降维，或称为数据维度归约（Data Dimension Reduction），即把高维空间中的数据样本映射到较低维空间中以简化数据，而且在简化数据的同时保证数据所包含信息的完整性。</p>
+<figure><img loading="lazy" src="../media/D133/D133_s02_04.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>数据降维的意义<br>减少数据噪声、降低存储空间需求、提高计算效率、缓解“维数灾难”（数据维度增加导致的学习效率降低、样本间距离计算困难、模型复杂度增加等问题）。</p>
+<hr>
+<h3>第 3 页 · 目录</h3>
+<p>目录</p>
+<p>1</p>
+<p>主成分分析</p>
+<p>奇异值分解<br><br>多维缩放</p>
+<p>4</p>
+<p>等度量映射</p>
+<p>案例分析</p>
+<p>5</p>
+<hr>
+<h3>第 4 页 · 目录</h3>
+<p>目录</p>
+<p>1</p>
+<p>主成分分析</p>
+<p>奇异值分解<br><br>多维缩放</p>
+<p>4</p>
+<p>等度量映射</p>
+<p>案例分析</p>
+<p>5</p>
+<hr>
+<h3>第 5 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>原理概述<br>主成分分析（PCA）是一种线性数据降维方法，寻找一组新的坐标轴，将数据投影到低维空间，使数据在新的坐标轴上的方差最大，并保留尽可能多的原始数据的信息。</p>
+<hr>
+<h3>第 6 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>原理概述<br>主成分分析（PCA）是一种线性数据降维方法，寻找一组新的坐标轴，将数据投影到低维空间，使数据在新的坐标轴上的方差最大，并保留尽可能多的原始数据的信息。</p>
+<figure><img loading="lazy" src="../media/D133/D133_s06_15.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 7 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>原理概述<br>主成分分析（PCA）是一种线性数据降维方法，寻找一组新的坐标轴，将数据投影到低维空间，使数据在新的坐标轴上的方差最大，并保留尽可能多的原始数据的信息。</p>
+<figure><img loading="lazy" src="../media/D133/D133_s07_16.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>主要目的<br>识别数据集中的隐藏模式；<br>通过去除数据中的噪声和冗余来降低数据的维度；识别相关变量</p>
+<hr>
+<h3>第 8 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s08_20.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 9 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s09_21.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 10 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s10_22.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 11 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s11_23.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 12 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>PCA 工作流程<br>第三步：计算特征值和特征向量。对协方差矩阵进行特征值分解，得到特征值和对应的特征向量。<br>C = WΛWT</p>
+<p>特征值和特征向量求解</p>
+<p>设 λ=λi 为矩阵 A 的一个特征值，则由方程<br>(A − λiE)x = 0<br>可求得非零解 x = pi，那么 pi 便是 A 的对应于特征值 λi 的特征向量。</p>
+<hr>
+<h3>第 13 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>例</p>
+<p>请求解协方差矩阵的特征值和特征向量。协方差矩阵</p>
+<p>C =</p>
+<p>6	4</p>
+<p>5	5</p>
+<p>4	6<br>5	5</p>
+<p>(	)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s13_25.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 14 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>例</p>
+<p>请求解协方差矩阵的特征值和特征向量。协方差矩阵</p>
+<p>C =</p>
+<p>6	4</p>
+<p>5	5</p>
+<p>4	6<br>5	5</p>
+<p>(	)</p>
+<p>特征值</p>
+<p>2</p>
+<p>λ1 = 2, λ2 = 5</p>
+<figure><img loading="lazy" src="../media/D133/D133_s14_26.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 15 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>例</p>
+<p>请求解协方差矩阵的特征值和特征向量。协方差矩阵</p>
+<p>C =</p>
+<p>6	4</p>
+<p>5	5</p>
+<p>4	6<br>5	5</p>
+<p>(	)</p>
+<p>特征值</p>
+<p>2</p>
+<p>λ1 = 2, λ2 = 5</p>
+<p>特征向量</p>
+<p>p1 =</p>
+<p>(</p>
+<p>1</p>
+<p>√</p>
+<p>2</p>
+<p>√1</p>
+<p>2</p>
+<p>, p2 =</p>
+<p>—</p>
+<p>1</p>
+<p>√</p>
+<p>2</p>
+<p>√1</p>
+<p>2</p>
+<p>)	(	)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s15_27.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 16 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>PCA 工作流程<br>第四步：对特征值从大到小排序，选择特征值最大的前 k 个特征向量作为新的坐标轴，构成降维后的数据方向。</p>
+<p>1	2	k</p>
+<p>并将对应的 k 个特征向量 pT, pT . . . pT 组成特征向量矩阵</p>
+<p>k×n</p>
+<p>P	=</p>
+<p>p</p>
+<p>1</p>
+<p>.</p>
+<p>.</p>
+<p>pk</p>
+<p>	</p>
+<p>	</p>
+<p>	</p>
+<p>例</p>
+<p>特征向量矩阵</p>
+<p>P =</p>
+<p>(</p>
+<p>1</p>
+<p>1</p>
+<p>√</p>
+<p>2</p>
+<p>√<br>—</p>
+<p>√</p>
+<p>2</p>
+<p>2<br>1	√1</p>
+<p>2</p>
+<p>)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s16_29.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 17 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>例</p>
+<p>PCA 工作流程<br>第五步：将数据样本转换到 k 个特征向量构建的新空间中。降维后数据分解为 Y = PX。输出 Y。<br><br>执行 PCA 变换，选取最大特征值对应的特征向量。</p>
+<p>Y =</p>
+<p>√</p>
+<p>2</p>
+<p>1	1</p>
+<p>√</p>
+<p>2</p>
+<p>(	)</p>
+<p>·	−1  −1  0  2  0<br>−2	0	0  1  1</p>
+<p>(	)</p>
+<p>=</p>
+<p>(</p>
+<p>—</p>
+<p>√</p>
+<p>3	− √1</p>
+<p>2	2</p>
+<p>0</p>
+<p>√3</p>
+<p>2</p>
+<p>1</p>
+<p>√</p>
+<p>2</p>
+<p>)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s17_31.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 18 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)<br>PCA 工作流程</p>
+<figure><img loading="lazy" src="../media/D133/D133_s18_32.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 19 页 · Python 实现主成分分析 (PCA)</h3>
+<p>Python 实现主成分分析 (PCA)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s19_33.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 20 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>思考<br>下列场景是否适合使用PCA？<br>1、电商平台：给客户分群，使用下单次数、用户浏览时长、收藏数量等数据维度给用户贴标签。<br>2、医院：用血常规、肝功能、CT指标等数据诊断疾病，完成疾病预测任务。</p>
+<hr>
+<h3>第 21 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<p>PCA 方法的局限性<br>由于 PCA 方法追求的是在降维之后能够最大化地保留数据本身所具有的信息，即选择数据样本投影方差大的坐标方向作为所要保留的坐标方向。但是在某些情况下，在这样的坐标方向上投影对数据的区分作用并不大，甚至会使得数据杂糅而无法区分。也就是说，PCA 方法可能在某些分类问题中表现不佳。</p>
+<hr>
+<h3>第 22 页 · 主成分分析 (PCA)</h3>
+<p>主成分分析 (PCA)</p>
+<hr>
+<h3>第 23 页 · 目录</h3>
+<p>目录</p>
+<p>1</p>
+<p>主成分分析</p>
+<p>2  奇异值分解</p>
+<p>3  多维缩放</p>
+<p>4</p>
+<p>等度量映射</p>
+<p>5</p>
+<p>案例分析</p>
+<hr>
+<h3>第 24 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<p>原理概述<br>SVD是一种应用广泛的矩阵分解算法，可以用来提取出数据集中的重要特征信息，去除不重要的特征信息以及噪声。而且 SVD方法具有更强的普适性，相较于特征值分解方法而言，SVD 方法并不局限于方阵的分解，它可以针对一般形式的矩阵来进行分解。</p>
+<hr>
+<h3>第 25 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<p>原理概述<br>是一种应用广泛的矩阵分解算法，可以用来提取出数据集中的重要特征信息，去除不重要的特征信息以及噪声。而且 SVD方法具有更强的普适性，相较于特征值分解方法而言，SVD 方法并不局限于方阵的分解，它可以针对一般形式的矩阵来进行分解。</p>
+<figure><img loading="lazy" src="../media/D133/D133_s25_39.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 26 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)<br>核心公式<br>A = UΣVT<br>其中，U 为左奇异向量组成的矩阵，Σ 为奇异值组成的对角矩阵，<br>V 为右奇异向量组成的矩阵。</p>
+<figure><img loading="lazy" src="../media/D133/D133_s26_40.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 27 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<div class="tw"><table><tbody><tr><td>用户/外卖</td><td>麻辣烫</td><td>沙拉</td><td>粥</td><td>麻辣香锅</td></tr><tr><td>甲</td><td>5</td><td>2</td><td>2</td><td>4</td></tr><tr><td>乙</td><td>2</td><td>5</td><td>4</td><td>2</td></tr><tr><td>丙</td><td>4</td><td>3</td><td>3</td><td>5</td></tr></tbody></table></div>
+<p>原始矩阵</p>
+<hr>
+<h3>第 28 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<div class="tw"><table><tbody><tr><td></td><td>麻辣烫</td><td>沙拉</td><td>粥</td><td>麻辣香锅</td></tr><tr><td>麻辣烫</td><td>45</td><td>28</td><td>27</td><td>41</td></tr><tr><td>沙拉</td><td>28</td><td>38</td><td>35</td><td>26</td></tr><tr><td>粥</td><td>27</td><td>35</td><td>33</td><td>25</td></tr><tr><td>麻辣香锅</td><td>41</td><td>26</td><td>25</td><td>45</td></tr></tbody></table></div>
+<p>属性矩阵</p>
+<hr>
+<h3>第 29 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<div class="tw"><table><tbody><tr><td>外卖属性</td><td>麻辣烫</td><td>沙拉</td><td>粥</td><td>麻辣香锅</td></tr><tr><td>重口味属性</td><td>0.5</td><td>0.2</td><td>0.2</td><td>0.5</td></tr><tr><td>清淡属性</td><td>0.2</td><td>0.5</td><td>0.5</td><td>0.2</td></tr><tr><td>无关属性1</td><td>0.1</td><td>0.1</td><td>-0.1</td><td>-0/1</td></tr><tr><td>无关属性2</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p>VT矩阵</p>
+<hr>
+<h3>第 30 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<div class="tw"><table><tbody><tr><td>权重</td><td>麻辣烫</td><td>沙拉</td><td>粥</td><td>麻辣香锅</td></tr><tr><td>重口味属性</td><td>11.4</td><td>0</td><td>0</td><td>0</td></tr><tr><td>清淡属性</td><td>0</td><td>5</td><td>0</td><td>0</td></tr><tr><td>无关属性1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p>∑矩阵</p>
+<hr>
+<h3>第 31 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<div class="tw"><table><tbody><tr><td></td><td>重口味偏好</td><td>清淡偏好</td><td>无关偏好</td></tr><tr><td>甲</td><td>0.9</td><td>0.1</td><td>0</td></tr><tr><td>乙</td><td>0.1</td><td>0.9</td><td>0</td></tr><tr><td>丙</td><td>0.8</td><td>0.2</td><td>0</td></tr></tbody></table></div>
+<p>U矩阵</p>
+<hr>
+<h3>第 32 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<p>还原</p>
+<p>SVD 的核心是 “拆分后能还原原始数据”，我们用小甲给麻辣烫的评分来验证：<br>原始评分：A [1,1] = 5；<br>拆分后计算：U [1,1] × Σ[1,1] × Vᵀ[1,1] + U [1,2] × Σ[2,2] × Vᵀ[2,1]（因为无关项权重为 0，可忽略）；<br>代入数值：0.9×11.4×0.5 + 0.1×5×0.2 ≈ 5.13 + 0.1 ≈ 5.23，和原始评分 5 几乎一致（简化计算有微小误差）。<br>这说明：SVD 没有 “丢失关键信息”，只是把 “甲给麻辣烫打 5 分” 这个行为，拆解成了 “甲是重口味党（0.9）+ 重口味属性很重要（11.4）+ 麻辣烫是重口味（0.5）”。</p>
+<hr>
+<h3>第 33 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<p>原始矩阵是 3×4=12 个数据，而 U（3×2）+Σ（2×2）+Vᵀ（2×4）有 3×2+2×2+2×4=6+4+8=18，这里要注意：如果原始矩阵是 1000 用户 ×10000 外卖（10^7 个数据），SVD 保留前 50 个重要维度，数据量会从 10^7 降到 1000×50 + 50×50 + 50×10000=5×10^4 + 2.5×10^3 +5×10^5=5.525×10^5，压缩近 20 倍！</p>
+<hr>
+<h3>第 34 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<p>例</p>
+<p>求矩阵 A 的奇异值分解，A =</p>
+<p>求解 ATA 的特征值和特征向量。</p>
+<p>T</p>
+<p>0</p>
+<p>A A =  0</p>
+<p>1  1  2</p>
+<p>1	1</p>
+<p>	</p>
+<p>1  1  = B  λI − B = λ(λ − 1)(λ − 3)</p>
+<p>λ1 = 3 3I − B =  0</p>
+<p> 2</p>
+<p>2	−1</p>
+<p>−1  −1	1</p>
+<p>0	−1</p>
+<p></p>
+<p>ξ1 = (1, 1, 2)</p>
+<p>T</p>
+<p>λ2 = 1 1I − B =  0</p>
+<p> 0</p>
+<p>0	−1</p>
+<p>0	−1</p>
+<p>ξ2 = (1, −1, 0)</p>
+<p>T</p>
+<p>λ3 = 0 0I − B =  0</p>
+<p>−1  −1  −2</p>
+<p>−1  −1  −1<br><br>−1	0	−1</p>
+<p>−1  −1  ξ3 = (1, 1, −1)</p>
+<p>T</p>
+<figure><img loading="lazy" src="../media/D133/D133_s34_41.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D133/D133_s34_42.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 35 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)</p>
+<figure><img loading="lazy" src="../media/D133/D133_s35_43.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 36 页 · 奇异值分解 (SVD)</h3>
+<p>奇异值分解 (SVD)<br>SVD 分解工作流程</p>
+<figure><img loading="lazy" src="../media/D133/D133_s36_44.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 37 页 · Python 实现奇异值分解 (SVD)</h3>
+<p>Python 实现奇异值分解 (SVD)</p>
+<p>Listing 2: SVD 奇异值分解</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17</p>
+<p>from numpy.linalg import svd import numpy as np<br>data = [[1,0,1], [0,1,1],[0,0,0]]<br>data = np.array(data) #数组转化为array<br>U, S, Vt = svd(data, full_matrices=False) # 进行SVD分解 np.set_printoptions(formatter={&#x27;float&#x27;: &#x27;{:␣0.3f}&#x27;.format}) print(f&#x27;左奇异矩阵U:{U}&#x27;)<br>print(f&#x27;奇异值S:{S}&#x27;)<br>print(f&#x27;右奇异矩阵V:{Vt.T}&#x27;)  # 注意：Vt是 V 的转置<br>############结果############<br>左奇异矩阵 U: [[ 0.707 -0.707  0.000]<br>[ 0.707  0.707  0.000]<br>[ 0.000  0.000  1.000]]<br>奇异值 S: [ 1.732  1.000 -0.000]<br>右奇异矩阵 V: [[ 0.408 -0.707  0.577]<br>[ 0.408  0.707  0.577]<br>[ 0.816  0.000 -0.577]]</p>
+<figure><img loading="lazy" src="../media/D133/D133_s37_45.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 38 页 · SVD 与 PCA 的关系</h3>
+<p>SVD 与 PCA 的关系</p>
+<p>考虑样本数据的协方差矩阵<br>C = XTX = VΣTUUTΣVT = VΣTΣVT<br>在进行 PCA 方法时，对协方差矩阵 C 进行特征值分解，我们有<br>C = AΛAT<br>如果令 Λ = ΣTΣ<br>则可以看出 PCA 中选取最大的 k 个特征值与 SVD 中选取最大的 k 个奇异值，在降维效果上是等价的。</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

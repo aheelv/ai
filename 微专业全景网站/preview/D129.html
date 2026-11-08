@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 选择结构 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D129_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E9%80%89%E6%8B%A9%E7%BB%93%E6%9E%84.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D129_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E9%80%89%E6%8B%A9%E7%BB%93%E6%9E%84.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 选择结构</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>选择结构.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/选择结构.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>753.4 KB</td></tr><tr><th>Word 版本</th><td>D129_课件PPT_[宁悦PPT.zip] 选择结构.docx</td></tr></table><div class="content"><h3>第 1 页 · 4.2.1  单分支选择结构</h3>
+<p>4.2.1  单分支选择结构</p>
+<p>x = input(&#x27;Input two number:&#x27;)<br>a, b = map(int, x.split())<br>if a &gt; b:<br>   a, b = b, a      #序列解包，交换两个变量的值<br>print(a, b)</p>
+<figure><img loading="lazy" src="../media/D129/D129_s01_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>语法格式：<br>If 表达式（条件）：<br>    语句块（如果条件为真，执行语句块。否则，执行下一段代码）</p>
+<hr>
+<h3>第 2 页 · 4.2.2 双分支选择结构</h3>
+<p>4.2.2 双分支选择结构</p>
+<p>&gt;&gt;&gt; chTest = [&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;]<br>&gt;&gt;&gt; if chTest:<br>	  	print(chTest)<br>	  else:<br>	  	print(&#x27;Empty&#x27;)<br><br>[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;]</p>
+<p>语法格式： <br>if  表达式（条件）:<br>     满足条件时，做事情A  <br>else:<br>     不满足条件时，做事情B</p>
+<figure><img loading="lazy" src="../media/D129/D129_s02_02.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 3 页 · 4.2.2 双分支选择结构</h3>
+<p>4.2.2 双分支选择结构</p>
+<p>Python对于双分支结构还支持如下形式的表达式：<br>value1 if condition else value2<br>当条件表达式condition的值与True等价时，表达式的值为value1，否则表达式的值为value2。在value1和value2中还可以使用复杂表达式，包括函数调用和基本输出语句。这个结构的表达式也具有惰性求值的特点。<br>&gt;&gt;&gt; a = 5<br>&gt;&gt;&gt; print(6) if a&gt;3 else print(5)<br>6<br>&gt;&gt;&gt; print(6 if a&gt;3 else 5)<br>6<br>&gt;&gt;&gt; b = 6 if a&gt;13 else 9<br>&gt;&gt;&gt; b<br>9</p>
+<hr>
+<h3>第 4 页 · 4.2.2 双分支选择结构</h3>
+<p>4.2.2 双分支选择结构</p>
+<p>还可以结合math和random库使用<br>&gt;&gt;&gt; x = math.sqrt(9) if 5&gt;3 else random.randint(1, 100)<br>NameError: name &#x27;math&#x27; is not defined<br>&gt;&gt;&gt; import math<br>此时还没有导入random模块，但由于条件表达式5&gt;3的值为True，所以可以正常运行<br>&gt;&gt;&gt; x = math.sqrt(9) if 5&gt;3 else random.randint(1,100) <br>此时还没有导入random模块，由于条件表达式2&gt;3的值为False，需要计算第二个表达式的值，因此出错<br>&gt;&gt;&gt; x = math.sqrt(9) if 2&gt;3 else random.randint(1, 100)<br>NameError: name &#x27;random&#x27; is not defined<br>&gt;&gt;&gt; import random<br>&gt;&gt;&gt; x = math.sqrt(9) if 2&gt;3 else random.randint(1, 100)</p>
+<hr>
+<h3>第 5 页 · 4.2.3 多分支选择结构</h3>
+<p>4.2.3 多分支选择结构</p>
+<p>语法格式：  <br>if   条件1:<br>      满足条件1时：做事情A<br>elif 条件2:<br>      满足条件2时：做事情B <br>elif 条件3:<br>      满足条件3时：做事情C  <br>else:<br>     不满足以上所有条件时：做事情D</p>
+<figure><img loading="lazy" src="../media/D129/D129_s05_03.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 6 页 · 4.2.3 多分支选择结构</h3>
+<p>4.2.3 多分支选择结构</p>
+<p>利用多分支选择结构将成绩从百分制变换到等级制。<br>score = int(input(&#x27;请输入学生成绩：&#x27;))<br>if score &gt; 100:<br>    print(&#x27;wrong score.must &lt;= 100.&#x27;)<br>elif score &gt;= 90:<br>    print(&#x27;A&#x27;)<br>elif score &gt;= 80:<br>    print(&#x27;B&#x27;)<br>elif score &gt;= 70:<br>    print(&#x27;C&#x27;)<br>elif score &gt;= 60:<br>    print(&#x27;D&#x27;)<br>elif score &gt;= 0:<br>    print(&#x27;E&#x27;)<br>else:<br>    print(&#x27;wrong score.must &gt;0&#x27;)</p>
+<hr>
+<h3>第 7 页 · 4.2.4 嵌套的分支选择结构</h3>
+<figure><img loading="lazy" src="../media/D129/D129_s07_04.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>4.2.4 嵌套的分支选择结构</p>
+<hr>
+<h3>第 8 页 · 4.2.4 嵌套的分支选择结构</h3>
+<p>4.2.4 嵌套的分支选择结构</p>
+<p>其中，关键字elif是else if的缩写。</p>
+<p>if嵌套语法格式：  <br>if 条件1:<br>    满足条件1：做事情A<br>    if 条件2:<br>        满足条件1和条件2：做事情B<br>    elif/else:<br>        满足条件1但不满足条件2：做事情C  elif/else:<br>    不满足条件1：做事情D</p>
+<figure><img loading="lazy" src="../media/D129/D129_s08_05.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 9 页 · 4.2.4 嵌套的分支选择结构</h3>
+<p>4.2.4 嵌套的分支选择结构</p>
+<p>注意：缩进必须要正确并且一致。</p>
+<figure><img loading="lazy" src="../media/D129/D129_s09_06.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>if嵌套语法格式：  <br>if 条件1:<br>    满足条件1：做事情A<br>    if 条件2:<br>        满足条件1和条件2：做事情B<br>    elif/else:<br>        满足条件1但不满足条件2：做事情C    elif/else:<br>    不满足条件1：做事情D</p>
+<hr>
+<h3>第 10 页 · 4.2.4 嵌套的分支选择结构</h3>
+<p>4.2.4 嵌套的分支选择结构</p>
+<p>使用嵌套的选择结构实现百分制成绩到等级制的转换。<br><br>score = int(input(&#x27;请输入学生成绩：&#x27;))<br>degree = &#x27;DCBAAE&#x27;<br>if score &gt; 100 or score &lt; 0:<br>    print(&#x27;wrong score.must between 0 and 100.&#x27;)<br>else:<br>    index = (score - 60)//10<br>    if index &gt;= 0:<br>        print(degree[index])<br>    else:<br>        print(degree[-1])</p>
+<hr>
+<h3>第 11 页 · 4.2.5  选择结构应用</h3>
+<p>4.2.5  选择结构应用</p>
+<p>例1：面试资格确认。（年龄、专业、学校）<br>age = 24<br>subject = &quot;计算机&quot;<br>college = &quot;非重点&quot;<br>if (age &gt; 25 and subject==&quot;电子信息工程&quot;) or \<br>   (college==&quot;重点&quot; and subject==&quot;电子信息工程&quot;) or\<br>   (age&lt;=28 and subject==&quot;计算机&quot;):<br>    print(&quot;恭喜，你已获得我公司的面试机会!&quot;)<br>else:<br>    print(&quot;抱歉，你未达到面试要求&quot;)</p>
+<hr>
+<h3>第 12 页 · 课堂小节</h3>
+<p>课堂小节</p>
+<p>1. 条件表达式<br>2. 选择结构</p>
+<p>单分支选择结构<br>双分支选择结构<br>多分支选择结构<br>嵌套的分支选择结构</p>
+<hr>
+<h3>第 13 页 · 课后讨论</h3>
+<p>课后讨论</p>
+<p>在条件表达式中可以用赋值运算符“=”么？为什么？</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

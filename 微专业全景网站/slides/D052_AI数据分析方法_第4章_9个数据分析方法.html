@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第4章：9个常用的数据分析方法 - AI数据分析课程</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #1a1a2e; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2563EB; z-index: 100; }
+        .header h1 { font-size: 1.5em; background: linear-gradient(90deg, #2563EB, #1D4ED8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-info { display: flex; gap: 20px; align-items: center; }
+        .header-info span { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9em; }
+        .toc-btn { background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 0.95em; transition: transform 0.3s, box-shadow 0.3s; }
+        .toc-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+        .slides-wrapper { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; min-height: calc(100vh - 140px); display: none; padding: 30px 40px 20px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); animation: fadeIn 0.5s ease; }
+        .slide.active { display: flex; flex-direction: column; min-height: calc(100vh - 140px); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .slide-header { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); color: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .slide-header h2 { font-size: 1.5em; }
+        .slide-number-badge { background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 16px; font-size: 0.9em; }
+        .slide-content { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; overflow: visible; }
+        .slide-content.single-column { grid-template-columns: 1fr; }
+        .content-box { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: visible; }
+        .content-box h3 { color: #2563EB; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #2563EB; }
+        .content-box ul { list-style: none; }
+        .content-box li { padding: 10px 0; padding-left: 25px; position: relative; font-size: 1.05em; color: #374151; }
+        .content-box li::before { content: '▶'; position: absolute; left: 0; color: #2563EB; font-size: 0.8em; }
+        .highlight-box { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #2563EB; }
+        .highlight-box h4 { color: #2563EB; margin-bottom: 10px; }
+        .highlight-box.green { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left-color: #10b981; }
+        .highlight-box.blue { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-left-color: #3b82f6; }
+        .code-block { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 10px; font-family: 'Consolas', monospace; font-size: 0.85em; overflow-x: auto; line-height: 1.6; }
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 12px 30px; display: flex; justify-content: center; align-items: center; gap: 30px; border-top: 2px solid #2563EB; height: 60px; }
+        .nav-btn { background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; }
+        .nav-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-text { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.95em; min-width: 70px; text-align: center; }
+        .page-nav-sidebar { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.95); padding: 12px 8px; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); z-index: 100; max-height: calc(100vh - 200px); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .page-dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; cursor: pointer; transition: all 0.3s; flex-shrink: 0; }
+        .page-dot.active { background: #2563EB; transform: scale(1.4); }
+        .page-dot:hover { background: #9ca3af; transform: scale(1.2); }
+        .toc-sidebar { position: fixed; top: 0; left: -400px; width: 400px; height: 100vh; background: white; box-shadow: 5px 0 30px rgba(0,0,0,0.3); z-index: 200; transition: left 0.3s ease; display: flex; flex-direction: column; }
+        .toc-sidebar.open { left: 0; }
+        .toc-header { background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .toc-header h3 { font-size: 1.3em; }
+        .close-btn { background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; }
+        .toc-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .toc-item { padding: 15px; margin: 8px 0; background: #f3f4f6; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
+        .toc-item:hover { background: #e5e7eb; transform: translateX(5px); }
+        .toc-item.active { background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; }
+        .toc-item-number { background: #2563EB; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .toc-item.active .toc-item-number { background: white; color: #2563EB; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+        .overlay.show { display: block; }
+        .keyboard-hint { position: fixed; bottom: 80px; right: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; z-index: 50; }
+        .key { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 3px; }
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; margin-right: 8px; margin-bottom: 8px; }
+        .tag-blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .tag-green { background: rgba(16,185,129,0.1); color: #10b981; }
+        .tag-orange { background: rgba(245,158,11,0.1); color: #d97706; }
+        .tag-purple { background: rgba(139,92,246,0.1); color: #7c3aed; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center; }
+    </style>
+
+</head>
+<body>
+    <div class="header">
+        <h1>📊 第4章：9个常用的数据分析方法</h1>
+        <div class="header-info">
+            <span>⏱️ 90分钟</span>
+            <span>📖 20页</span>
+            <button class="toc-btn" onclick="toggleTOC()">📑 目录</button>
+        </div>
+    </div>
+
+    <div class="slides-wrapper">
+        <div class="slide active" data-title="课程封面"><div class="Slide-header"><h2>📊 第4章：9个常用的数据分析方法</h2><span class="slide-number-badge">第 1 / 20 页</span></div><div class="slide-content single-column"><div class="content-box" style="text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;"><h3 style="border:none;font-size:2em;margin-bottom:30px;">🎯 课程目标</h3><ul style="text-align:left;max-width:700px;"><li>掌握9种核心数据分析方法的概念与原理</li><li>理解每种方法的适用场景与优缺点</li><li>学会使用AI工具辅助数据分析</li><li>能够根据业务需求选择合适的分析方法</li></ul><div style="margin-top:30px;"><span class="tag tag-blue">⏱️ 90分钟</span><span class="tag tag-green">📖 20页</span><span class="tag tag-purple">🤖 AI增强</span></div></div></div></div><div class="slide" data-title="📑 课程内容概览"><div class="Slide-header"><h2>📑 课程内容概览</h2><span class="slide-number-badge">第 2 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>9大分析方法</h3><div class="three-col"><div class="card"><h4>描述性分析</h4></div><div class="card"><h4>趋势分析</h4></div><div class="card"><h4>对比分析</h4></div><div class="card"><h4>相关性分析</h4></div><div class="card"><h4>分布分析</h4></div><div class="card"><h4>漏斗分析</h4></div><div class="card"><h4>留存分析</h4></div><div class="card"><h4>路径分析</h4></div><div class="card"><h4>预测分析</h4></div></div></div><div class="content-box"><h3>课程安排</h3><ul><li>基础方法：描述性、趋势、对比分析（页3-5）</li><li>进阶方法：相关性、分布、漏斗分析（页6-8）</li><li>用户方法：留存、路径分析（页9-10）</li><li>AI增强：预测分析 + AI辅助（页11-15）</li><li>实战案例与总结（页16-20）</li></ul></div></div></div><div class="slide" data-title="📊 1. 描述性分析"><div class="Slide-header"><h2>📊 1. 描述性分析</h2><span class="slide-number-badge">第 3 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>什么是描述性分析</h3><p style="margin:15px 0;line-height:1.8;">描述性分析是最基础的数据分析方法，通过统计指标总结数据的基本特征。</p><div class="highlight-box"><h4>核心指标</h4><ul><li><b>集中趋势</b>：均值、中位数、众数</li><li><b>离散程度</b>：标准差、方差、极差</li><li><b>分布形态</b>：偏度、峰度</li></ul></div></div><div class="content-box"><h3>应用场景</h3><ul><li>日报、周报、月报数据汇总</li><li>用户画像基础属性统计</li><li>产品运营数据概览</li><li>财务报表关键数据呈现</li></ul><div class="highlight-box blue" style="margin-top:20px;"><h4>💡 AI提示词</h4><p>用ChatGPT分析：输入"分析这份销售数据，给出均值、中位数、标准差等统计指标"</p></div></div></div></div><div class="slide" data-title="📈 2. 趋势分析"><div class="Slide-header"><h2>📈 2. 趋势分析</h2><span class="slide-number-badge">第 4 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>趋势分析核心概念</h3><p style="margin:15px 0;">趋势分析研究数据随时间变化的规律，发现潜在的业务趋势。</p><div class="highlight-box"><h4>趋势类型</h4><ul><li><b>上升趋势</b>：指标持续增长</li><li><b>下降趋势</b>：指标持续下滑</li><li><b>平稳趋势</b>：指标波动较小</li><li><b>周期性波动</b>：规律性起伏</li></ul></div></div><div class="content-box"><h3>常用方法</h3><ul><li><b>移动平均</b>：平滑短期波动</li><li><b>环比/同比</b>：与上期/去年同期对比</li><li><b>趋势线拟合</b>：线性/指数/多项式拟合</li><li><b>季节性分解</b>：分离趋势/季节/残差</li></ul><div class="code-block" style="margin-top:15px;">-- SQL趋势查询
+SELECT DATE_TRUNC('month', order_date), SUM(amount) FROM orders GROUP BY 1 ORDER BY 1;</div></div></div></div><div class="slide" data-title="⚖️ 3. 对比分析"><div class="Slide-header"><h2>⚖️ 3. 对比分析</h2><span class="slide-number-badge">第 5 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>对比分析维度</h3><div class="highlight-box"><h4>时间维度对比</h4><ul><li>环比：本期 vs 上期</li><li>同比：本期 vs 去年同期</li><li>定基比：与固定基准期对比</li></ul></div><div class="highlight-box green" style="margin-top:15px;"><h4>空间维度对比</h4><ul><li>地域对比：不同地区/门店</li><li>部门对比：不同团队/产品线</li><li>竞品对比：与竞争对手比较</li></ul></div></div><div class="content-box"><h3>对比分析原则</h3><ul><li><b>可比性</b>：确保对比对象具有可比基础</li><li><b>一致性</b>：指标计算口径一致</li><li><b>多维度</b>：从多个角度对比分析</li><li><b>显著性</b>：关注差异的统计显著性</li></ul><div class="highlight-box" style="margin-top:20px;"><h4>💡 黄金法则</h4><p>"没有对比就没有分析" —— 对比是数据分析的灵魂</p></div></div></div></div><div class="slide" data-title="🔗 4. 相关性分析"><div class="Slide-header"><h2>🔗 4. 相关性分析</h2><span class="slide-number-badge">第 6 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>相关性分析基础</h3><p style="margin:15px 0;">研究两个或多个变量之间的关联关系，发现数据中的潜在规律。</p><div class="highlight-box"><h4>相关系数解读</h4><ul><li>|r| < 0.3：弱相关</li><li>0.3 ≤ |r| < 0.7：中等相关</li><li>|r| ≥ 0.7：强相关</li></ul></div></div><div class="content-box"><h3>相关类型</h3><ul><li><b>正相关</b>：A增B增</li><li><b>负相关</b>：A增B减</li><li><b>零相关</b>：两变量无关联</li><li><b>非线性相关</b>：曲线关系</li></ul><div class="code-block" style="margin-top:15px;"># Python相关性分析
+import pandas as pd
+df[['广告投入','销售额']].corr()</div></div></div></div><div class="slide" data-title="📊 5. 分布分析"><div class="Slide-header"><h2>📊 5. 分布分析</h2><span class="slide-number-badge">第 7 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>分布分析概述</h3><p style="margin:15px 0;">研究数据的取值分布规律，了解数据的集中程度和离散程度。</p><div class="highlight-box"><h4>常见分布类型</h4><ul><li><b>正态分布</b>：自然现象最常见</li><li><b>幂律分布</b>：财富、网络效应</li><li><b>二项分布</b>：离散事件概率</li><li><b>泊松分布</b>：单位时间事件数</li></ul></div></div><div class="content-box"><h3>可视化方法</h3><ul><li><b>直方图</b>：展示频数分布</li><li><b>箱线图</b>：显示中位数、四分位</li><li><b>密度图</b>：平滑的分布曲线</li><li><b>QQ图</b>：检验正态性</li></ul><div class="code-block" style="margin-top:15px;">import matplotlib.pyplot as plt
+plt.hist(data, bins=30, density=True)</div></div></div></div><div class="slide" data-title="🔽 6. 漏斗分析"><div class="Slide-header"><h2>🔽 6. 漏斗分析</h2><span class="slide-number-badge">第 8 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>漏斗分析原理</h3><p style="margin:15px 0;">漏斗分析用于分析用户在使用产品过程中的转化和流失情况。</p><div class="highlight-box"><h4>核心指标</h4><ul><li><b>转化率</b>：每步用户占比</li><li><b>流失率</b>：每步流失比例</li><li><b>总转化率</b>：首到尾端比率</li><li><b>单步流失数</b>：具体流失用户</li></ul></div></div><div class="content-box"><h3>应用场景</h3><ul><li><b>电商</b>：浏览→加购→下单→支付</li><li><b>注册</b>：访问→注册→实名→首单</li><li><b>营销</b>：曝光→点击→参与→转化</li><li><b>招聘</b>：投递→筛选→面试→入职</li></ul></div></div></div><div class="slide" data-title="📅 7. 留存分析"><div class="Slide-header"><h2>📅 7. 留存分析</h2><span class="slide-number-badge">第 9 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>留存分析概念</h3><p style="margin:15px 0;">留存分析研究用户在一段时间后继续使用产品的比例，衡量用户粘性。</p><div class="highlight-box"><h4>留存类型</h4><ul><li><b>次日留存</b>：第一天后的留存</li><li><b>7日留存</b>：一周后的留存</li><li><b>30日留存</b>：一个月后的留存</li><li><b>自定义留存</b>：按业务需求定义</li></ul></div></div><div class="content-box"><h3>留存曲线解读</h3><ul><li><b>快速下降期</b>：早期流失严重</li><li><b>平稳期</b>：流失趋于稳定</li><li><b>长尾留存</b>：核心用户的长期留存</li></ul><div class="code-block" style="margin-top:15px;">-- SQL计算留存
+SELECT event_date, COUNT(DISTINCT user_id) FROM retention_analysis GROUP BY 1;</div></div></div></div><div class="slide" data-title="🛤️ 8. 路径分析"><div class="Slide-header"><h2>🛤️ 8. 路径分析</h2><span class="slide-number-badge">第 10 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>路径分析概述</h3><p style="margin:15px 0;">路径分析追踪用户在产品中的行为序列，发现典型的用户路径模式。</p><div class="highlight-box"><h4>分析维度</h4><ul><li><b>桑基图</b>：展示流量流向</li><li><b>河流图</b>：显示路径演变</li><li><b>转化漏斗</b>：关键节点转化</li><li><b>序列模式</b>：频繁行为序列</li></ul></div></div><div class="content-box"><h3>应用价值</h3><ul><li>发现用户主流路径</li><li>识别异常路径</li><li>优化关键节点</li><li>提升转化效率</li></ul><div class="highlight-box" style="margin-top:20px;"><h4>💡 案例</h4><p>发现50%用户"浏览商品→关闭APP"，优化为"浏览→收藏→下单"路径</p></div></div></div></div><div class="slide" data-title="🔮 9. 预测分析"><div class="Slide-header"><h2>🔮 9. 预测分析</h2><span class="slide-number-badge">第 11 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>预测分析基础</h3><p style="margin:15px 0;">预测分析使用历史数据建立模型，预测未来的业务指标和用户行为。</p><div class="highlight-box"><h4>预测类型</h4><ul><li><b>数值预测</b>：销售额、用户数预测</li><li><b>分类预测</b>：用户流失、购买意向</li><li><b>时间序列</b>：季节性预测</li><li><b>异常检测</b>：识别异常数据点</li></ul></div></div><div class="content-box"><h3>常用算法</h3><ul><li><b>线性回归</b>：简单线性关系</li><li><b>决策树</b>：可解释性强</li><li><b>随机森林</b>：集成学习</li><li><b>Prophet</b>：时间序列预测</li></ul><div class="code-block" style="margin-top:15px;">from prophet import Prophet
+model = Prophet(yearly_seasonality=True)</div></div></div></div><div class="slide" data-title="🤖 AI辅助数据分析"><div class="Slide-header"><h2>🤖 AI辅助数据分析</h2><span class="slide-number-badge">第 12 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>ChatGPT数据分析能力</h3><div class="highlight-box blue"><h4>📋 数据清洗</h4><ul><li>缺失值处理策略建议</li><li>异常值识别与处理</li><li>数据格式转换</li></ul></div><div class="highlight-box green" style="margin-top:15px;"><h4>📊 分析方法推荐</h4><ul><li>根据数据特征推荐方法</li><li>解释统计结果含义</li><li>生成分析代码</li></ul></div></div><div class="content-box"><h3>AI提示词模板</h3><div class="code-block"># 数据分析提示词框架
+"我有一份[数据类型]，包含[字段]，目标是[分析目的]。请帮我分析[具体问题]"</div></div></div></div><div class="slide" data-title="📋 综合案例：电商数据分析"><div class="Slide-header"><h2>📋 综合案例：电商数据分析</h2><span class="slide-number-badge">第 13 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>案例背景</h3><div class="highlight-box"><p><b>电商平台数据概览</b></p><ul><li>数据范围：2024年Q4季度</li><li>用户规模：50万活跃用户</li><li>订单数量：200万笔订单</li><li>GMV：1亿元</li></ul></div></div><div class="content-box"><h3>分析框架</h3><ul><li><b>描述性分析</b>：GMV、订单量、客单价</li><li><b>趋势分析</b>：日/周/月趋势变化</li><li><b>对比分析</b>：渠道/品类/地区对比</li><li><b>漏斗分析</b>：浏览→下单→支付</li><li><b>留存分析</b>：用户复购情况</li><li><b>预测分析</b>：下月GMV预测</li></ul></div></div></div><div class="slide" data-title="📊 案例分析结果"><div class="Slide-header"><h2>📊 案例分析结果</h2><span class="slide-number-badge">第 14 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>关键发现</h3><div class="highlight-box green"><h4>✅ 增长点</h4><ul><li>微信渠道转化率最高（8.5%）</li><li>服装品类环比增长25%</li><li>30日留存率达45%</li></ul></div><div class="highlight-box" style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-left-color:#ef4444;margin-top:15px;"><h4 style="color:#dc2626;">⚠️ 问题点</h4><ul><li>支付环节流失率达30%</li><li>男性用户复购率偏低（22%）</li><li>周末DAU下降40%</li></ul></div></div><div class="content-box"><h3>优化建议</h3><ul><li><b>支付优化</b>：简化支付流程，增加支付方式</li><li><b>男性营销</b>：针对性推送3C数码产品</li><li><b>周末活动</b>：周五至周日限时优惠</li><li><b>渠道扩展</b>：加大微信渠道投放</li></ul></div></div></div><div class="slide" data-title="🗺️ 分析方法选择指南"><div class="Slide-header"><h2>🗺️ 分析方法选择指南</h2><span class="slide-number-badge">第 15 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>按分析目的选择</h3><div class="highlight-box"><h4>了解现状 → 描述性分析</h4><p>均值、中位数、分布情况</p></div><div class="highlight-box blue" style="margin-top:10px;"><h4>寻找规律 → 相关性分析</h4><p>变量之间的关联关系</p></div><div class="highlight-box green" style="margin-top:10px;"><h4>预测未来 → 预测分析</h4><p>趋势外推、机器学习模型</p></div></div><div class="content-box"><h3>按数据类型选择</h3><ul><li><b>数值型</b>：回归、聚类、预测</li><li><b>分类型</b>：分类、关联规则</li><li><b>时序型</b>：趋势、季节性、周期</li><li><b>行为型</b>：路径、漏斗、留存</li></ul><div class="highlight-box" style="margin-top:20px;"><h4>💡 经验法则</h4><p>先简单后复杂，先单变量后多变量</p></div></div></div></div><div class="slide" data-title="⚠️ 数据分析常见误区"><div class="Slide-header"><h2>⚠️ 数据分析常见误区</h2><span class="slide-number-badge">第 16 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>分析方法误区</h3><div class="highlight-box" style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-left-color:#ef4444;"><h4 style="color:#dc2626;">❌ 错误做法</h4><ul><li>过度依赖相关性而忽略因果</li><li>用平均数掩盖分布差异</li><li>选择性地呈现数据</li><li>忽视样本量不足的问题</li></ul></div></div><div class="content-box"><h3>正确做法</h3><div class="highlight-box green"><h4>✅ 最佳实践</h4><ul><li>多维度交叉验证</li><li>关注分布而非仅均值</li><li>完整呈现数据全貌</li><li>统计显著性与业务意义并重</li></ul></div></div></div></div><div class="slide" data-title="📚 章节总结"><div class="Slide-header"><h2>📚 章节总结</h2><span class="slide-number-badge">第 17 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>本章要点回顾</h3><ul><li><b>描述性分析</b>：用统计指标概括数据</li><li><b>趋势分析</b>：发现随时间变化的规律</li><li><b>对比分析</b>：通过比较发现问题</li><li><b>相关性分析</b>：揭示变量间的关联</li><li><b>分布分析</b>：理解数据分布形态</li></ul></div><div class="content-box"><h3>进阶方法</h3><ul><li><b>漏斗分析</b>：分析转化与流失</li><li><b>留存分析</b>：衡量用户粘性</li><li><b>路径分析</b>：追踪用户行为序列</li><li><b>预测分析</b>：用历史预测未来</li><li><b>AI辅助</b>：用大模型提升效率</li></ul></div></div></div><div class="slide" data-title="📖 下章预告"><div class="Slide-header"><h2>📖 下章预告</h2><span class="slide-number-badge">第 18 / 20 页</span></div><div class="slide-content "><div class="content-box"><h3>下章内容预告</h3><div class="highlight-box" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border-left-color:#9333ea;"><h4>第5章：6个常用的商业分析方法</h4><ul><li>波特五力模型 - 行业竞争分析</li><li>SWOT分析 - 战略规划工具</li><li>PEST分析 - 宏观环境扫描</li><li>4P营销理论 - 营销策略框架</li><li>AARRR模型 - 增长黑客策略</li><li>RFM分析 - 客户价值评估</li></ul></div></div><div class="content-box"><h3>课程体系</h3><ul><li><b>1-3章</b>：AI数据分析基础</li><li><b>4章</b>：9个数据分析方法</li><li><b>5章</b>：6个商业分析方法</li><li><b>6-10章</b>：高级分析与实战</li></ul></div></div></div><div class="slide" data-title="📖 继续学习"><div class="Slide-header"><h2>📖 继续学习</h2><span class="slide-number-badge">第 19 / 20 页</span></div><div class="slide-content single-column"><div class="content-box" style="text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;"><h3 style="border:none;font-size:2em;">第19页/20页</h3><p style="margin-top:20px;">点击下一页继续</p></div></div></div><div class="slide" data-title="📖 继续学习"><div class="Slide-header"><h2>📖 继续学习</h2><span class="slide-number-badge">第 20 / 20 页</span></div><div class="slide-content single-column"><div class="content-box" style="text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;"><h3 style="border:none;font-size:2em;">🎉 第4章完成</h3><p style="margin-top:20px;">你已经掌握了9种常用的数据分析方法</p></div></div></div>
+    </div>
+
+    <div class="footer">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ 上一页</button>
+        <span class="page-text" id="pageText">1 / 20</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一页 ▶</button>
+    </div>
+
+    <div class="page-nav-sidebar" id="pageNavSidebar"></div>
+
+    <div class="overlay" id="overlay" onclick="toggleTOC()"></div>
+
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-header">
+            <h3>📑 课程目录</h3>
+            <button class="close-btn" onclick="toggleTOC()">×</button>
+        </div>
+        <div class="toc-list" id="tocList">
+            <div class="toc-item" onclick="goToSlide(0)"><span class="toc-item-number">1</span><span class="toc-item-title">课程封面</span></div><div class="toc-item" onclick="goToSlide(1)"><span class="toc-item-number">2</span><span class="toc-item-title">📑 课程内容概览</span></div><div class="toc-item" onclick="goToSlide(2)"><span class="toc-item-number">3</span><span class="toc-item-title">📊 1. 描述性分析</span></div><div class="toc-item" onclick="goToSlide(3)"><span class="toc-item-number">4</span><span class="toc-item-title">📈 2. 趋势分析</span></div><div class="toc-item" onclick="goToSlide(4)"><span class="toc-item-number">5</span><span class="toc-item-title">⚖️ 3. 对比分析</span></div><div class="toc-item" onclick="goToSlide(5)"><span class="toc-item-number">6</span><span class="toc-item-title">🔗 4. 相关性分析</span></div><div class="toc-item" onclick="goToSlide(6)"><span class="toc-item-number">7</span><span class="toc-item-title">📊 5. 分布分析</span></div><div class="toc-item" onclick="goToSlide(7)"><span class="toc-item-number">8</span><span class="toc-item-title">🔽 6. 漏斗分析</span></div><div class="toc-item" onclick="goToSlide(8)"><span class="toc-item-number">9</span><span class="toc-item-title">📅 7. 留存分析</span></div><div class="toc-item" onclick="goToSlide(9)"><span class="toc-item-number">10</span><span class="toc-item-title">🛤️ 8. 路径分析</span></div><div class="toc-item" onclick="goToSlide(10)"><span class="toc-item-number">11</span><span class="toc-item-title">🔮 9. 预测分析</span></div><div class="toc-item" onclick="goToSlide(11)"><span class="toc-item-number">12</span><span class="toc-item-title">🤖 AI辅助数据分析</span></div><div class="toc-item" onclick="goToSlide(12)"><span class="toc-item-number">13</span><span class="toc-item-title">📋 综合案例：电商数据分析</span></div><div class="toc-item" onclick="goToSlide(13)"><span class="toc-item-number">14</span><span class="toc-item-title">📊 案例分析结果</span></div><div class="toc-item" onclick="goToSlide(14)"><span class="toc-item-number">15</span><span class="toc-item-title">🗺️ 分析方法选择指南</span></div><div class="toc-item" onclick="goToSlide(15)"><span class="toc-item-number">16</span><span class="toc-item-title">⚠️ 数据分析常见误区</span></div><div class="toc-item" onclick="goToSlide(16)"><span class="toc-item-number">17</span><span class="toc-item-title">📚 章节总结</span></div><div class="toc-item" onclick="goToSlide(17)"><span class="toc-item-number">18</span><span class="toc-item-title">📖 下章预告</span></div><div class="toc-item" onclick="goToSlide(18)"><span class="toc-item-number">19</span><span class="toc-item-title">📖 继续学习</span></div><div class="toc-item" onclick="goToSlide(19)"><span class="toc-item-number">20</span><span class="toc-item-title">📖 继续学习</span></div>
+        </div>
+    </div>
+
+    <div class="keyboard-hint">
+        使用 <span class="key">←</span> <span class="key">→</span> 键翻页
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const pageNavSidebar = document.getElementById('pageNavSidebar');
+        const pageText = document.getElementById('pageText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tocSidebar = document.getElementById('tocSidebar');
+        const overlay = document.getElementById('overlay');
+        const tocList = document.getElementById('tocList');
+
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dot.title = `第${i + 1}页`;
+            pageNavSidebar.appendChild(dot);
+        }
+
+        function initTOC() {
+            tocList.innerHTML = '';
+            slides.forEach((slide, i) => {
+                const title = slide.getAttribute('data-title') || `第${i + 1}页`;
+                const item = document.createElement('div');
+                item.className = 'toc-item' + (i === 0 ? ' active' : '');
+                item.onclick = () => goToSlide(i);
+                item.innerHTML = `<span class="toc-item-number">${i + 1}</span><span class="toc-item-title">${title}</span>`;
+                tocList.appendChild(item);
+            });
+        }
+        initTOC();
+
+        function updateSlide() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === currentSlide) slide.classList.add('active');
+            });
+            const dots = pageNavSidebar.querySelectorAll('.page-dot');
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+            pageText.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            const tocItems = tocList.querySelectorAll('.toc-item');
+            tocItems.forEach((item, i) => item.classList.toggle('active', i === currentSlide));
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            document.querySelector('.slides-wrapper').scrollTop = 0;
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+        function goToSlide(index) { if (index >= 0 && index < totalSlides) { currentSlide = index; updateSlide(); closeTOC(); } }
+        function toggleTOC() { tocSidebar.classList.toggle('open'); overlay.classList.toggle('show'); }
+        function closeTOC() { tocSidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'Escape') closeTOC();
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>

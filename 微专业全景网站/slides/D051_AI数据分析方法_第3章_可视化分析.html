@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3章：大模型助你获取和处理数据 - AI数据分析方法</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3b82f6;
+            z-index: 100;
+        }
+        .header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(90deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-info { display: flex; gap: 20px; align-items: center; }
+        .header-info span { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9em; }
+        .toc-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s;
+        }
+        .toc-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4); }
+        .slides-wrapper { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; }
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            min-height: calc(100vh - 140px);
+            display: none;
+            padding: 30px 40px 20px 40px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            animation: fadeIn 0.5s ease;
+        }
+        .slide.active { display: flex; flex-direction: column; min-height: calc(100vh - 140px); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .slide-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .slide-header h2 { font-size: 1.5em; }
+        .slide-number-badge { background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 16px; font-size: 0.9em; }
+        .slide-content { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; overflow: visible; }
+        .slide-content.single-column { grid-template-columns: 1fr; }
+        .content-box { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: visible; }
+        .content-box.scroll { max-height: calc(100vh - 320px); overflow-y: auto; }
+        .content-box h3 { color: #3b82f6; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #3b82f6; }
+        .content-box ul { list-style: none; }
+        .content-box li { padding: 10px 0; padding-left: 25px; position: relative; font-size: 1.05em; color: #374151; }
+        .content-box li::before { content: '▶'; position: absolute; left: 0; color: #3b82f6; font-size: 0.8em; }
+        .highlight-box { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #3b82f6; }
+        .highlight-box h4 { color: #1d4ed8; margin-bottom: 10px; }
+        .highlight-box.green { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left-color: #10b981; }
+        .highlight-box.green h4 { color: #059669; }
+        .highlight-box.orange { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left-color: #f59e0b; }
+        .highlight-box.orange h4 { color: #d97706; }
+        .highlight-box.purple { background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%); border-left-color: #8b5cf6; }
+        .highlight-box.purple h4 { color: #7c3aed; }
+        .code-block { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 10px; font-family: 'Consolas', monospace; font-size: 0.85em; overflow-x: auto; line-height: 1.6; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; height: auto; padding: 10px 0; }
+        .chart-container img { max-width: 100%; max-height: none; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        /* 底部导航 - 仅保留翻页按钮 */
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 12px 30px; display: flex; justify-content: center; align-items: center; gap: 30px; border-top: 2px solid #3b82f6; height: 60px; }
+        .nav-btn { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        .nav-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-text { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.95em; min-width: 70px; text-align: center; }
+        /* 右侧页码圆点导航 */
+        .page-nav-sidebar { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.95); padding: 12px 8px; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); z-index: 100; max-height: calc(100vh - 200px); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .page-nav-sidebar::-webkit-scrollbar { width: 4px; }
+        .page-nav-sidebar::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 2px; }
+        .page-dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; cursor: pointer; transition: all 0.3s; flex-shrink: 0; }
+        .page-dot.active { background: #3b82f6; transform: scale(1.4); }
+        .page-dot:hover { background: #9ca3af; transform: scale(1.2); }
+        .toc-sidebar { position: fixed; top: 0; left: -400px; width: 400px; height: 100vh; background: white; box-shadow: 5px 0 30px rgba(0,0,0,0.3); z-index: 200; transition: left 0.3s ease; display: flex; flex-direction: column; }
+        .toc-sidebar.open { left: 0; }
+        .toc-header { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .toc-header h3 { font-size: 1.3em; }
+        .close-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2em; }
+        .toc-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .toc-item { padding: 15px; margin: 8px 0; background: #f3f4f6; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
+        .toc-item:hover { background: #e5e7eb; transform: translateX(5px); }
+        .toc-item.active { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; }
+        .toc-item-number { background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        .toc-item.active .toc-item-number { background: white; color: #3b82f6; }
+        .toc-item-title { font-size: 0.95em; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+        .overlay.show { display: block; }
+        .keyboard-hint { position: fixed; bottom: 80px; right: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; z-index: 50; }
+        .key { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 3px; }
+        .data-flow { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
+        .flow-box { background: #3b82f6; color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; }
+        .flow-arrow { color: #6b7280; font-size: 1.5em; }
+        .flow-box.green { background: #10b981; }
+        .flow-box.orange { background: #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 第3章：大模型助你获取和处理数据</h1>
+        <div class="header-info">
+            <span>⏱️ 90分钟</span>
+            <span>📖 18页</span>
+            <span>📊 7个图表</span>
+            <button class="toc-btn" onclick="toggleTOC()">📑 目录</button>
+        </div>
+    </div>
+
+    <div class="slides-wrapper">
+        
+        <!-- 第1页：课程封面 -->
+        <div class="slide active" data-title="课程封面">
+            <div class="slide-header">
+                <h2>📚 第3章：大模型助你获取和处理数据</h2>
+                <span class="slide-number-badge">第 1 / 18 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 style="border: none; font-size: 2em; margin-bottom: 30px;">🎯 课程目标</h3>
+                    <ul style="text-align: left; max-width: 600px;">
+                        <li>掌握四大数据源类型与应用场景</li>
+                        <li>理解ETL流程与数据仓库分层架构</li>
+                        <li>熟练使用SQL进行数据查询与处理</li>
+                        <li>掌握数据质量六大维度评估方法</li>
+                        <li>学会使用Pandas进行数据清洗</li>
+                        <li>了解AI辅助数据处理的新方法</li>
+                    </ul>
+                    <div class="highlight-box orange" style="max-width: 600px; margin-top: 30px;">
+                        <h4>💡 学习建议</h4>
+                        <p>数据质量决定分析价值，重视数据清洗和质量监控。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第2页：数据源全景 -->
+        <div class="slide" data-title="数据源全景图">
+            <div class="slide-header">
+                <h2>📊 数据源全景图</h2>
+                <span class="slide-number-badge">第 2 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>四大数据源类型</h3>
+                    <div class="highlight-box">
+                        <h4>📱 业务数据</h4>
+                        <p>用户/订单/商品/库存/财务</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>🌐 行为数据</h4>
+                        <p>浏览/点击/时长/搜索/分享</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>📈 第三方数据</h4>
+                        <p>广告/社交/征信/天气/地理</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>🔧 机器数据</h4>
+                        <p>日志/埋点/传感器/IoT</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_data_source.png" alt="数据源全景">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第3页：业务数据详解 -->
+        <div class="slide" data-title="业务系统数据">
+            <div class="slide-header">
+                <h2>🏢 业务系统数据</h2>
+                <span class="slide-number-badge">第 3 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心业务数据表</h3>
+                    <div class="highlight-box">
+                        <h4>👥 用户表</h4>
+                        <p>user_id/手机号/注册时间/来源渠道</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📦 订单表</h4>
+                        <p>order_id/用户ID/金额/状态/时间</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>🛍️ 商品表</h4>
+                        <p>product_id/品类/价格/库存</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>💰 财务表</h4>
+                        <p>流水/收入/支出/毛利</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>数据特点</h3>
+                    <ul>
+                        <li><strong>结构化</strong>：表格式存储，字段明确</li>
+                        <li><strong>高质量</strong>：业务校验，数据准确</li>
+                        <li><strong>可追溯</strong>：主键关联，关系清晰</li>
+                        <li><strong>实时性</strong>：OLTP系统，实时更新</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">常见数据库</h3>
+                    <ul>
+                        <li><strong>MySQL</strong>：互联网标配</li>
+                        <li><strong>PostgreSQL</strong>：功能丰富</li>
+                        <li><strong>Oracle</strong>：企业级</li>
+                        <li><strong>SQL Server</strong>：微软生态</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第4页：行为数据详解 -->
+        <div class="slide" data-title="用户行为数据">
+            <div class="slide-header">
+                <h2>👆 用户行为数据</h2>
+                <span class="slide-number-badge">第 4 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>埋点采集数据</h3>
+                    <div class="highlight-box">
+                        <h4>📄 页面浏览</h4>
+                        <p>PV/UV/停留时长/跳出率</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>👆 点击行为</h4>
+                        <p>点击率/热力图/按钮曝光</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>🔍 搜索记录</h4>
+                        <p>关键词/无结果率/结果点击</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>📤 传播分享</h4>
+                        <p>分享数/回流数/K因子</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>采集方式</h3>
+                    <ul>
+                        <li><strong>前端SDK</strong>：友盟/神策/Mixpanel</li>
+                        <li><strong>后端日志</strong>：Apache日志/NGINX日志</li>
+                        <li><strong>服务端埋点</strong>：API调用记录</li>
+                        <li><strong>客户端采集</strong>：App SDK/H5采集</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>💡 最佳实践</h4>
+                        <p>统一埋点规范，建立事件模型</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第5页：数据采集方式 -->
+        <div class="slide" data-title="数据采集五大方式">
+            <div class="slide-header">
+                <h2>📡 数据采集五大方式</h2>
+                <span class="slide-number-badge">第 5 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>采集方式对比</h3>
+                    <div class="highlight-box">
+                        <h4>🔌 API接口</h4>
+                        <p>实时性好，需要开发对接，支持增量同步</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📋 CDC变更捕获</h4>
+                        <p>实时同步数据库变更，捕获Insert/Update/Delete</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>📝 日志采集</h4>
+                        <p>Flume/Kafka日志收集，支持海量数据</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>🕷️ 爬虫抓取</h4>
+                        <p>外部数据获取，需要遵守robots协议</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>✏️ 手工录入</h4>
+                        <p>线下数据补充，人工录入系统</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_data_source.png" alt="采集方式">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第6页：ETL流程 -->
+        <div class="slide" data-title="ETL数据处理流程">
+            <div class="slide-header">
+                <h2>⚙️ ETL数据处理流程</h2>
+                <span class="slide-number-badge">第 6 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <div class="data-flow">
+                        <div class="flow-box">Extract<br>抽取</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box green">Transform<br>转换</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box orange">Load<br>加载</div>
+                    </div>
+                    <h3>Extract 抽取</h3>
+                    <p>从MySQL/MongoDB/API/文件抽取原始数据</p>
+                    <h3>Transform 转换</h3>
+                    <p>清洗/去重/聚合/Join/计算</p>
+                    <h3>Load 加载</h3>
+                    <p>写入ODS/DWD/DWS/ADS层</p>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_etl_flow.png" alt="ETL流程">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第7页：数据仓库分层 -->
+        <div class="slide" data-title="数据仓库分层架构">
+            <div class="slide-header">
+                <h2>🏗️ 数据仓库分层架构</h2>
+                <span class="slide-number-badge">第 7 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>四层架构</h3>
+                    <div class="highlight-box purple">
+                        <h4>📥 ODS层（操作数据层）</h4>
+                        <p>原始数据，与源表1:1映射，保留历史</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>📋 DWD层（明细事实层）</h4>
+                        <p>标准化的业务过程，一致性维度</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📊 DWS层（汇总宽表层）</h4>
+                        <p>主题宽表设计，按业务主题汇总</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>📈 ADS层（应用数据层）</h4>
+                        <p>直接服务BI/报表/数据产品</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>分层优势</h3>
+                    <ul>
+                        <li><strong>清晰数据结构</strong>：层次分明，便于理解</li>
+                        <li><strong>数据复用</strong>：中间层可以被多处引用</li>
+                        <li><strong>解耦业务</strong>：源头变化影响范围小</li>
+                        <li><strong>问题追溯</strong>：便于定位数据问题</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">命名规范</h3>
+                    <div class="code-block">
+ods_源表名
+dwd_业务_维度/事实
+dws_主题_指标
+ads_应用_主题
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第8页：批处理与流处理 -->
+        <div class="slide" data-title="批处理与流处理架构">
+            <div class="slide-header">
+                <h2>🌊 批处理与流处理架构</h2>
+                <span class="slide-number-badge">第 8 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>处理模式对比</h3>
+                    <div class="highlight-box">
+                        <h4>📦 批处理（Batch）</h4>
+                        <p>T+1定时任务，适合报表统计<br>
+                        工具：Hive/Spark/MapReduce</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>💨 流处理（Streaming）</h4>
+                        <p>实时计算，延迟<1秒<br>
+                        工具：Flink/Kafka Streams/Spark Streaming</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>🔄 Lambda架构</h4>
+                        <p>批+流混合，兼顾准确性和实时性</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>📮 Kappa架构</h4>
+                        <p>纯流处理，统一架构，简化系统</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_etl_flow.png" alt="处理架构">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第9页：SQL处理实战 -->
+        <div class="slide" data-title="SQL数据处理实战">
+            <div class="slide-header">
+                <h2>💾 SQL数据处理实战</h2>
+                <span class="slide-number-badge">第 9 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>案例：用户行为分析</h3>
+                    <div class="code-block">
+WITH user_activity AS (
+    SELECT 
+        user_id,
+        DATE(event_time) AS activity_date,
+        COUNT(*) AS action_count,
+        SUM(CASE WHEN event_type = 'purchase' 
+            THEN amount ELSE 0 END) AS revenue
+    FROM user_events
+    WHERE event_time >= DATE_SUB(CURRENT_DATE, 30)
+    GROUP BY user_id, DATE(event_time)
+),
+user_features AS (
+    SELECT 
+        user_id,
+        MAX(activity_date) AS last_active,
+        COUNT(DISTINCT activity_date) AS active_days,
+        SUM(action_count) AS total_actions,
+        SUM(revenue) AS total_revenue,
+        ROW_NUMBER() OVER (ORDER BY SUM(revenue) DESC) AS rank
+    FROM user_activity
+    GROUP BY user_id
+)
+SELECT * FROM user_features WHERE rank <= 1000;
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_sql_processing.png" alt="SQL处理">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第10页：SQL技术要点 -->
+        <div class="slide" data-title="SQL处理技术要点">
+            <div class="slide-header">
+                <h2>📝 SQL处理技术要点</h2>
+                <span class="slide-number-badge">第 10 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心SQL技术</h3>
+                    <div class="highlight-box">
+                        <h4>📋 CTE公共表表达式</h4>
+                        <p>WITH...AS结构，代码更清晰</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📊 窗口函数</h4>
+                        <p>ROW_NUMBER()/RANK()/SUM()OVER()</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>🔄 条件聚合</h4>
+                        <p>SUM(CASE WHEN...THEN...ELSE...END)</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>📅 日期函数</h4>
+                        <p>DATEDIFF/ DATE_SUB / CURRENT_DATE</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>优化技巧</h3>
+                    <ul>
+                        <li><strong>避免SELECT *</strong>：只选需要的字段</li>
+                        <li><strong>合理使用索引</strong>：WHERE条件字段建索引</li>
+                        <li><strong>减少JOIN</strong>：大表放左边，小表放右边</li>
+                        <li><strong>分区表</strong>：按日期分区，加快查询</li>
+                        <li><strong>避免子查询</strong>：改用CTE或临时表</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>💡 AI辅助</h4>
+                        <p>使用ChatGPT生成SQL代码</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第11页：数据质量框架 -->
+        <div class="slide" data-title="数据质量六大维度">
+            <div class="slide-header">
+                <h2>✅ 数据质量六大维度</h2>
+                <span class="slide-number-badge">第 11 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>质量评估框架</h3>
+                    <div class="highlight-box">
+                        <h4>🔲 完整性</h4>
+                        <p>无缺失值、主键唯一、记录数校验</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>✅ 准确性</h4>
+                        <p>格式校验、范围校验、业务规则</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>🔄 一致性</h4>
+                        <p>编码统一、单位统一、命名规范</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>⏰ 及时性</h4>
+                        <p>任务调度、延迟监控、新鲜度</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_data_quality.png" alt="数据质量">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第12页：数据校验方法 -->
+        <div class="slide" data-title="数据校验方法">
+            <div class="slide-header">
+                <h2>🔍 数据校验方法</h2>
+                <span class="slide-number-badge">第 12 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>完整性检查</h3>
+                    <div class="code-block">
+-- NULL值检测
+SELECT COUNT(*) FROM table 
+WHERE col IS NULL
+
+-- 主键唯一性
+SELECT id, COUNT(*) 
+FROM table GROUP BY id 
+HAVING COUNT(*) > 1
+                    </div>
+                    <h3 style="margin-top: 20px;">准确性校验</h3>
+                    <div class="code-block">
+-- 邮箱格式
+WHERE email LIKE '%@%.%'
+
+-- 手机号
+WHERE phone REGEXP '^1[3-9][0-9]{9}$'
+
+-- 金额范围
+WHERE amount > 0 AND amount < 1000000
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>一致性检查</h3>
+                    <ul>
+                        <li><strong>枚举值</strong>：状态字段必须是指定值</li>
+                        <li><strong>关联一致性</strong>：订单用户必须存在</li>
+                        <li><strong>跨表一致性</strong>：各表汇总数要一致</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">校验规则配置</h3>
+                    <div class="highlight-box">
+                        <h4>工具推荐</h4>
+                        <p>Great Expectations / dbt tests</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第13页：Pandas清洗实战 -->
+        <div class="slide" data-title="Pandas数据清洗实战">
+            <div class="slide-header">
+                <h2>🐍 Pandas数据清洗实战</h2>
+                <span class="slide-number-badge">第 13 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>常见问题</h3>
+                    <div class="highlight-box">
+                        <h4>❌ 缺失值</h4>
+                        <p>None/"NULL"/空字符串混用</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>❌ 异常值</h4>
+                        <p>负数年龄/超大金额/不可能的日期</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>❌ 格式问题</h4>
+                        <p>手机号有字母/邮箱缺@</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>❌ 重复数据</h4>
+                        <p>完全重复/部分重复</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_pandas_demo.png" alt="Pandas清洗">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第14页：Pandas代码 -->
+        <div class="slide" data-title="Pandas清洗代码示例">
+            <div class="slide-header">
+                <h2>💻 Pandas清洗代码示例</h2>
+                <span class="slide-number-badge">第 14 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>完整清洗流程</h3>
+                    <div class="code-block">
+import pandas as pd
+
+# 1. 读取数据
+df = pd.read_csv('user_data.csv')
+
+# 2. 缺失值处理
+df['age'].fillna(df['age'].median(), inplace=True)
+df['email'].fillna('unknown', inplace=True)
+
+# 3. 异常值处理
+df = df[(df['age'] > 0) & (df['age'] < 120)]
+
+# 4. 格式标准化
+df['phone'] = df['phone'].str.replace(r'[^0-9]', '', regex=True)
+df['email'] = df['email'].str.lower()
+
+# 5. 去重
+df.drop_duplicates(inplace=True)
+
+# 6. 保存
+df.to_csv('user_data_clean.csv', index=False)
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>常用函数</h3>
+                    <ul>
+                        <li><strong>fillna()</strong>：填充缺失值</li>
+                        <li><strong>dropna()</strong>：删除缺失值</li>
+                        <li><strong>drop_duplicates()</strong>：去重</li>
+                        <li><strong>str.replace()</strong>：字符串替换</li>
+                        <li><strong>astype()</strong>：类型转换</li>
+                        <li><strong>pd.to_datetime()</strong>：日期转换</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第15页：AI辅助处理 -->
+        <div class="slide" data-title="AI辅助数据处理">
+            <div class="slide-header">
+                <h2>🤖 AI辅助数据处理</h2>
+                <span class="slide-number-badge">第 15 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>4步AI处理流程</h3>
+                    <div class="highlight-box">
+                        <h4>💬 自然语言描述需求</h4>
+                        <p>用中文描述你想做什么</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>✨ AI生成SQL/Python代码</h4>
+                        <p>自动生成可执行代码</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>🔧 代码优化与调试</h4>
+                        <p>智能修正语法和逻辑错误</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>✅ 执行验证结果解读</h4>
+                        <p>运行代码，解读分析结果</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_ai_processing.png" alt="AI辅助">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第16页：AI提示词示例 -->
+        <div class="slide" data-title="AI数据处理提示词">
+            <div class="slide-header">
+                <h2>💬 AI数据处理提示词</h2>
+                <span class="slide-number-badge">第 16 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>示例提示词</h3>
+                    <div class="highlight-box orange">
+                        <h4>📝 留存分析</h4>
+                        <p style="font-size:0.9em;">"帮我分析用户留存情况，需要SQL代码。<br>
+                        数据表：user_logins(user_id, login_date)<br>
+                        要求：计算次日、7日、30日留存率"</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📊 数据清洗</h4>
+                        <p style="font-size:0.9em;">"用Python清洗用户数据表，<br>
+                        处理缺失值、异常值、去重，<br>
+                        并保存为新文件"</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>📈 数据可视化</h4>
+                        <p style="font-size:0.9em;">"用Python画用户留存曲线图，<br>
+                        X轴是日期，Y轴是留存率"</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>效率提升数据</h3>
+                    <ul>
+                        <li><strong>SQL生成</strong>：提升 <strong style="color:#10b981;">15倍</strong></li>
+                        <li><strong>数据清洗</strong>：提升 <strong style="color:#10b981;">8倍</strong></li>
+                        <li><strong>报告撰写</strong>：提升 <strong style="color:#10b981;">5倍</strong></li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">推荐工具</h3>
+                    <ul>
+                        <li><strong>ChatGPT</strong>：通用对话</li>
+                        <li><strong>Claude</strong>：长文本分析</li>
+                        <li><strong>GitHub Copilot</strong>：代码补全</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第17页：质量监控体系 -->
+        <div class="slide" data-title="数据质量监控体系">
+            <div class="slide-header">
+                <h2>📋 数据质量监控体系</h2>
+                <span class="slide-number-badge">第 17 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>监控四环节</h3>
+                    <div class="highlight-box">
+                        <h4>🔍 数据探查</h4>
+                        <p>自动扫描数据分布、发现质量问题</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📋 规则引擎</h4>
+                        <p>配置校验规则、自动告警</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>📊 质量报告</h4>
+                        <p>定期生成数据质量报告</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>🔧 问题追踪</h4>
+                        <p>记录问题、根因分析、改进跟踪</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch3_data_quality.png" alt="质量监控">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第18页：总结 -->
+        <div class="slide" data-title="第3章知识点总结">
+            <div class="slide-header">
+                <h2>📝 第3章知识点总结</h2>
+                <span class="slide-number-badge">第 18 / 18 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心知识点</h3>
+                    <ul>
+                        <li>四大数据源类型与应用场景</li>
+                        <li>ETL流程与数据仓库分层</li>
+                        <li>批处理与流处理架构</li>
+                        <li>SQL用户特征提取实战</li>
+                        <li>数据质量六大维度评估</li>
+                        <li>Pandas数据清洗技巧</li>
+                        <li>AI辅助数据处理流程</li>
+                        <li>数据质量监控体系</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>课后作业</h3>
+                    <div class="highlight-box orange">
+                        <h4>📌 必做题</h4>
+                        <p>使用SQL/Pandas清洗一个实际数据集</p>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>📌 选做题</h4>
+                        <p>使用ChatGPT生成SQL代码并执行验证</p>
+                    </div>
+                    <div class="highlight-box purple">
+                        <h4>📌 思考题</h4>
+                        <p>如何建立数据质量监控体系？</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ 上一页</button>
+        <span class="page-text" id="pageText">1 / 18</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一页 ▶</button>
+    </div>
+
+    <!-- 右侧页码圆点导航 -->
+    <div class="page-nav-sidebar" id="pageNavSidebar"></div>
+
+    <div class="overlay" id="overlay" onclick="toggleTOC()"></div>
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-header">
+            <h3>📑 课程目录</h3>
+            <button class="close-btn" onclick="toggleTOC()">×</button>
+        </div>
+        <div class="toc-list" id="tocList"></div>
+    </div>
+
+    <div class="keyboard-hint">
+        使用 <span class="key">←</span> <span class="key">→</span> 或 <span class="key">空格</span> 切换页面
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const pageText = document.getElementById('pageText');
+        const pageNavSidebar = document.getElementById('pageNavSidebar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tocList = document.getElementById('tocList');
+
+        function init() {
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(i);
+                dot.title = `第${i + 1}页`;
+                pageNavSidebar.appendChild(dot);
+            }
+            slides.forEach((slide, index) => {
+                const item = document.createElement('div');
+                item.className = 'toc-item' + (index === 0 ? ' active' : '');
+                item.innerHTML = `<span class="toc-item-number">${index + 1}</span><span class="toc-item-title">${slide.dataset.title || '第' + (index + 1) + '页'}</span>`;
+                item.onclick = () => { goToSlide(index); toggleTOC(); };
+                tocList.appendChild(item);
+            });
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            pageText.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.querySelectorAll('.page-dot').forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
+            document.querySelectorAll('.toc-item').forEach((item, index) => item.classList.toggle('active', index === currentSlide));
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateNavigation();
+        }
+
+        function prevSlide() { if (currentSlide > 0) goToSlide(currentSlide - 1); }
+        function nextSlide() { if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1); }
+        function toggleTOC() { document.getElementById('tocSidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+            else if (e.key === 'Escape') { if (document.getElementById('tocSidebar').classList.contains('open')) toggleTOC(); }
+        });
+
+        init();
+    </script>
+</body>
+</html>

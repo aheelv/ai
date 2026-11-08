@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 属性 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D121_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%B1%9E%E6%80%A7.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D121_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%B1%9E%E6%80%A7.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 属性</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>属性.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/属性.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>281.6 KB</td></tr><tr><th>Word 版本</th><td>D121_课件PPT_[宁悦PPT.zip] 属性.docx</td></tr></table><div class="content"><h3>第 1 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>属性综合了私有成员和公有成员方法的优点。<br>在Python 3.x中，属性得到了较为完整的实现，支持更加全面的保护机制。<br><br>1. 只读属性<br>&gt;&gt;&gt; class Test:<br>	   def __init__(self, value):<br>		  self.__value = value<br><br>	   @property<br>	   def value(self):               #只读，无法修改和删除<br>		  return self.__value</p>
+<p>1</p>
+<hr>
+<h3>第 2 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>&gt;&gt;&gt; t = Test(3)<br>&gt;&gt;&gt; t.value<br>3<br>&gt;&gt;&gt; t.value = 5                        # 只读属性不允许修改值<br>AttributeError: can&#x27;t set attribute<br>&gt;&gt;&gt; t.v=5                              # 动态增加新成员<br>&gt;&gt;&gt; t.v<br>5<br>&gt;&gt;&gt; del t.v                            # 动态删除成员<br>&gt;&gt;&gt; del t.value                        # 试图删除对象属性，失败<br>AttributeError: can&#x27;t delete attribute<br>&gt;&gt;&gt; t.value<br>3</p>
+<p>2</p>
+<hr>
+<h3>第 3 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>可读、可修改、不允许删除属性<br>&gt;&gt;&gt; class Test:<br>	         def _ _init_ _(self, value):<br>	             self.__value = value	<br><br>	         def _ _get(self):                 #访问属性时调用的方法<br>             return self.__value<br><br>	         def _ _set(self, v):              #修改属性时调用的方法<br>             self.__value = v<br><br>	         value = property(__get, __set)   #修饰器，定义属性<br><br>	         def show(self):<br>             print(self.__value)</p>
+<p>3</p>
+<hr>
+<h3>第 4 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>&gt;&gt;&gt; t = Test(3)<br>&gt;&gt;&gt; t.value      #允许读取属性值<br>3<br>&gt;&gt;&gt; t.value = 5  #允许修改属性值<br>&gt;&gt;&gt; t.value<br>5<br>&gt;&gt;&gt; t.show()     #属性对应的私有变量也得到了相应的修改<br>5<br>&gt;&gt;&gt; del t.value  #试图删除属性，失败<br>AttributeError: can&#x27;t delete attribute</p>
+<p>4</p>
+<hr>
+<h3>第 5 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>可读、可修改、可删除的属性。<br>&gt;&gt;&gt; class Test:<br>	    def __init__(self, value):<br>	        self.__value = value<br><br>	    def __get(self):<br>            return self.__value<br><br>	    def __set(self, v):<br>            self.__value = v<br><br>	    def __del(self):                   #删除属性时调用的方法<br>	        del self.__value               #删除对应的私有数据成员<br><br>	    value = property(__get, __set, __del)<br>	    def show(self):<br>	        print(self.__value)</p>
+<p>5</p>
+<hr>
+<h3>第 6 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>&gt;&gt;&gt; t = Test(3)<br>&gt;&gt;&gt; t.show()<br>3<br>&gt;&gt;&gt; t.value<br>3<br>&gt;&gt;&gt; t.value = 5<br>&gt;&gt;&gt; t.show()<br>5<br>&gt;&gt;&gt; t.value<br>5</p>
+<p>6</p>
+<hr>
+<h3>第 7 页 · 6.4  属性</h3>
+<p>6.4  属性</p>
+<p>&gt;&gt;&gt; del t.value            #删除属性<br>&gt;&gt;&gt; t.value                #对应的私有数据成员已删除<br>AttributeError: &#x27;Test&#x27; object has no attribute &#x27;_Test__value&#x27;<br>&gt;&gt;&gt; t.show()<br>AttributeError: &#x27;Test&#x27; object has no attribute &#x27;_Test__value&#x27;<br>&gt;&gt;&gt; t.value = 1            #为对象动态增加属性和对应的私有数据成员<br>&gt;&gt;&gt; t.show()<br>1<br>&gt;&gt;&gt; t.value<br>1</p>
+<p>7</p>
+<hr>
+<h3>第 8 页 · 6.5  常用特殊方法</h3>
+<p>6.5  常用特殊方法</p>
+<p>Python类有大量的特殊方法，其中比较常见的是构造函数和析构函数，除此之外，Python还支持大量的特殊方法，运算符重载就是通过重写特殊方法实现的。<br>Python中类的构造函数是__init__()，一般用来为数据成员设置初值或进行其他必要的初始化工作，在创建对象时被自动调用和执行。如果用户没有设计构造函数，Python将提供一个默认的构造函数用来进行必要的初始化工作。<br>Python中类的析构函数是__del__()，一般用来释放对象占用的资源，在Python删除对象和收回对象空间时被自动调用和执行。如果用户没有编写析构函数，Python将提供一个默认的析构函数进行必要的清理工作。</p>
+<p>8</p>
+<hr>
+<h3>第 9 页 · 6.5  常用特殊方法</h3>
+<div class="tw"><table><tbody><tr><td>方法</td><td>功能说明</td></tr><tr><td>__new__()</td><td>类的静态方法，用于确定是否要创建对象</td></tr><tr><td>__init__()</td><td>构造方法，创建对象时自动调用</td></tr><tr><td>__del__()</td><td>析构方法，释放对象时自动调用</td></tr><tr><td>__add__()</td><td>+</td></tr><tr><td>__sub__()</td><td>-</td></tr><tr><td>__mul__()</td><td>*</td></tr><tr><td>__truediv__()</td><td>/</td></tr><tr><td>__floordiv__()</td><td>//</td></tr><tr><td>__mod__()</td><td>%</td></tr><tr><td>__pow__()</td><td>**</td></tr><tr><td>__eq__()、 __ne__()、__lt__()、 __le__()、__gt__()、 __ge__()</td><td>==、 !=、&lt;、 &lt;=、&gt;、 &gt;=</td></tr><tr><td>__lshift__()、__rshift__()</td><td>&lt;&lt;、&gt;&gt;</td></tr><tr><td>__and__()、__or__()、__invert__()、__xor__()</td><td>&amp;、|、~、^</td></tr></tbody></table></div>
+<p>6.5  常用特殊方法</p>
+<p>9</p>
+<hr>
+<h3>第 10 页 · 6.5  常用特殊方法</h3>
+<div class="tw"><table><tbody><tr><td>方法</td><td>功能说明</td></tr><tr><td>__iadd__()、__isub__()</td><td>+=、-=，很多其他运算符也有与之对应的复合赋值运算符</td></tr><tr><td>__pos__()</td><td>一元运算符+，正号</td></tr><tr><td>__neg__()</td><td>一元运算符-，负号</td></tr><tr><td>__contains__ ()</td><td>与成员测试运算符in对应</td></tr><tr><td>__radd__()、__rsub__</td><td>反射加法、反射减法，一般与普通加法和减法具有相同的功能，但操作数的位置或顺序相反，很多其他运算符也有与之对应的反射运算符</td></tr><tr><td>__abs__()</td><td>与内置函数abs()对应</td></tr><tr><td>__bool__()</td><td>与内置函数bool()对应，要求该方法必须返回True或False</td></tr><tr><td>__bytes__()</td><td>与内置函数bytes()对应</td></tr><tr><td>__complex__()</td><td>与内置函数complex()对应，要求该方法必须返回复数</td></tr><tr><td>__dir__()</td><td>与内置函数dir()对应</td></tr><tr><td>__divmod__()</td><td>与内置函数divmod()对应</td></tr><tr><td>__float__()</td><td>与内置函数float()对应，要求该该方法必须返回实数</td></tr><tr><td>__hash__()</td><td>与内置函数hash()对应</td></tr><tr><td>__int__()</td><td>与内置函数int()对应，要求该方法必须返回整数</td></tr></tbody></table></div>
+<p>6.5  常用特殊方法</p>
+<p>10</p>
+<hr>
+<h3>第 11 页 · 6.5  常用特殊方法</h3>
+<div class="tw"><table><tbody><tr><td>方法</td><td>功能说明</td></tr><tr><td>__len__()</td><td>与内置函数len()对应</td></tr><tr><td>__next__()</td><td>与内置函数next()对应</td></tr><tr><td>__reduce__()</td><td>提供对reduce()函数的支持</td></tr><tr><td>__reversed__()</td><td>与内置函数reversed()对应</td></tr><tr><td>__round__()</td><td>对内置函数round()对应</td></tr><tr><td>__str__()</td><td>与内置函数str()对应，要求该方法必须返回str类型的数据</td></tr><tr><td>__repr__()</td><td>打印、转换，要求该方法必须返回str类型的数据</td></tr><tr><td>__getitem__()</td><td>按照索引获取值</td></tr><tr><td>__setitem__()</td><td>按照索引赋值</td></tr><tr><td>__delattr__()</td><td>删除对象的指定属性</td></tr><tr><td>__getattr__()</td><td>获取对象指定属性的值，对应成员访问运算符“.”</td></tr></tbody></table></div>
+<p>6.5  常用特殊方法</p>
+<hr>
+<h3>第 12 页 · 6.5 常用特殊方法</h3>
+<div class="tw"><table><tbody><tr><td>方法</td><td>功能说明</td></tr><tr><td>__getattribute__()</td><td>获取对象指定属性的值，如果同时定义了该方法与__getattr__()，那么__getattr__()将不会被调用，除非在__getattribute__()中显式调用__getattr__()或者抛出AttributeError异常</td></tr><tr><td>__setattr__()</td><td>设置对象指定属性的值</td></tr><tr><td>__base__</td><td>该类的基类</td></tr><tr><td>__class__</td><td>返回对象所属的类</td></tr><tr><td>__dict__</td><td>对象所包含的属性与值的字典</td></tr><tr><td>__subclasses__()</td><td>返回该类的所有子类</td></tr><tr><td>__call__()</td><td>包含该特殊方法的类的实例可以像函数一样调用</td></tr><tr><td>__get__()</td><td>定义了这三个特殊方法中任何一个的类称作描述符（descriptor），描述符对象一般作为其他类的属性来使用，这三个方法分别在获取属性、修改属性值或删除属性时被调用</td></tr><tr><td>__set__()</td><td></td></tr><tr><td>__delete__()</td><td></td></tr></tbody></table></div>
+<p>6.5 常用特殊方法</p>
+<hr>
+<h3>第 13 页 · 课程小节</h3>
+<p>课程小节</p>
+<p>13</p>
+<p>私有成员与公有成员<br>方法<br>属性<br>特殊方法</p>
+<hr>
+<h3>第 14 页 · 讨论题</h3>
+<p>讨论题</p>
+<p>14</p>
+<p>什么是私有成员？什么是公有成员？</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

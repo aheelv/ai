@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 跳转语句 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D128_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D128_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 跳转语句</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>跳转语句.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/跳转语句.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>373.5 KB</td></tr><tr><th>Word 版本</th><td>D128_课件PPT_[宁悦PPT.zip] 跳转语句.docx</td></tr></table><div class="content"><h3>第 1 页 · 4.3.4    break和continue语句</h3>
+<p>4.3.4    break和continue语句</p>
+<p>说明：甲公司1-4月收入分别为12万元、15.5万元、14万元、17万元。<br>要求：使用for循环与break语句筛选出收入额在15万元以上的第一个月份。</p>
+<figure><img loading="lazy" src="../media/D128/D128_s01_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 2 页 · 4.3.4    break和continue语句</h3>
+<p>4.3.4    break和continue语句</p>
+<p>甲公司1-4月收入分别为12万元、15.5万元、14万元、17万元。<br>要求：使用for循环与continue语句筛选出收入额在15万元以上的所有月份。</p>
+<figure><img loading="lazy" src="../media/D128/D128_s02_02.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 3 页 · 4.4  例题讲解</h3>
+<p>4.4  例题讲解</p>
+<p>例1：计算1+2+3+…+100的值。<br><br>s = 0<br>for i in range(1,101):<br>    s = s + i<br>print(&#x27;1+2+3+…+100 = &#x27;, s)<br><br>print(&#x27;1+2+3+…+100 = &#x27;, sum(range(1,101)))</p>
+<hr>
+<h3>第 4 页 · 4.4  例题讲解</h3>
+<p>4.4  例题讲解</p>
+<p>例2：输出序列中的元素。<br><br><br>a_list = [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;mpilgrim&#x27;, &#x27;z&#x27;, &#x27;example&#x27;]<br>for i, v in enumerate(a_list):<br>    print(&#x27;列表的第&#x27;, i+1, &#x27;个元素是：&#x27;, v)</p>
+<hr>
+<h3>第 5 页 · 4.4  例题讲解</h3>
+<p>4.4  例题讲解</p>
+<p>例3：求1-100之间能被7整除，但不能同时被5整除的所有整数。<br><br>for i in range(1,101):<br>    if i%7 == 0 and i%5 != 0:<br>        print(i)</p>
+<p>for num in range(7, 101, 7):<br>    if num%5 != 0:<br>        print(num)</p>
+<hr>
+<h3>第 6 页 · 4.4  例题讲解</h3>
+<p>4.4  例题讲解</p>
+<p>例4：统计考试成绩中优、良、中、及格、不及格的人数。<br><br>scores = [89,70,49,87,92,84,73,71,78,81,90,37,<br>          77,82,81,79,80,82,75,90,54,80,70,68,61]<br>groups = {&#x27;优秀&#x27;:0, &#x27;良&#x27;:0, &#x27;中&#x27;:0, &#x27;及格&#x27;:0, &#x27;不及格&#x27;:0}<br>for score in scores:<br>    if score&gt;=90:<br>        groups[&#x27;优秀&#x27;] = groups[&#x27;优秀&#x27;]+1<br>    elif score&gt;=80:<br>        groups[&#x27;良&#x27;] = groups[&#x27;良&#x27;]+1<br>    elif score&gt;=70:<br>        groups[&#x27;中&#x27;] = groups[&#x27;中&#x27;]+1<br>    elif score&gt;=60:<br>        groups[&#x27;及格&#x27;] = groups[&#x27;及格&#x27;]+1<br>    else:<br>        groups[&#x27;不及格&#x27;] = groups[&#x27;不及格&#x27;]+1<br>print(groups)</p>
+<hr>
+<h3>第 7 页 · 4.4  例题讲解</h3>
+<p>4.4  例题讲解</p>
+<p>例5：求200以内能被17整除的最大正整数。<br><br>for i in range(200,0,-1):<br>    if i%17 == 0:<br>        print(i)<br>        break</p>
+<hr>
+<h3>第 8 页 · 课后作业</h3>
+<p>课后作业</p>
+<p>要求：分别利用while循环和for循环求0-100中的偶数和。</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

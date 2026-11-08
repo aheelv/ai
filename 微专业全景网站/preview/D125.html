@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 条件表达式 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D125_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D125_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 条件表达式</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>条件表达式.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/条件表达式.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>544.5 KB</td></tr><tr><th>Word 版本</th><td>D125_课件PPT_[宁悦PPT.zip] 条件表达式.docx</td></tr></table><div class="content"><h3>第 1 页 · 程序结构</h3>
+<p>程序结构</p>
+<p>计算机在解决某个具体问题时，主要有三种情形：<br>顺序结构：代码自上而下执行，是Python默认的流程；<br>选择结构：根据在某一步的条件判断，有选择的去执行相应的代码；<br>循环结构：在满足一定条件下，一直重复执行某段代码。</p>
+<p>顺序结构</p>
+<p>语句1</p>
+<p>语句2</p>
+<p>选择结构</p>
+<p>表达式</p>
+<p>语句块1</p>
+<p>True</p>
+<p>False</p>
+<p>语句块2</p>
+<p>循环结构</p>
+<p>表达式</p>
+<p>循环语句块</p>
+<p>True</p>
+<p>False</p>
+<hr>
+<h3>第 2 页 · 4.1  条件表达式</h3>
+<p>4.1  条件表达式</p>
+<p>Python中单个常量、变量或者任意合法表达式都可以作为条件表达式。<br>算术运算符：+、-、*、/、//、%、**<br>关系运算符：&gt;、&lt;、==、&lt;=、&gt;=、!=，可以连续使用，如<br>&gt;&gt;&gt; 1&lt;2&lt;3<br>True<br>&gt;&gt;&gt; 1&lt;2&gt;3<br>False<br>&gt;&gt;&gt; 1&lt;3&gt;2<br>True<br>测试运算符：in、not in、is、is not<br>逻辑运算符：and、or、not，注意短路求值<br>位运算符：~、&amp;、|、 ^、 &lt;&lt;、&gt;&gt;</p>
+<hr>
+<h3>第 3 页 · 4.1  条件表达式</h3>
+<p>4.1  条件表达式</p>
+<p>注意：<br>在选择和循环结构中，条件表达式的值只要不是False、0（或0.0、0j等）、空值None、空列表、空元组、空集合、空字典、空字符串、空range对象或其他空迭代对象，Python解释器均认为与True等价。</p>
+<hr>
+<h3>第 4 页 · 4.1  条件表达式</h3>
+<p>4.1  条件表达式</p>
+<p>&gt;&gt;&gt; if 3:              #使用整数作为条件表达式<br>	    	print(5)<br>5<br><br>&gt;&gt;&gt; a = [1, 2, 3]<br>&gt;&gt;&gt; if a:              #使用列表作为条件表达式<br>	    	print(a)<br>[1, 2, 3]<br><br>&gt;&gt;&gt; a = []<br>&gt;&gt;&gt; if a:              #使用空列表作为条件表达式<br>	    	print(a)<br>    else:<br>    	print(&#x27;empty&#x27;)<br>empty</p>
+<hr>
+<h3>第 5 页 · 条件表达式可以与逻辑运算符and和or以及关系运算符等联用，其中and、or和not具有惰性求值特点，只需计算必须计算的</h3>
+<p>条件表达式可以与逻辑运算符and和or以及关系运算符等联用，其中and、or和not具有惰性求值特点，只需计算必须计算的表达式。</p>
+<p>4.1  条件表达式</p>
+<p>L</p>
+<p>K2</p>
+<p>K1</p>
+<p>K1</p>
+<p>K2</p>
+<p>K</p>
+<p>L</p>
+<p>L</p>
+<p>（1）or，并联电路</p>
+<p>（2）and，串联电路</p>
+<p>（3）not，短路</p>
+<hr>
+<h3>第 6 页 · 4.1  条件表达式</h3>
+<p>4.1  条件表达式</p>
+<p>以“and”为例，对于表达式“表达式1 and 表达式2”，如果“表达式1”的值为“False”或其他等价值时，不论“表达式2”的值是什么，整个表达式的值都是“False”，此时“表达式2”的值无论是什么都不影响整个表达式的值，因此将不会被计算，从而减少不必要的计算和判断。<br>因此，在设计条件表达式时，如果能够大概预测不同条件失败的概率，并将多个条件根据“and”和“or”运算的短路求值特性来组织先后顺序，可以大幅度提高程序运行效率。</p>
+<hr>
+<h3>第 7 页 · 4.1  条件表达式</h3>
+<p>4.1  条件表达式</p>
+<p>在Python中，条件表达式中不允许使用赋值运算符“=”，避免了误将“==”写成“=”带来麻烦。<br><br>&gt;&gt;&gt; if a=3:<br>SyntaxError: invalid syntax<br><br>&gt;&gt;&gt; if (a=3) and (b=4):	<br>SyntaxError: invalid syntax</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

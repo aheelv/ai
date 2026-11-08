@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第1章：大模型助你成为数据分析师 - AI数据分析方法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        /* 顶部导航栏 */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #667eea;
+            z-index: 100;
+        }
+        .header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .header-info span {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        /* 课程目录按钮 */
+        .toc-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .toc-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        /* 幻灯片容器 */
+        .slides-wrapper {
+            flex: 1;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: calc(100vh - 140px);
+            display: none;
+            padding: 30px 40px 20px 40px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            animation: fadeIn 0.5s ease;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 140px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        /* 幻灯片内容 */
+        .slide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .slide-header h2 {
+            font-size: 1.8em;
+        }
+        .slide-number-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+        }
+        .slide-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            overflow: visible;
+        }
+        .slide-content.single-column {
+            grid-template-columns: 1fr;
+        }
+        .content-box {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: visible;
+        }
+        .content-box.scroll {
+            max-height: calc(100vh - 320px);
+            overflow-y: auto;
+        }
+        .content-box h3 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .content-box ul {
+            list-style: none;
+        }
+        .content-box li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.05em;
+            color: #374151;
+        }
+        .content-box li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-size: 0.8em;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 5px solid #f59e0b;
+        }
+        .highlight-box h4 {
+            color: #d97706;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: auto;
+            padding: 10px 0;
+        }
+        .chart-container img {
+            max-width: 100%;
+            max-height: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        /* 底部导航 - 仅保留翻页按钮 */
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            border-top: 2px solid #667eea;
+            height: 60px;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        /* 页码显示 */
+        .page-text {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            min-width: 70px;
+            text-align: center;
+        }
+        /* 右侧页码圆点导航 */
+        .page-nav-sidebar {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 12px 8px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            z-index: 100;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+        .page-nav-sidebar::-webkit-scrollbar { width: 4px; }
+        .page-nav-sidebar::-webkit-scrollbar-thumb { background: #667eea; border-radius: 2px; }
+        .page-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d1d5db;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        .page-dot.active {
+            background: #667eea;
+            transform: scale(1.4);
+        }
+        .page-dot:hover {
+            background: #9ca3af;
+            transform: scale(1.2);
+        }
+        /* 目录侧边栏 */
+        .toc-sidebar {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.3);
+            z-index: 200;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .toc-sidebar.open {
+            left: 0;
+        }
+        .toc-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toc-header h3 {
+            font-size: 1.3em;
+        }
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .toc-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .toc-item {
+            padding: 15px;
+            margin: 8px 0;
+            background: #f3f4f6;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toc-item:hover {
+            background: #e5e7eb;
+            transform: translateX(5px);
+        }
+        .toc-item.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .toc-item-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .toc-item.active .toc-item-number {
+            background: white;
+            color: #667eea;
+        }
+        .toc-item-title {
+            font-size: 0.95em;
+        }
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 150;
+            display: none;
+        }
+        .overlay.show {
+            display: block;
+        }
+        /* 键盘提示 */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            z-index: 50;
+        }
+        .key {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <h1>📊 第1章：大模型助你成为数据分析师</h1>
+        <div class="header-info">
+            <span>⏱️ 90分钟</span>
+            <span>📖 20页</span>
+            <span>📊 9个图表</span>
+            <button class="toc-btn" onclick="toggleTOC()">📑 目录</button>
+        </div>
+    </div>
+
+    <!-- 幻灯片容器 -->
+    <div class="slides-wrapper">
+        
+        <!-- 第1页：课程封面 -->
+        <div class="slide active" data-title="课程封面">
+            <div class="slide-header">
+                <h2>📚 第1章：大模型助你成为数据分析师</h2>
+                <span class="slide-number-badge">第 1 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 style="border: none; font-size: 2em; margin-bottom: 30px;">🎯 课程目标</h3>
+                    <ul style="text-align: left; max-width: 600px;">
+                        <li>理解数据分析师的角色定位与核心能力</li>
+                        <li>掌握AI赋能的数据分析工作流</li>
+                        <li>熟练使用SQL进行数据查询与分析</li>
+                        <li>理解Python机器学习在用户分析中的应用</li>
+                        <li>掌握ChatGPT等AI工具提升分析效率</li>
+                        <li>了解数据分析师的职业发展路径</li>
+                    </ul>
+                    <div class="highlight-box" style="max-width: 600px; margin-top: 30px;">
+                        <h4>💡 学习建议</h4>
+                        <p>本课程注重理论与实践结合，建议边学边练，结合实际数据进行练习。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第2页：角色定位 -->
+        <div class="slide" data-title="数据分析师角色定位">
+            <div class="slide-header">
+                <h2>💼 数据分析师角色定位</h2>
+                <span class="slide-number-badge">第 2 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>🎯 核心概念</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; color: #374151;">
+                        数据分析师是<strong>业务与技术之间的桥梁</strong>，需要将海量数据转化为业务洞察，
+                        驱动企业决策。AI时代，数据分析师的角色更加重要，但工作方式发生了根本性变化。
+                    </p>
+                    <div class="highlight-box">
+                        <h4>🔗 角色定位</h4>
+                        <p>连接业务需求与数据价值的关键枢纽</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_role_diagram.png" alt="角色定位图">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第3页：四大核心能力 -->
+        <div class="slide" data-title="四大核心能力">
+            <div class="slide-header">
+                <h2>💪 数据分析师四大核心能力</h2>
+                <span class="slide-number-badge">第 3 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心能力模型</h3>
+                    <ul>
+                        <li><strong>💻 技术能力</strong>：SQL、Python、数据可视化、统计分析</li>
+                        <li><strong>📊 业务理解</strong>：行业知识、业务流程、运营逻辑</li>
+                        <li><strong>🤝 沟通协作</strong>：跨部门沟通、汇报表达、需求理解</li>
+                        <li><strong>💡 数据洞察</strong>：发现问题、提出建议、推动落地</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>🤖 AI时代变化</h4>
+                        <p>技术门槛降低，业务洞察和沟通能力变得更加重要！</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>与周边角色协作</h3>
+                    <ul>
+                        <li><strong>👔 产品经理</strong>：需求对接、功能分析、数据验证</li>
+                        <li><strong>💻 工程师</strong>：数据管道、埋点方案、系统设计</li>
+                        <li><strong>📣 市场运营</strong>：活动分析、用户增长、ROI评估</li>
+                        <li><strong>👨‍💼 管理层</strong>：战略支持、决策依据、趋势预测</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第4页：AI工作流 -->
+        <div class="slide" data-title="AI赋能数据分析工作流">
+            <div class="slide-header">
+                <h2>🔄 AI赋能数据分析工作流</h2>
+                <span class="slide-number-badge">第 4 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>六步标准流程</h3>
+                    <ul>
+                        <li><strong>1️⃣ 需求理解</strong>：明确业务问题，确定分析目标</li>
+                        <li><strong>2️⃣ 数据获取</strong>：SQL查询，从数据库提取数据</li>
+                        <li><strong>3️⃣ 数据处理</strong>：清洗转换，数据质量检查</li>
+                        <li><strong>4️⃣ 分析建模</strong>：统计分析，机器学习建模</li>
+                        <li><strong>5️⃣ 可视化</strong>：图表制作，仪表盘搭建</li>
+                        <li><strong>6️⃣ 洞察报告</strong>：结论输出，建议落地</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_ai_workflow.png" alt="AI工作流">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第5页：AI工具支持 -->
+        <div class="slide" data-title="AI工具支持矩阵">
+            <div class="slide-header">
+                <h2>🤖 AI工具支持矩阵</h2>
+                <span class="slide-number-badge">第 5 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>主流AI工具</h3>
+                    <ul>
+                        <li><strong>💬 ChatGPT/Claude</strong>：代码生成、思路梳理、报告撰写</li>
+                        <li><strong>⌨️ GitHub Copilot</strong>：代码补全、代码解释、bug修复</li>
+                        <li><strong>🎨 Midjourney/DALL-E</strong>：图表美化、数据可视化设计</li>
+                        <li><strong>📊 Tableau GPT</strong>：智能图表推荐、自然语言查询</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>⚡ 效率提升数据</h4>
+                        <p>SQL生成 <strong>15倍</strong> | 数据清洗 <strong>8倍</strong> | 报告撰写 <strong>5倍</strong></p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>AI辅助环节</h3>
+                    <ul>
+                        <li><strong>✅ 需求理解</strong>：帮助澄清业务问题</li>
+                        <li><strong>✅ 数据处理</strong>：自动生成清洗代码</li>
+                        <li><strong>✅ 可视化</strong>：智能图表推荐</li>
+                        <li><strong>✅ 报告撰写</strong>：结构化输出结论</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第6页：技能雷达图 -->
+        <div class="slide" data-title="分析师技能雷达图">
+            <div class="slide-header">
+                <h2>📊 分析师技能雷达图</h2>
+                <span class="slide-number-badge">第 6 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>8维能力模型</h3>
+                    <ul>
+                        <li><strong>SQL/Python</strong>：数据处理与编程能力</li>
+                        <li><strong>统计分析</strong>：假设检验、回归分析</li>
+                        <li><strong>机器学习</strong>：预测模型、聚类分析</li>
+                        <li><strong>数据可视化</strong>：图表制作、仪表盘设计</li>
+                        <li><strong>业务理解</strong>：行业知识、商业逻辑</li>
+                        <li><strong>沟通表达</strong>：汇报演讲、文档撰写</li>
+                        <li><strong>项目管理</strong>：任务规划、进度控制</li>
+                        <li><strong>商业敏感</strong>：市场洞察、机会识别</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_skill_radar.png" alt="技能雷达">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第7页：SQL留存分析 -->
+        <div class="slide" data-title="SQL留存分析实战">
+            <div class="slide-header">
+                <h2>💾 SQL留存分析实战</h2>
+                <span class="slide-number-badge">第 7 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>实战案例：电商用户留存分析</h3>
+                    <div class="code-block">
+-- 用户留存分析SQL
+WITH first_login AS (
+    SELECT 
+        user_id,
+        MIN(login_date) AS first_day
+    FROM user_logins
+    GROUP BY user_id
+),
+retention AS (
+    SELECT 
+        f.user_id,
+        DATEDIFF(l.login_date, f.first_day) AS day_diff
+    FROM first_login f
+    JOIN user_logins l ON f.user_id = l.user_id
+)
+SELECT 
+    day_diff AS 留存天数,
+    COUNT(DISTINCT user_id) AS 用户数,
+    ROUND(COUNT(DISTINCT user_id) * 100.0 / 
+        (SELECT COUNT(DISTINCT user_id) FROM first_login), 2) 
+        AS 留存率
+FROM retention
+WHERE day_diff IN (0,1,3,7,14,30)
+GROUP BY day_diff
+ORDER BY day_diff;
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_sql_example.png" alt="SQL留存曲线">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第8页：留存曲线解读 -->
+        <div class="slide" data-title="用户留存曲线分析">
+            <div class="slide-header">
+                <h2>📈 用户留存曲线分析</h2>
+                <span class="slide-number-badge">第 8 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>典型留存曲线特征</h3>
+                    <ul>
+                        <li><strong>次日留存：68%</strong> - 关键激活指标</li>
+                        <li><strong>3日留存：52%</strong> - 初期体验评估</li>
+                        <li><strong>7日留存：38%</strong> - 习惯养成节点</li>
+                        <li><strong>14日留存：28%</strong> - 持续价值验证</li>
+                        <li><strong>30日留存：22%</strong> - 长期用户基础</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>📊 曲线形态解读</h4>
+                        <p><strong>急剧下降期</strong> → 平稳期 → <strong>持续流失期</strong></p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>留存率业务含义</h3>
+                    <ul>
+                        <li><strong>次日留存低</strong>：新用户体验差，需优化首日流程</li>
+                        <li><strong>7日留存低</strong>：核心功能不吸引，需优化产品</li>
+                        <li><strong>30日留存低</strong>：用户粘性不足，需要运营手段</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">留存率计算公式</h3>
+                    <div class="code-block">
+留存率(N日) = 
+    第N日留存用户数 / 首日用户数 × 100%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第9页：Python聚类分析 -->
+        <div class="slide" data-title="Python用户聚类分析">
+            <div class="slide-header">
+                <h2>🐍 Python用户聚类分析</h2>
+                <span class="slide-number-badge">第 9 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>案例：电商用户分群</h3>
+                    <ul>
+                        <li><strong>算法：</strong>K-Means聚类</li>
+                        <li><strong>特征：</strong>购买频次 × 平均订单金额</li>
+                        <li><strong>目的：</strong>识别不同价值用户群体</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">四大用户群体</h3>
+                    <ul>
+                        <li><strong>🔵 高价值用户</strong>：高频高消费，核心资产</li>
+                        <li><strong>🟢 成长型用户</strong>：低频高潜力，重点培养</li>
+                        <li><strong>🟡 沉睡用户</strong>：低频低消费，需要激活</li>
+                        <li><strong>🔴 流失风险用户</strong>：活跃度下降，需要召回</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_python_clustering.png" alt="聚类散点图">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第10页：K-Means原理 -->
+        <div class="slide" data-title="K-Means聚类算法原理">
+            <div class="slide-header">
+                <h2>🧮 K-Means聚类算法原理</h2>
+                <span class="slide-number-badge">第 10 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>算法步骤</h3>
+                    <ul>
+                        <li><strong>STEP 1：</strong>选择K个初始中心点（随机或K-Means++）</li>
+                        <li><strong>STEP 2：</strong>计算每个点到各中心的距离</li>
+                        <li><strong>STEP 3：</strong>将点分配到最近的簇</li>
+                        <li><strong>STEP 4：</strong>重新计算每个簇的中心</li>
+                        <li><strong>STEP 5：</strong>重复STEP 2-4直至收敛</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>📐 距离计算</h4>
+                        <p>欧氏距离：d = √(x₁-x₂)² + (y₁-y₂)²</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>最佳K值选择</h3>
+                    <ul>
+                        <li><strong>肘部法则（Elbow Method）</strong>：绘制SSE曲线，找到拐点</li>
+                        <li><strong>轮廓系数（Silhouette Score）</strong>：取值范围[-1,1]，越接近1越好</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">Python代码</h3>
+                    <div class="code-block">
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# 确定最佳K值
+sse = []
+for k in range(2, 10):
+    km = KMeans(n_clusters=k)
+    km.fit(X)
+    sse.append(km.inertia_)
+
+plt.plot(range(2,10), sse)
+plt.xlabel('K值')
+plt.ylabel('SSE')
+plt.show()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第11页：电商分析案例 -->
+        <div class="slide" data-title="电商数据分析案例">
+            <div class="slide-header">
+                <h2>🛒 电商数据分析案例</h2>
+                <span class="slide-number-badge">第 11 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>实战案例：某电商平台月度分析</h3>
+                    <div class="highlight-box">
+                        <h4>核心指标</h4>
+                        <ul>
+                            <li><strong>GMV：</strong>¥128.5万 <span style="color:#10b981;">↑12.5%</span></li>
+                            <li><strong>订单量：</strong>8,542单 <span style="color:#10b981;">↑8.3%</span></li>
+                            <li><strong>客单价：</strong>¥150.4 <span style="color:#10b981;">↑3.8%</span></li>
+                            <li><strong>转化率：</strong>3.82% <span style="color:#10b981;">↑0.5pp</span></li>
+                        </ul>
+                    </div>
+                    <h3 style="margin-top: 20px;">分析维度</h3>
+                    <ul>
+                        <li>📈 时间维度：日/周/月趋势分析</li>
+                        <li>🗺️ 地区维度：华东/华南/华北占比</li>
+                        <li>📦 品类维度：服装/数码/食品/美妆</li>
+                        <li>👥 用户维度：新客/老客/复购</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_case_dashboard.png" alt="仪表盘">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第12页：仪表盘组件 -->
+        <div class="slide" data-title="分析仪表盘组件">
+            <div class="slide-header">
+                <h2>📊 分析仪表盘组件</h2>
+                <span class="slide-number-badge">第 12 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>六大核心组件</h3>
+                    <ul>
+                        <li><strong>📊 核心指标卡片</strong>：GMV/订单量/客单价/转化率</li>
+                        <li><strong>📈 趋势线图</strong>：30天销售趋势，支持对比</li>
+                        <li><strong>🥧 品类分布</strong>：饼图/环形图展示占比</li>
+                        <li><strong>🔻 转化漏斗</strong>：访问→加购→下单→支付</li>
+                        <li><strong>🗺️ 区域分析</strong>：地图热力图/柱状图</li>
+                        <li><strong>📋 关键发现</strong>：问题识别与改进建议</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>仪表盘设计原则</h3>
+                    <ul>
+                        <li><strong>自上而下</strong>：北极星指标 → 细分维度</li>
+                        <li><strong>左重右轻</strong>：重点指标放左侧</li>
+                        <li><strong>数据墨水比</strong>：减少不必要的装饰</li>
+                        <li><strong>颜色语义</strong>：绿色=正向，红色=负向</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">推荐工具</h3>
+                    <ul>
+                        <li><strong>Tableau</strong>：企业级BI，功能强大</li>
+                        <li><strong>PowerBI</strong>：微软生态，集成度高</li>
+                        <li><strong>DataV</strong>：阿里系，可视化大屏</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第13页：AI提示词 -->
+        <div class="slide" data-title="ChatGPT数据分析提示词">
+            <div class="slide-header">
+                <h2>💬 ChatGPT数据分析提示词</h2>
+                <span class="slide-number-badge">第 13 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>三大场景模板</h3>
+                    <div class="highlight-box">
+                        <h4>📈 数据解释</h4>
+                        <p>请分析以下数据，找出主要特征和异常点...</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>🔍 原因分析</h4>
+                        <p>背景：转化率下降20%，请分析可能原因...</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>📊 报告撰写</h4>
+                        <p>角色：资深分析师，撰写月度分析报告...</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_prompt_templates.png" alt="提示词模板">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第14页：提示词技巧 -->
+        <div class="slide" data-title="高效提示词设计技巧">
+            <div class="slide-header">
+                <h2>🎯 高效提示词设计技巧</h2>
+                <span class="slide-number-badge">第 14 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>CO-STAR框架</h3>
+                    <ul>
+                        <li><strong>C - Context（背景）</strong>：提供充分的上下文信息</li>
+                        <li><strong>O - Objective（目标）</strong>：明确你希望AI做什么</li>
+                        <li><strong>S - Style（风格）</strong>：指定输出风格，如专业报告</li>
+                        <li><strong>T - Tone（语气）</strong>：正式/轻松/严谨</li>
+                        <li><strong>A - Audience（受众）</strong>：报告的读者是谁</li>
+                        <li><strong>R - Response（响应）</strong>：指定输出格式</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>进阶技巧</h3>
+                    <ul>
+                        <li><strong>角色扮演</strong>：你是一名资深数据分析师...</li>
+                        <li><strong>链式思考</strong>：请逐步思考分析步骤...</li>
+                        <li><strong>迭代优化</strong>：基于上一版修改...</li>
+                        <li><strong>示例引导</strong>：参考以下示例格式...</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>💡 最佳实践</h4>
+                        <p>先让AI给出框架，再逐步深入具体内容</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第15页：传统vs AI对比 -->
+        <div class="slide" data-title="传统 vs AI增强对比">
+            <div class="slide-header">
+                <h2>⚖️ 传统 vs AI增强对比</h2>
+                <span class="slide-number-badge">第 15 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>能力维度对比</h3>
+                    <ul>
+                        <li><strong>分析速度</strong>：40 → 90分</li>
+                        <li><strong>数据规模</strong>：50 → 95分</li>
+                        <li><strong>洞察深度</strong>：60 → 85分</li>
+                        <li><strong>可视化</strong>：55 → 95分</li>
+                        <li><strong>协作效率</strong>：45 → 90分</li>
+                        <li><strong>学习曲线</strong>：70 → 40分（降低）</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_comparison.png" alt="对比分析">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第16页：工作重心转变 -->
+        <div class="slide" data-title="工作重心转变">
+            <div class="slide-header">
+                <h2>🔄 工作重心转变</h2>
+                <span class="slide-number-badge">第 16 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>时间分配变化</h3>
+                    <div class="highlight-box">
+                        <h4>传统方式</h4>
+                        <p>数据清洗 35% | SQL查询 25%<br>
+                        可视化 15% | 分析建模 15% | 报告 10%</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>AI辅助方式</h4>
+                        <p>数据清洗 15% | SQL查询 10%<br>
+                        可视化 20% | 分析建模 25% | 报告 30%</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>角色转变</h3>
+                    <ul>
+                        <li><strong>从</strong>：执行者（写代码、做图表）</li>
+                        <li><strong>到</strong>：决策者（提问题、做判断）</li>
+                    </ul>
+                    <h3 style="margin-top: 20px;">新要求</h3>
+                    <ul>
+                        <li>更强的业务理解能力</li>
+                        <li>更好的沟通表达能力</li>
+                        <li>更广的知识覆盖范围</li>
+                        <li>更高的战略思维能力</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第17页：成长路径 -->
+        <div class="slide" data-title="数据分析师成长路径">
+            <div class="slide-header">
+                <h2>📈 数据分析师成长路径</h2>
+                <span class="slide-number-badge">第 17 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>四阶段发展路径</h3>
+                    <ul>
+                        <li><strong>🟢 入门级（8-15K）</strong><br>
+                            Excel高级 | SQL基础 | Python入门 | 统计基础</li>
+                        <li><strong>🔵 初级（15-25K）</strong><br>
+                            SQL进阶 | Python数据处理 | BI工具 | A/B测试</li>
+                        <li><strong>🟣 中级（25-40K）</strong><br>
+                            机器学习 | Spark/Hadoop | 数据管道 | 业务建模</li>
+                        <li><strong>🟠 高级（40-80K）</strong><br>
+                            深度学习 | 大数据架构 | 团队管理 | 战略规划</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <img src="charts/ch1_learning_path.png" alt="成长路径">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第18页：AI时代新要求 -->
+        <div class="slide" data-title="AI时代新要求">
+            <div class="slide-header">
+                <h2>🤖 AI时代新要求</h2>
+                <span class="slide-number-badge">第 18 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>必备新技能</h3>
+                    <ul>
+                        <li><strong>🤖 LLM应用开发</strong>：API调用、Prompt Engineering</li>
+                        <li><strong>🛠️ AI工具运用</strong>：ChatGPT、Claude、数据分析AI</li>
+                        <li><strong>📊 智能分析</strong>：AutoML、NLP分析、图分析</li>
+                        <li><strong>🔮 趋势洞察</strong>：AI前沿、商业智能、行业洞察</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>如何保持竞争力</h3>
+                    <ul>
+                        <li>持续学习最新的AI工具和方法</li>
+                        <li>深耕垂直行业，成为领域专家</li>
+                        <li>提升沟通和讲故事的能力</li>
+                        <li>培养商业思维和战略视角</li>
+                        <li>建立个人品牌和影响力</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>💡 建议</h4>
+                        <p>每周花2小时学习一个新工具或方法</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第19页：知识点总结 -->
+        <div class="slide" data-title="第1章知识点总结">
+            <div class="slide-header">
+                <h2>📝 第1章知识点总结</h2>
+                <span class="slide-number-badge">第 19 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心知识点</h3>
+                    <ul>
+                        <li>数据分析师角色定位：业务与技术桥梁</li>
+                        <li>AI赋能六步工作流</li>
+                        <li>SQL留存分析实战技能</li>
+                        <li>K-Means用户聚类原理</li>
+                        <li>ChatGPT数据分析提示词</li>
+                        <li>分析师四阶段成长路径</li>
+                        <li>AI时代新技能要求</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>关键图表</h3>
+                    <ul>
+                        <li>角色定位图：四大核心能力</li>
+                        <li>AI工作流：6步流程</li>
+                        <li>技能雷达图：8维能力模型</li>
+                        <li>留存曲线：用户粘性分析</li>
+                        <li>聚类散点图：用户分群</li>
+                        <li>成长路径：4阶段发展</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第20页：课后作业 -->
+        <div class="slide" data-title="课后作业">
+            <div class="slide-header">
+                <h2>📋 课后作业</h2>
+                <span class="slide-number-badge">第 20 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box">
+                    <h3>实践任务</h3>
+                    <div class="highlight-box">
+                        <h4>📌 必做题</h4>
+                        <p>使用SQL分析任意数据集的留存情况，包括：</p>
+                        <ul>
+                            <li>计算次日、7日、30日留存率</li>
+                            <li>绘制留存曲线</li>
+                            <li>分析留存率变化原因</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>📌 选做题</h4>
+                        <p>使用Python对用户进行聚类分群：</p>
+                        <ul>
+                            <li>选择合适的特征</li>
+                            <li>确定最佳K值</li>
+                            <li>分析各群体特征</li>
+                            <li>提出运营建议</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>📌 思考题</h4>
+                        <p>AI时代，数据分析师如何保持竞争力？</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="footer">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
+            ◀ 上一页
+        </button>
+        <span class="page-text" id="pageText">1 / 20</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
+            下一页 ▶
+        </button>
+    </div>
+
+    <!-- 右侧页码圆点导航 -->
+    <div class="page-nav-sidebar" id="pageNavSidebar"></div>
+
+    <!-- 目录侧边栏 -->
+    <div class="overlay" id="overlay" onclick="toggleTOC()"></div>
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-header">
+            <h3>📑 课程目录</h3>
+            <button class="close-btn" onclick="toggleTOC()">×</button>
+        </div>
+        <div class="toc-list" id="tocList"></div>
+    </div>
+
+    <!-- 键盘提示 -->
+    <div class="keyboard-hint">
+        使用 <span class="key">←</span> <span class="key">→</span> 或 <span class="key">空格</span> 切换页面
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const pageText = document.getElementById('pageText');
+        const pageNavSidebar = document.getElementById('pageNavSidebar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tocList = document.getElementById('tocList');
+
+        // 初始化
+        function init() {
+            // 创建页码点 - 右侧导航
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(i);
+                dot.title = `第${i + 1}页`;
+                pageNavSidebar.appendChild(dot);
+            }
+
+            // 创建目录
+            slides.forEach((slide, index) => {
+                const item = document.createElement('div');
+                item.className = 'toc-item' + (index === 0 ? ' active' : '');
+                item.innerHTML = `
+                    <span class="toc-item-number">${index + 1}</span>
+                    <span class="toc-item-title">${slide.dataset.title || '第' + (index + 1) + '页'}</span>
+                `;
+                item.onclick = () => {
+                    goToSlide(index);
+                    toggleTOC();
+                };
+                tocList.appendChild(item);
+            });
+
+            updateNavigation();
+        }
+
+        // 更新导航状态
+        function updateNavigation() {
+            // 更新页码
+            pageText.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+            // 更新点
+            document.querySelectorAll('.page-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+
+            // 更新目录
+            document.querySelectorAll('.toc-item').forEach((item, index) => {
+                item.classList.toggle('active', index === currentSlide);
+            });
+
+            // 更新按钮状态
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        // 跳转到指定幻灯片
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateNavigation();
+        }
+
+        // 上一页
+        function prevSlide() {
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        // 下一页
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                goToSlide(currentSlide + 1);
+            }
+        }
+
+        // 切换目录
+        function toggleTOC() {
+            document.getElementById('tocSidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        // 键盘事件
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'Escape') {
+                if (document.getElementById('tocSidebar').classList.contains('open')) {
+                    toggleTOC();
+                }
+            }
+        });
+
+        // 初始化
+        init();
+    </script>
+</body>
+</html>

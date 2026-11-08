@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] Python常用内置对象 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D117_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20Python%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D117_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20Python%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] Python常用内置对象</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>Python常用内置对象.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/Python常用内置对象.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>333.5 KB</td></tr><tr><th>Word 版本</th><td>D117_课件PPT_[宁悦PPT.zip] Python常用内置对象.docx</td></tr></table><div class="content"><h3>第 1 页 · 对象是python语言中最基本的概念，在python中处理的一切都是对象。python中有许多内置对象可供编程者使用，内</h3>
+<p>对象是python语言中最基本的概念，在python中处理的一切都是对象。python中有许多内置对象可供编程者使用，内置对象可直接使用，如数字、字符串、列表等；<br>非内置对象需要导入模块才能使用，如正弦函数sin(x)，随机数产生函数random( )等。</p>
+<p>2.1 Python常用内置对象</p>
+<hr>
+<h3>第 2 页 · 2.1 Python常用内置对象</h3>
+<div class="tw"><table><tbody><tr><td>对象类型</td><td>类型名称</td><td>示例</td><td>简要说明</td></tr><tr><td>数字</td><td>int， float， complex</td><td>1234，  3.14， 1.3e5， 3+4j</td><td>数字大小没有限制，内置支持复数及其运算</td></tr><tr><td>字符串</td><td>str</td><td>&#x27;swfu&#x27;， &quot;I&#x27;m student&quot;， &#x27;&#x27;&#x27;Python&#x27;&#x27;&#x27;， r&#x27;abc&#x27;， R&#x27;bcd&#x27;</td><td>使用单引号、双引号、三引号作为定界符，以字母r或R引导的表示原始字符串</td></tr><tr><td>字节串</td><td>bytes</td><td>b’hello world’</td><td>以字母b引导，可以使用单引号、双引号、三引号作为定界符</td></tr><tr><td>列表</td><td>list</td><td>[1， 2， 3]，[&#x27;a&#x27;， &#x27;b&#x27;， [&#x27;c&#x27;， 2]]</td><td>所有元素放在一对方括号中，元素之间使用逗号分隔，其中的元素可以是任意类型</td></tr><tr><td>字典</td><td>dict</td><td>{1:&#x27;food&#x27; ，2:&#x27;taste&#x27;， 3:&#x27;import&#x27;}</td><td>所有元素放在一对大括号中，元素之间使用逗号分隔，元素形式为“键:值”</td></tr><tr><td>元组</td><td>tuple</td><td>(2， -5， 6)， (3，)</td><td>所有元素放在一对圆括号中，元素之间使用逗号分隔，不可变， 如果元组中只有一个元素的话，后面的逗号不能省略</td></tr><tr><td>集合</td><td>set / frozenset</td><td>{&#x27;a&#x27;， &#x27;b&#x27;， &#x27;c&#x27;}</td><td>所有元素放在一对大括号中，元素之间使用逗号分隔，元素不允许重复;另外，set是可变的，而frozenset是不可变的</td></tr></tbody></table></div>
+<p>2.1 Python常用内置对象</p>
+<p>字典是键值存储的一个例子，在Python中也称为映射。它允许通过引用键来存储和检索元素。由于字典是按键引用的，所以查找速度非常快。由于它们主要用于按键去索引所有的值，所以不进行排序。</p>
+<hr>
+<h3>第 3 页 · 续表</h3>
+<div class="tw"><table><tbody><tr><td>对象类型</td><td>类型名称</td><td>示例</td><td>简要说明</td></tr><tr><td>布尔型</td><td>bool</td><td>True / False</td><td>逻辑值，关系运算符、成员测试运算符、同一性测试运算符组成的表达式的值一般为True或False</td></tr><tr><td>空类型</td><td>NoneType</td><td>None</td><td>空值</td></tr><tr><td>异常</td><td>Exception、ValueError、TypeError</td><td></td><td>Python内置了大量异常类，分别对应不同类型的异常</td></tr><tr><td>文件</td><td></td><td>f = open(&#x27;data.dat&#x27;， &#x27;rb&#x27;)</td><td>open是Python内置函数，使用指定的模式打开文件，返回文件对象</td></tr><tr><td>其他可迭代对象</td><td></td><td>生成器对象、range对象、zip对象、enumerate对象、map对象、filter对象等等</td><td>具有惰性求值的特点，除range对象之外，其他对象中的元素只能查看一次</td></tr><tr><td>编程单元</td><td></td><td>函数（使用def定义） / 类（使用class定义） / 模块（类型为module）</td><td>类和函数都属于可调用对象，模块用来集中存放函数、类、常量或其他对象</td></tr></tbody></table></div>
+<p>续表</p>
+<p>2.1 Python常用内置对象</p>
+<hr>
+<h3>第 4 页 · 在Python中，不需要事先声明变量名及其类型，直接赋值即可创建各种类型的对象变量。这一点适用于Python任意类型的对</h3>
+<p>在Python中，不需要事先声明变量名及其类型，直接赋值即可创建各种类型的对象变量。这一点适用于Python任意类型的对象。<br><br>&gt;&gt;&gt; x = 3<br>创建了整型变量x，并赋值为3<br>&gt;&gt;&gt; x = &#x27;Hello world.&#x27;<br>创建了字符串变量x，并赋值为&#x27;Hello world.&#x27;。</p>
+<p>凭空出现一个整型变量x</p>
+<p>新的字符串变量，再也不是原来的x了</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 5 页 · Python属于强类型编程语言，Python解释器会根据赋值或运算来自动推断变量类型。</h3>
+<p>Python属于强类型编程语言，Python解释器会根据赋值或运算来自动推断变量类型。<br>Python还是一种动态类型语言，变量的类型也是可以随时变化的。<br>&gt;&gt;&gt; x = 3<br>&gt;&gt;&gt; type(x)<br>&lt;class &#x27;int&#x27;&gt;<br>&gt;&gt;&gt; x = &#x27;Hello world.&#x27;<br>&gt;&gt;&gt; type(x)                #查看变量类型<br>&lt;class &#x27;str&#x27;&gt;<br>&gt;&gt;&gt; x = [1，2，3]<br>&gt;&gt;&gt; type(x)<br>&lt;class &#x27;list&#x27;&gt;</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 6 页 · 如果变量出现在赋值运算符或复合赋值运算符（例如+=、*=等等）的左边则表示创建变量或修改变量的值，否则表示引用该变量的值</h3>
+<p>如果变量出现在赋值运算符或复合赋值运算符（例如+=、*=等等）的左边则表示创建变量或修改变量的值，否则表示引用该变量的值。<br>&gt;&gt;&gt; x = 3                      #创建整型变量<br>&gt;&gt;&gt; x**2<br>9<br>&gt;&gt;&gt; x += 6                    #引用变量值<br>&gt;&gt;&gt; x                           #读取变量值并输出显示<br>9<br>&gt;&gt;&gt; x = [1，2，3]           #创建列表对象<br>&gt;&gt;&gt; x[1] = 5                   #修改列表元素值<br>&gt;&gt;&gt; x                            #输出显示整个列表<br>[1， 5， 3]<br>&gt;&gt;&gt; x[2]                        #输出显示列表指定元素<br>3</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 7 页 · Python采用基于值的内存管理方式，如果为不同变量赋值为相同值，这个值在内存中只保存一份，多个变量指向同一个值的内存空</h3>
+<p>Python采用基于值的内存管理方式，如果为不同变量赋值为相同值，这个值在内存中只保存一份，多个变量指向同一个值的内存空间首地址，这样可以减少内存空间的占用，提高内存利用率。<br>Python启动时，会对[-5， 256]区间的整数进行缓存。也就是说，如果多个变量的值相等且介于[-5， 256]区间内，那么这些变量共用同一个值的内存空间。<br>对于区间[-5， 256]区间之外的整数，同一个程序中或交互模式下，同一个语句中的相同值不同名变量会共用同一个内存空间，不同程序或交互模式下不同语句不遵守这个约定。</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 8 页 · 在Python中，允许多个变量引用同一个值，例如：</h3>
+<p>在Python中，允许多个变量引用同一个值，例如：<br>&gt;&gt;&gt; x = 3<br>&gt;&gt;&gt; id(x)<br>1786684560<br>&gt;&gt;&gt; y = x<br>&gt;&gt;&gt; id(y)<br>1786684560<br><br>然而，当为其中一个变量修改值以后，其内存地址将会变化，但这并不影响另一个变量，例如接着上面的代码再继续执行下面的代码：<br>&gt;&gt;&gt; x += 6<br>&gt;&gt;&gt; id(x)<br>1786684752<br>&gt;&gt;&gt; y<br>3<br>&gt;&gt;&gt; id(y)<br>1786684560</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 9 页 · 2.1.1 Python变量</h3>
+<p>2.1.1 Python变量</p>
+<p>&gt;&gt;&gt; x = -6<br>&gt;&gt;&gt; y = -6<br>&gt;&gt;&gt; id(x)==id(y)<br>False<br>&gt;&gt;&gt; x = -5<br>&gt;&gt;&gt; y = -5<br>&gt;&gt;&gt; id(x) == id(y)<br>True<br>&gt;&gt;&gt; x = 255<br>&gt;&gt;&gt; y = 255<br>&gt;&gt;&gt; id(x) == id(y)<br>True<br>&gt;&gt;&gt; x = 256<br>&gt;&gt;&gt; y = 256<br>&gt;&gt;&gt; id(x) == id(y)<br>True</p>
+<p>&gt;&gt;&gt; x = 257<br>&gt;&gt;&gt; y = 257<br>&gt;&gt;&gt; id(x) == id(y)<br>False<br>&gt;&gt;&gt; x = 3.0<br>&gt;&gt;&gt; y = 3.0<br>&gt;&gt;&gt; id(x) == id(y)<br>False<br>&gt;&gt;&gt; x， y = 300000， 300000<br>&gt;&gt;&gt; id(x) == id(y)<br>True</p>
+<hr>
+<h3>第 10 页 · 字符串和元组属于不可变序列，不能通过下标的方式来修改其中的元素值，试图修改元组中元素的值时会抛出异常。</h3>
+<p>字符串和元组属于不可变序列，不能通过下标的方式来修改其中的元素值，试图修改元组中元素的值时会抛出异常。<br><br>&gt;&gt;&gt; x = (1，2，3)<br>&gt;&gt;&gt; x<br>(1， 2， 3)<br><br>&gt;&gt;&gt; x[1] = 5<br>Traceback (most recent call last):<br>  File &quot;&lt;pyshell#7&gt;&quot;， line 1， in &lt;module&gt;<br>    x[1] = 5<br>TypeError: &#x27;tuple&#x27; object does not support item assignment</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 11 页 · 在定义变量名的时候，需要注意以下问题：</h3>
+<p>在定义变量名的时候，需要注意以下问题：<br>变量名必须以字母、数字字或下划线组成，不能由数字开头，以下关键字不能在变量命名中使用；<br>。</p>
+<p>2.1.1 Python变量</p>
+<div class="tw"><table><tbody><tr><td>and</td><td>False</td><td>if</td><td>for</td><td>def</td><td>with</td><td>assert</td></tr><tr><td>or</td><td>True</td><td>elif</td><td>while</td><td>lambda</td><td>try</td><td>async</td></tr><tr><td>not</td><td>from</td><td>else</td><td>break</td><td>return</td><td>except</td><td>await</td></tr><tr><td>is</td><td>import</td><td>None</td><td>continue</td><td>global</td><td>finally</td><td>pass</td></tr><tr><td>in</td><td>as</td><td>class</td><td>del</td><td>nonlocal</td><td>yield</td><td>raise</td></tr></tbody></table></div>
+<hr>
+<h3>第 12 页 · 在定义变量名的时候，需要注意以下问题：</h3>
+<p>在定义变量名的时候，需要注意以下问题：<br>变量名中不能有空格以及标点符号（括号、引号、逗号、斜线、反斜线、冒号、句号、问号等等）；<br>不能使用关键字作变量名，可以导入keyword模块后使用print(keyword.kwlist)查看所有Python关键字；<br>不建议使用系统内置的模块名、类型名或函数名以及已导入的模块名及其成员名作变量名，这将会改变其类型和含义，可以通过dir(__builtins__)查看所有内置模块、类型和函数；<br>变量名对英文字母的大小写敏感，例如student和Student是不同的变量。</p>
+<p>2.1.1 Python变量</p>
+<hr>
+<h3>第 13 页 · 幻灯片</h3>
+<figure><img loading="lazy" src="../media/D117/D117_s13_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 14 页 · 习题1</h3>
+<p>习题1</p>
+<p>记录班级 3 名同学的考试信息：姓名，年龄，考试分数。<br>要求：<br>定义变量保存数据：<br>姓名：&quot;李明&quot;，年龄：19，分数：86；<br>下面有 3 个错误变量名，请指出错误原因，并且改写为合法变量名：<br>9score = 86、score#stu =86、and = 19<br>使用type()分别打印 姓名、年龄、分数 三个变量的对象类型。<br>打印输出：学生：李明，年龄：19，考试分数：86</p>
+<hr>
+<h3>第 15 页 · 习题1</h3>
+<p>习题1</p>
+<p>记录班级 3 名同学的考试信息：姓名，年龄，考试分数。<br><br>要求：<br>定义变量保存数据：姓名：&quot;李明&quot;，年龄：19，分数：86；<br>使用type()分别打印 姓名、年龄、分数 三个变量的对象类型。<br>打印输出：学生：李明，年龄：19，考试分数：86</p>
+<p>#1 定义变量<br>—— = &quot;李明&quot;<br>—— = 19<br>—— = 86<br><br>#2 打印类型<br>print(type(——))<br>print(type(——))<br>print(type(——))<br><br>print(f&quot;学生：{——}，——：{——}，——：{——}&quot;)</p>
+<hr>
+<h3>第 16 页 · 在Python中，数字类型变量可以表示任意大小的数值。</h3>
+<p>在Python中，数字类型变量可以表示任意大小的数值。<br>&gt;&gt;&gt; a=99999999999999999999999999999999<br>&gt;&gt;&gt; a*a<br>9999999999999999999999999999999800000000000000000000000000000001<br>&gt;&gt;&gt; a**3<br>999999999999999999999999999999970000000000000000000000000000000299999999999999999999999999999999</p>
+<p>2.1.2 数字</p>
+<hr>
+<h3>第 17 页 · Python中的数值类型主要有整数、浮点数和复数。其中，整数类型可以分为：</h3>
+<p>Python中的数值类型主要有整数、浮点数和复数。其中，整数类型可以分为：<br>十进制整数，如，0、-1、9、123<br>十六进制整数，需要16个数字0、1、2、3、4、5、6、7、8、9、a、b、c、d、e、f来表示整数，必须以0x开头，如0x10、0xfa、0xabcdef<br>八进制整数，只需要8个数字0、1、2、3、4、5、6、7来表示整数，必须以0o开头，如0o35、0o11<br>二进制整数，只需要2个数字0、1来表示整数，必须以0b开头如，0b101、0b100</p>
+<p>2.1.2 数字</p>
+<hr>
+<h3>第 18 页 · 浮点数又称小数</h3>
+<p>浮点数又称小数<br>15.0、0.37、-11.2、1.2e2、314.15e-2</p>
+<p>2.1.2 数字</p>
+<hr>
+<h3>第 19 页 · Python内置支持复数类型。</h3>
+<p>Python内置支持复数类型。<br>&gt;&gt;&gt; a = 3+4j<br>&gt;&gt;&gt; b = 5+6j<br>&gt;&gt;&gt; c = a+b<br>&gt;&gt;&gt; c<br>(8+10j)<br>&gt;&gt;&gt; c.real        #查看复数实部<br>8.0<br>&gt;&gt;&gt; c.imag        #查看复数虚部<br>10.0<br>&gt;&gt;&gt; a.conjugate() #返回共轭复数<br>(3-4j)<br>&gt;&gt;&gt; a*b           #复数乘法<br>(-9+38j)<br>&gt;&gt;&gt; a/b           #复数除法<br>(0.6393442622950819+0.03278688524590165j)</p>
+<p>2.1.2 数字</p>
+<hr>
+<h3>第 20 页 · Python 3.6.x开始支持在数字中间位置使用单个下划线作为分隔来提高数字的可读性，类似于数学上使用逗号作为千位分隔</h3>
+<p>Python 3.6.x开始支持在数字中间位置使用单个下划线作为分隔来提高数字的可读性，类似于数学上使用逗号作为千位分隔符。<br><br>&gt;&gt;&gt; 1_000_000<br>1000000<br>&gt;&gt;&gt; 1_2_3_4<br>1234<br>&gt;&gt;&gt; 1_2 + 3_4j<br>(12+34j)<br>&gt;&gt;&gt; 1_2.3_45<br>12.345</p>
+<p>2.1.2 数字</p>
+<hr>
+<h3>第 21 页 · 用单引号、双引号或三引号界定的符号系列称为字符串。</h3>
+<p>用单引号、双引号或三引号界定的符号系列称为字符串。<br>字符串属于不可变序列。<br>单引号、双引号、三单引号、三双引号可以互相嵌套，用来表示复杂字符串。<br>&#x27;abc&#x27;、&#x27;123&#x27;、&#x27;中国&#x27;、&quot;Python&quot;、&#x27;&#x27;&#x27;Tom said， &quot;Let&#x27;s go&quot;&#x27;&#x27;&#x27;<br>空字符串表示为&#x27;  &#x27;或 &quot;  &quot; 。<br>三引号&#x27;&#x27;&#x27;或&quot;&quot;&quot;表示的字符串可以换行，支持排版较为复杂的字符串；三引号还可以在程序中表示较长的注释。<br>&#x27;&#x27;&#x27;三引号&#x27;&#x27;&#x27;或&quot;&quot;&quot;表示的字符串可以换行<br>支持排版较为复杂的字符串；三引号还可以在程序中表示较长的注释&#x27;&#x27;&#x27;</p>
+<p>2.1.3 字符串</p>
+<hr>
+<h3>第 22 页 · 常用转义字符</h3>
+<p>常用转义字符</p>
+<div class="tw"><table><tbody><tr><td>转义字符</td><td>含义</td><td>转义字符</td><td>含义</td></tr><tr><td>\b</td><td>退格，把光标移动到前一列位置</td><td>\\</td><td>一个斜线\</td></tr><tr><td>\f</td><td>换页符</td><td>\’</td><td>单引号’</td></tr><tr><td>\n</td><td>换行符</td><td>\”</td><td>双引号”</td></tr><tr><td>\r</td><td>回车</td><td>\ooo</td><td>3位八进制数对应的字符</td></tr><tr><td>\t</td><td>水平制表符</td><td>\xhh</td><td>2位十六进制数对应的字符</td></tr><tr><td>\v</td><td>垂直制表符</td><td>\uhhhh</td><td>4位十六进制数表示的Unicode字符</td></tr></tbody></table></div>
+<p>2.1.3 字符串</p>
+<hr>
+<h3>第 23 页 · 字符串界定符前面加字母r或R表示原始字符串，其中的特殊字符不进行转义，但字符串的最后一个字符不能是\。原始字符串主要用于</h3>
+<p>字符串界定符前面加字母r或R表示原始字符串，其中的特殊字符不进行转义，但字符串的最后一个字符不能是\。原始字符串主要用于正则表达式、文件路径或者URL的场合。<br>&gt;&gt;&gt; path = &#x27;C:\Windows\notepad.exe&#x27;<br>&gt;&gt;&gt; path                                         #字符\n被转义为换行符<br>C:\Windows<br>otepad.exe<br>&gt;&gt;&gt; path = r&#x27;C:\Windows\notepad.exe&#x27; #原始字符串，任何字符都不转义<br>&gt;&gt;&gt; print(path)<br>C:\Windows\notepad.exe</p>
+<p>2.1.3 字符串</p>
+<hr>
+<h3>第 24 页 · 练习2</h3>
+<p>练习2</p>
+<p>打印如下内容：<br><br>使用转义字符\n打印两行文本：<br>一季度销售报表.xlsx<br>二季度销售报表.xlsx<br>直接写路径 file_path = &#x27;C:\newfile\sale.xlsx&#x27; 会出现转义错误，请使用 ** 原始字符串 r&#x27;&#x27;** 改写路径，打印正确的文件路径。<br>使用转义引号输出这句话：店长说：&quot;本月的&#x27;业绩统计&#x27;已经完成&quot;。</p>
+<p>#1 \n换行<br>print(&quot;一季度销售报表.xlsx——二季度销售报表.xlsx&quot;)<br><br>#2 原始字符串<br>file_path =——&#x27;C:\newfile\sale.xlsx&#x27;<br>print(file_path)<br><br>#3 转义引号<br>print(&#x27; —— &#x27;)</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

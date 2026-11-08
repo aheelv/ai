@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第6章：聚类分析 - 商业分析方法</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #EC4899;
+            z-index: 100;
+        }
+        .header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(90deg, #F472B6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-info { display: flex; gap: 20px; align-items: center; }
+        .header-info span { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9em; }
+        .toc-btn { background: linear-gradient(135deg, #EC4899, #DB2777); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; }
+        .toc-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(236, 72, 153, 0.4); }
+        .slides-wrapper { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; min-height: calc(100vh - 140px); display: none; padding: 30px 40px 20px 40px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); animation: fadeIn 0.5s ease; }
+        .slide.active { display: flex; flex-direction: column; min-height: calc(100vh - 140px); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .slide-header { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); color: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .slide-header h2 { font-size: 1.5em; }
+        .slide-number-badge { background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 16px; font-size: 0.9em; }
+        .slide-content { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; overflow: visible; }
+        .slide-content.single-column { grid-template-columns: 1fr; }
+        .slide-content.three-column { grid-template-columns: 1fr 1fr 1fr; }
+        .content-box { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: visible; }
+        .content-box.scroll { max-height: calc(100vh - 320px); overflow-y: auto; }
+        .content-box h3 { color: #EC4899; font-size: 1.2em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #EC4899; }
+        .content-box ul { list-style: none; }
+        .content-box li { padding: 10px 0; padding-left: 25px; position: relative; font-size: 1.05em; color: #374151; }
+        .content-box li::before { content: '▶'; position: absolute; left: 0; color: #EC4899; font-size: 0.8em; }
+        .highlight-box { background: linear-gradient(135deg, #FCE7F3 0%, #FBCFE8 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #EC4899; }
+        .highlight-box h4 { color: #DB2777; margin-bottom: 10px; }
+        .highlight-box.green { background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%); border-left-color: #10B981; }
+        .highlight-box.green h4 { color: #059669; }
+        .highlight-box.blue { background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%); border-left-color: #3B82F6; }
+        .highlight-box.blue h4 { color: #1D4ED8; }
+        .highlight-box.orange { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left-color: #F59E0B; }
+        .highlight-box.orange h4 { color: #D97706; }
+        .code-block { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 10px; font-family: 'Consolas', monospace; font-size: 0.85em; overflow-x: auto; line-height: 1.6; }
+        .chart-container { display: flex; justify-content: center; align-items: flex-start; height: auto; padding: 10px 0; }
+        .chart-container img { max-width: 100%; max-height: none; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 12px 30px; display: flex; justify-content: center; align-items: center; gap: 30px; border-top: 2px solid #EC4899; height: 60px; }
+        .nav-btn { background: linear-gradient(135deg, #EC4899, #DB2777); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-size: 0.95em; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        .nav-btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 20px rgba(236, 72, 153, 0.4); }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-text { background: rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 20px; font-size: 0.95em; min-width: 70px; text-align: center; }
+        .page-nav-sidebar { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.95); padding: 12px 8px; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); z-index: 100; max-height: calc(100vh - 200px); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .page-nav-sidebar::-webkit-scrollbar { width: 4px; }
+        .page-nav-sidebar::-webkit-scrollbar-thumb { background: #EC4899; border-radius: 2px; }
+        .page-dot { width: 10px; height: 10px; border-radius: 50%; background: #d1d5db; cursor: pointer; transition: all 0.3s; flex-shrink: 0; }
+        .page-dot.active { background: #EC4899; transform: scale(1.4); }
+        .page-dot:hover { background: #9ca3af; transform: scale(1.2); }
+        .toc-sidebar { position: fixed; top: 0; left: -400px; width: 400px; height: 100vh; background: white; box-shadow: 5px 0 30px rgba(0,0,0,0.3); z-index: 200; transition: left 0.3s ease; display: flex; flex-direction: column; }
+        .toc-sidebar.open { left: 0; }
+        .toc-header { background: linear-gradient(135deg, #EC4899, #DB2777); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .toc-header h3 { font-size: 1.3em; }
+        .close-btn { background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; }
+        .toc-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .toc-item { padding: 15px; margin: 8px 0; background: #f3f4f6; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
+        .toc-item:hover { background: #e5e7eb; transform: translateX(5px); }
+        .toc-item.active { background: linear-gradient(135deg, #EC4899, #DB2777); color: white; }
+        .toc-item-number { background: #EC4899; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .toc-item.active .toc-item-number { background: white; color: #EC4899; }
+        .toc-item-title { font-size: 0.95em; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+        .overlay.show { display: block; }
+        .keyboard-hint { position: fixed; bottom: 80px; right: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85em; z-index: 50; }
+        .key { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; margin: 0 3px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 第6章：聚类分析</h1>
+        <div class="header-info">
+            <span>⏱️ 90分钟</span>
+            <span>📖 20页</span>
+            <span>📊 11个图表</span>
+            <button class="toc-btn" onclick="toggleTOC()">📑 目录</button>
+        </div>
+    </div>
+
+    <div class="slides-wrapper">
+        <!-- 第1页：课程封面 -->
+        <div class="slide active" data-title="课程封面">
+            <div class="slide-header">
+                <h2>📚 第6章：聚类分析</h2>
+                <span class="slide-number-badge">第 1 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 style="border: none; font-size: 2em; margin-bottom: 30px;">🎯 课程目标</h3>
+                    <ul style="text-align: left; max-width: 600px;">
+                        <li>理解聚类分析的核心概念与应用场景</li>
+                        <li>掌握K-Means、DBSCAN等常用聚类算法原理</li>
+                        <li>学会使用层次聚类进行用户分群</li>
+                        <li>掌握RFM模型与聚类分析的结合应用</li>
+                        <li>能够独立完成聚类分析项目实战</li>
+                    </ul>
+                    <div class="highlight-box" style="margin-top: 30px; max-width: 600px;">
+                        <h4>💡 什么是聚类分析？</h4>
+                        <p>聚类分析是将相似的对象归为一类，使得同一类内的对象相似度尽可能大，不同类之间的对象相似度尽可能小。这是无监督学习的核心方法。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第2页：聚类分析概述 -->
+        <div class="slide" data-title="聚类分析概述">
+            <div class="slide-header">
+                <h2>📖 聚类分析概述</h2>
+                <span class="slide-number-badge">第 2 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>核心概念</h3>
+                    <ul>
+                        <li><strong>无监督学习</strong>：不需要标签数据，自动发现数据中的模式</li>
+                        <li><strong>相似度度量</strong>：欧氏距离、余弦相似度等指标衡量对象间相似程度</li>
+                        <li><strong>群组发现</strong>：将相似对象自动归类，形成有意义的分组</li>
+                        <li><strong>模式识别</strong>：从数据中挖掘潜在的规律和结构</li>
+                    </ul>
+                    <div class="highlight-box blue">
+                        <h4>🎯 应用价值</h4>
+                        <p>帮助企业进行精准用户分群、商品分类、市场细分，是数据驱动运营的核心技术。</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <div class="chart-container">
+                        <img src="charts/ch6_clustering_overview.png" alt="聚类分析概述">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第3页：聚类分析应用场景 -->
+        <div class="slide" data-title="应用场景">
+            <div class="slide-header">
+                <h2>🎯 聚类分析应用场景</h2>
+                <span class="slide-number-badge">第 3 / 20 页</span>
+            </div>
+            <div class="slide-content three-column">
+                <div class="content-box">
+                    <h3>📊 用户分群</h3>
+                    <ul>
+                        <li>电商用户价值分层</li>
+                        <li>用户行为特征聚类</li>
+                        <li>用户生命周期识别</li>
+                        <li>流失用户预警</li>
+                    </ul>
+                    <div class="highlight-box" style="margin-top: 15px;">
+                        <p>基于RFM + 行为特征进行K-Means聚类</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>🛒 商品推荐</h3>
+                    <ul>
+                        <li>商品品类划分</li>
+                        <li>相似商品发现</li>
+                        <li>购物篮分析</li>
+                        <li>协同过滤基础</li>
+                    </ul>
+                    <div class="highlight-box" style="margin-top: 15px;">
+                        <p>基于购买记录进行商品关联聚类</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>🔍 异常检测</h3>
+                    <ul>
+                        <li>欺诈行为识别</li>
+                        <li>设备故障检测</li>
+                        <li>网络入侵检测</li>
+                        <li>异常交易监控</li>
+                    </ul>
+                    <div class="highlight-box" style="margin-top: 15px;">
+                        <p>DBSCAN密度聚类自动发现离群点</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第4页：K-Means算法原理 -->
+        <div class="slide" data-title="K-Means算法">
+            <div class="slide-header">
+                <h2>🧮 K-Means算法原理</h2>
+                <span class="slide-number-badge">第 4 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>算法步骤</h3>
+                    <ul>
+                        <li><strong>Step 1</strong>：随机选择K个点作为初始聚类中心</li>
+                        <li><strong>Step 2</strong>：计算每个样本到各个中心的距离，归入最近的类</li>
+                        <li><strong>Step 3</strong>：重新计算每个类的中心（均值）</li>
+                        <li><strong>Step 4</strong>：重复Step 2-3，直到中心不再变化</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>✅ 优点</h4>
+                        <p>简单高效，适合大规模数据；收敛速度快；对密集球形数据效果好</p>
+                    </div>
+                    <div class="highlight-box orange">
+                        <h4>⚠️ 缺点</h4>
+                        <p>需要预设K值；对初始中心敏感；只能发现球形簇；易受噪声和异常值影响</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <div class="chart-container">
+                        <img src="charts/ch6_kmeans_algorithm.png" alt="K-Means算法">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第5页：聚类方法对比 -->
+        <div class="slide" data-title="聚类方法对比">
+            <div class="slide-header">
+                <h2>🔄 聚类方法对比</h2>
+                <span class="slide-number-badge">第 5 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box scroll">
+                    <h3>常见聚类算法对比</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_clustering_methods.png" alt="聚类方法对比">
+                    </div>
+                    <div class="highlight-box blue" style="margin-top: 20px;">
+                        <h4>选择建议</h4>
+                        <ul>
+                            <li>K-Means：数据量大、分布均匀的首选</li>
+                            <li>DBSCAN：发现异常点、处理不规则形状</li>
+                            <li>层次聚类：需要树状图解释、类别数量不确定</li>
+                            <li>谱聚类：处理非凸形状、高维数据</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>算法特性对比</h3>
+                    <ul>
+                        <li><strong>K-Means</strong>：基于中心点，速度快，需要预设K</li>
+                        <li><strong>DBSCAN</strong>：密度聚类，自动发现噪声，无需预设K</li>
+                        <li><strong>层次聚类</strong>：树状图展示，可看多层次结构</li>
+                        <li><strong>谱聚类</strong>：图分割，适合非凸形状聚类</li>
+                    </ul>
+                    <div class="code-block" style="margin-top: 20px;">
+# Python实现K-Means
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=4, random_state=42)
+labels = kmeans.fit_predict(data)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第6页：用户分群案例 -->
+        <div class="slide" data-title="用户分群案例">
+            <div class="slide-header">
+                <h2>👥 电商用户分群案例</h2>
+                <span class="slide-number-badge">第 6 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>用户分群策略</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_user_segmentation.png" alt="用户分群">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>四类用户特征</h3>
+                    <ul>
+                        <li><strong>🌟 高价值用户</strong>：消费≥5000元，活跃度≥80%，贡献80%收入</li>
+                        <li><strong>📈 潜力用户</strong>：消费1000-5000元，活跃度上升，值得重点培养</li>
+                        <li><strong>💤 沉默用户</strong>：30天未活跃，消费≤500元，需要唤醒</li>
+                        <li><strong>⚠️ 流失风险</strong>：活跃度下降，客诉较多，需要预警和干预</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>💡 分群价值</h4>
+                        <p>基于RFM + 行为特征进行K-Means聚类，实现精细化运营</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第7页：评估指标 -->
+        <div class="slide" data-title="聚类评估">
+            <div class="slide-header">
+                <h2>📊 聚类评估指标</h2>
+                <span class="slide-number-badge">第 7 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>轮廓系数 (Silhouette Score)</h3>
+                    <p>衡量样本与自身簇的紧密程度 vs 与其他簇的分离程度</p>
+                    <div class="code-block">
+公式: s = (b - a) / max(a, b)
+
+其中:
+- a: 样本与同簇其他点的平均距离
+- b: 样本与最近邻簇的平均距离
+
+取值范围: [-1, 1]
+- 接近1: 聚类效果好
+- 接近0: 簇重叠
+- 负值: 样本可能被分到错误的簇
+                    </div>
+                </div>
+                <div class="content-box">
+                    <div class="chart-container">
+                        <img src="charts/ch6_evaluation_metrics.png" alt="评估指标">
+                    </div>
+                    <div class="highlight-box blue">
+                        <h4>📈 肘部法则 (Elbow Method)</h4>
+                        <p>绘制SSE随K变化的曲线，选择"肘部"点作为最优K值</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第8页：层次聚类 -->
+        <div class="slide" data-title="层次聚类">
+            <div class="slide-header">
+                <h2>🌲 层次聚类分析</h2>
+                <span class="slide-number-badge">第 8 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>树状图 (Dendrogram)</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_hierarchical_clustering.png" alt="层次聚类">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>层次聚类方法</h3>
+                    <ul>
+                        <li><strong>凝聚层次聚类</strong>：自底向上，每个点开始，逐步合并</li>
+                        <li><strong>分裂层次聚类</strong>：自顶向下，所有点开始，逐步分裂</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>链接方式</h4>
+                        <ul>
+                            <li><strong>Ward</strong>：最小化簇内方差</li>
+                            <li><strong>Complete</strong>：最远点距离</li>
+                            <li><strong>Average</strong>：平均距离</li>
+                            <li><strong>Single</strong>：最近点距离</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第9页：RFM聚类 -->
+        <div class="slide" data-title="RFM聚类">
+            <div class="slide-header">
+                <h2>🎯 RFM模型与聚类</h2>
+                <span class="slide-number-badge">第 9 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>RFM用户价值模型</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_rfm_clustering.png" alt="RFM聚类">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>RFM用户分群策略</h3>
+                    <ul>
+                        <li><strong>🌟 高价值用户</strong>：R高 F高 M高 → VIP服务，专属优惠</li>
+                        <li><strong>📈 潜力用户</strong>：R低 F中 M中 → 提升活跃度，积分激励</li>
+                        <li><strong>💤 一般用户</strong>：R中 F低 M中 → 沉睡唤醒，限时促销</li>
+                        <li><strong>⚠️ 流失风险</strong>：R高 F低 M低 → 流失预警，召回策略</li>
+                    </ul>
+                    <div class="code-block" style="margin-top: 20px;">
+# RFM评分计算
+rfm['R_score'] = rfm['R'].rank(pct=True)
+rfm['F_score'] = rfm['F'].rank(pct=True)
+rfm['M_score'] = rfm['M'].rank(pct=True)
+rfm['RFM_score'] = rfm['R_score'] + rfm['F_score'] + rfm['M_score']
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第10页：DBSCAN异常检测 -->
+        <div class="slide" data-title="DBSCAN异常检测">
+            <div class="slide-header">
+                <h2>🔍 DBSCAN异常检测</h2>
+                <span class="slide-number-badge">第 10 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>密度聚类原理</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_dbscan_traffic.png" alt="DBSCAN">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>核心概念</h3>
+                    <ul>
+                        <li><strong>核心点</strong>：邻域内至少有MinPts个点</li>
+                        <li><strong>边界点</strong>：在核心点邻域内，但邻域内点数不足</li>
+                        <li><strong>噪声点</strong>：既不是核心点也不是边界点，即异常点</li>
+                    </ul>
+                    <div class="highlight-box orange">
+                        <h4>参数选择</h4>
+                        <ul>
+                            <li><strong>eps</strong>：邻域半径，需根据数据分布调整</li>
+                            <li><strong>MinPts</strong>：最小点数，通常取数据维数+1或更大</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第11页：特征工程 -->
+        <div class="slide" data-title="特征工程">
+            <div class="slide-header">
+                <h2>⚙️ 聚类特征工程</h2>
+                <span class="slide-number-badge">第 11 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>特征工程流程</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_feature_engineering.png" alt="特征工程">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>关键特征类型</h3>
+                    <ul>
+                        <li><strong>RFM特征</strong>：最近购买、购买频率、消费金额</li>
+                        <li><strong>统计特征</strong>：均值、方差、偏度、峰度</li>
+                        <li><strong>行为特征</strong>：点击、浏览、加购、收藏</li>
+                        <li><strong>序列特征</strong>：访问路径、停留时长</li>
+                    </ul>
+                    <div class="highlight-box blue">
+                        <h4>📋 数据预处理</h4>
+                        <ul>
+                            <li>缺失值填充：中位数/均值</li>
+                            <li>标准化：Z-score / Min-Max</li>
+                            <li>降维：PCA / t-SNE</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第12页：实战案例1 -->
+        <div class="slide" data-title="实战案例1">
+            <div class="slide-header">
+                <h2>💼 实战案例：电商用户分析</h2>
+                <span class="slide-number-badge">第 12 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box scroll">
+                    <h3>案例分析结果</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_case_study.png" alt="案例分析">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>分析结论</h3>
+                    <ul>
+                        <li><strong>用户分布</strong>：高价值15%，潜力25%，一般35%，流失25%</li>
+                        <li><strong>消费特征</strong>：80%用户消费低于1000元，20%高消费用户贡献60%收入</li>
+                        <li><strong>活跃-消费关系</strong>：高活跃与高消费正相关，但存在分化</li>
+                        <li><strong>算法对比</strong>：K-Means在轮廓系数上优于层次聚类</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>💡 运营建议</h4>
+                        <p>针对潜力用户提升活跃度，针对高价值用户提供VIP服务</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第13页：Python实现 -->
+        <div class="slide" data-title="Python实现">
+            <div class="slide-header">
+                <h2>🐍 Python聚类分析实战</h2>
+                <span class="slide-number-badge">第 13 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box scroll">
+                    <h3>完整代码实现</h3>
+                    <div class="code-block">
+# 1. 导入库
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
+
+# 2. 数据加载与预处理
+df = pd.read_csv('user_behavior.csv')
+features = ['recency', 'frequency', 'monetary', 'active_days']
+X = df[features].fillna(df[features].median())
+
+# 3. 标准化
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 4. 确定最优K值 - 肘部法则
+inertias = []
+silhouettes = []
+K_range = range(2, 11)
+
+for k in K_range:
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(X_scaled)
+    inertias.append(kmeans.inertia_)
+    silhouettes.append(silhouette_score(X_scaled, kmeans.labels_))
+
+# 5. 选择K=4，训练最终模型
+best_k = 4
+final_model = KMeans(n_clusters=best_k, random_state=42)
+df['cluster'] = final_model.fit_predict(X_scaled)
+
+# 6. 分析各簇特征
+cluster_summary = df.groupby('cluster')[features].mean()
+print(cluster_summary)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第14页：SQL实现 -->
+        <div class="slide" data-title="SQL实现">
+            <div class="slide-header">
+                <h2>📊 SQL实现用户分群</h2>
+                <span class="slide-number-badge">第 14 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box scroll">
+                    <h3>SQL实现RFM分析</h3>
+                    <div class="code-block">
+-- 1. 计算RFM指标
+WITH rfm AS (
+    SELECT 
+        user_id,
+        DATEDIFF(CURRENT_DATE, MAX(order_date)) AS recency,
+        COUNT(order_id) AS frequency,
+        SUM(order_amount) AS monetary
+    FROM orders
+    WHERE order_date >= DATE_SUB(CURRENT_DATE, INTERVAL 90 DAY)
+    GROUP BY user_id
+),
+
+-- 2. RFM分箱评分
+rfm_scored AS (
+    SELECT 
+        user_id,
+        recency, frequency, monetary,
+        NTILE(5) OVER (ORDER BY recency DESC) AS r_score,
+        NTILE(5) OVER (ORDER BY frequency) AS f_score,
+        NTILE(5) OVER (ORDER BY monetary) AS m_score
+    FROM rfm
+)
+
+-- 3. 用户分群
+SELECT 
+    user_id, recency, frequency, monetary,
+    CASE 
+        WHEN r_score >= 4 AND f_score >= 4 AND m_score >= 4 THEN '高价值用户'
+        WHEN r_score >= 3 AND f_score >= 3 AND m_score >= 3 THEN '潜力用户'
+        WHEN r_score <= 2 AND f_score <= 2 AND m_score <= 2 THEN '流失风险'
+        ELSE '一般用户'
+    END AS user_segment
+FROM rfm_scored;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第15页：注意事项 -->
+        <div class="slide" data-title="注意事项">
+            <div class="slide-header">
+                <h2>⚠️ 聚类分析注意事项</h2>
+                <span class="slide-number-badge">第 15 / 20 页</span>
+            </div>
+            <div class="slide-content three-column">
+                <div class="content-box">
+                    <h3>数据质量</h3>
+                    <ul>
+                        <li>缺失值处理要合理</li>
+                        <li>异常值会影响结果</li>
+                        <li>量纲不一致需标准化</li>
+                        <li>类别变量需编码</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>参数选择</h3>
+                    <ul>
+                        <li>K值选择要结合业务</li>
+                        <li>DBSCAN参数需调优</li>
+                        <li>距离度量要合适</li>
+                        <li>考虑数据分布特点</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>结果解读</h3>
+                    <ul>
+                        <li>聚类结果需业务解释</li>
+                        <li>不是越多越好</li>
+                        <li>定期重新聚类</li>
+                        <li>结合实际验证效果</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第16页：AI辅助聚类 -->
+        <div class="slide" data-title="AI辅助聚类">
+            <div class="slide-header">
+                <h2>🤖 AI辅助聚类分析</h2>
+                <span class="slide-number-badge">第 16 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>ChatGPT提示词模板</h3>
+                    <div class="code-block">
+# 分析用户分群
+请帮我分析电商用户数据：
+
+背景：
+- 数据包含用户ID、购买金额、购买频次、最后购买时间
+- 共10万用户，近3个月数据
+
+需求：
+1. 建议合适的聚类特征
+2. 选择最优K值的方法
+3. 分析各簇用户特征
+4. 给出运营建议
+
+请给出详细分析方案。
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>💡 使用技巧</h4>
+                        <p>让AI帮你理解业务逻辑、解释聚类结果、生成运营策略</p>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>分析流程优化</h3>
+                    <ul>
+                        <li><strong>特征选择</strong>：AI帮助识别关键特征</li>
+                        <li><strong>参数调优</strong>：AI辅助确定最优参数</li>
+                        <li><strong>结果解读</strong>：AI帮助理解簇的含义</li>
+                        <li><strong>策略生成</strong>：AI自动生成运营建议</li>
+                    </ul>
+                    <div class="highlight-box blue">
+                        <h4>🎯 效率提升</h4>
+                        <p>使用AI辅助，分析效率提升50%以上</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第17页：可视化呈现 -->
+        <div class="slide" data-title="可视化呈现">
+            <div class="slide-header">
+                <h2>📈 聚类结果可视化</h2>
+                <span class="slide-number-badge">第 17 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>常用可视化方法</h3>
+                    <ul>
+                        <li><strong>散点图矩阵</strong>：展示各特征两两关系</li>
+                        <li><strong>t-SNE/UMAP</strong>：高维数据降维可视化</li>
+                        <li><strong>雷达图</strong>：各簇特征对比</li>
+                        <li><strong>饼图/柱状图</strong>：各簇占比分布</li>
+                        <li><strong>热力图</strong>：簇特征相关性</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3>Python可视化代码</h3>
+                    <div class="code-block">
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+# PCA降维可视化
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+plt.figure(figsize=(10, 6))
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+for i in range(4):
+    mask = labels == i
+    plt.scatter(X_pca[mask, 0], X_pca[mask, 1], 
+                c=colors[i], label=f'簇{i}', alpha=0.6)
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.legend()
+plt.title('用户聚类可视化')
+plt.show()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第18页：章节总结 -->
+        <div class="slide" data-title="章节总结">
+            <div class="slide-header">
+                <h2>📝 第6章总结</h2>
+                <span class="slide-number-badge">第 18 / 20 页</span>
+            </div>
+            <div class="slide-content">
+                <div class="content-box">
+                    <h3>知识总结</h3>
+                    <div class="chart-container">
+                        <img src="charts/ch6_clustering_summary.png" alt="总结">
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3>核心要点</h3>
+                    <ul>
+                        <li>聚类是无监督学习，发现数据自然群组</li>
+                        <li>K-Means快速高效，但需预设K值</li>
+                        <li>DBSCAN自动发现异常点，无需预设K</li>
+                        <li>层次聚类提供树状结构解释</li>
+                        <li>RFM + 聚类实现精准用户分群</li>
+                    </ul>
+                    <div class="highlight-box green">
+                        <h4>🎯 实践建议</h4>
+                        <p>先用K-Means快速验证，再根据业务选择最优算法</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第19页：课后作业 -->
+        <div class="slide" data-title="课后作业">
+            <div class="slide-header">
+                <h2>📋 课后实践作业</h2>
+                <span class="slide-number-badge">第 19 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box">
+                    <h3>实践任务</h3>
+                    <div class="highlight-box blue">
+                        <h4>任务1：电商用户分群</h4>
+                        <p>使用提供的用户行为数据，完成以下任务：</p>
+                        <ul>
+                            <li>1. 数据清洗和特征工程</li>
+                            <li>2. 使用K-Means进行用户分群</li>
+                            <li>3. 确定最优K值并解释各簇特征</li>
+                            <li>4. 生成可视化图表和运营建议</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box green">
+                        <h4>任务2：思考题</h4>
+                        <ul>
+                            <li>1. 如何选择合适的聚类算法？考虑哪些因素？</li>
+                            <li>2. 如何验证聚类结果的有效性？</li>
+                            <li>3. 聚类分析在推荐系统中如何应用？</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第20页：结束页 -->
+        <div class="slide" data-title="结束页">
+            <div class="slide-header">
+                <h2>🎉 第6章学习完成</h2>
+                <span class="slide-number-badge">第 20 / 20 页</span>
+            </div>
+            <div class="slide-content single-column">
+                <div class="content-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h3 style="border: none; font-size: 2em; margin-bottom: 30px;">🎯 下章预告</h3>
+                    <div class="highlight-box" style="max-width: 600px; text-align: left;">
+                        <h4>第7章：A/B测试</h4>
+                        <p>学习如何设计实验、进行统计检验、用数据驱动决策</p>
+                    </div>
+                    <div style="margin-top: 40px;">
+                        <p style="font-size: 1.2em; color: #666;">感谢学习！</p>
+                        <p style="color: #999; margin-top: 10px;">掌握聚类分析，让数据发现隐藏的规律</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ 上一页</button>
+        <span class="page-text" id="pageText">1 / 20</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一页 ▶</button>
+    </div>
+
+    <div class="page-nav-sidebar" id="pageNavSidebar"></div>
+
+    <div class="overlay" id="overlay" onclick="toggleTOC()"></div>
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-header">
+            <h3>📑 课程目录</h3>
+            <button class="close-btn" onclick="toggleTOC()">×</button>
+        </div>
+        <div class="toc-list" id="tocList"></div>
+    </div>
+
+    <div class="keyboard-hint">使用 <span class="key">←</span> <span class="key">→</span> 或 <span class="key">空格</span> 切换页面</div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const pageText = document.getElementById('pageText');
+        const pageNavSidebar = document.getElementById('pageNavSidebar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tocList = document.getElementById('tocList');
+
+        function init() {
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(i);
+                dot.title = `第${i + 1}页`;
+                pageNavSidebar.appendChild(dot);
+            }
+
+            slides.forEach((slide, index) => {
+                const item = document.createElement('div');
+                item.className = 'toc-item' + (index === 0 ? ' active' : '');
+                item.innerHTML = `<span class="toc-item-number">${index + 1}</span><span class="toc-item-title">${slide.dataset.title || '第' + (index + 1) + '页'}</span>`;
+                item.onclick = () => { goToSlide(index); toggleTOC(); };
+                tocList.appendChild(item);
+            });
+
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            pageText.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.querySelectorAll('.page-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+            document.querySelectorAll('.toc-item').forEach((item, index) => {
+                item.classList.toggle('active', index === currentSlide);
+            });
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateNavigation();
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) goToSlide(currentSlide - 1);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+        }
+
+        function toggleTOC() {
+            document.getElementById('tocSidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

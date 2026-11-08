@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 函数的定义与使用 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D138_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D138_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 函数的定义与使用</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>函数的定义与使用.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容二/函数的定义与使用.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>1.5 MB</td></tr><tr><th>Word 版本</th><td>D138_课件PPT_[宁悦PPT.zip] 函数的定义与使用.docx</td></tr></table><div class="content"><h3>第 1 页 · 课程目标及重难点</h3>
+<p>课程目标及重难点</p>
+<p>1.了解函数的定义； <br>2.熟悉函数的应用场景； <br>3.理解函数的参数传递过程； <br>4.掌握函数的定义和调用方法；<br>5.明确程序开发规范的重要性，培养学生的职业素质和道德规范。<br> <br>重点：函数的参数传递过程。<br>难点：自定义函数与序列解包连用。</p>
+<hr>
+<h3>第 2 页 · 函数</h3>
+<p>函数</p>
+<p>函数：是指组织好、可重复使用的，用来实现单一或相关联功能的代码段。<br>函数作用：实现代码的重复使用，实现代码的一致性(一致性是指只要修改函数的代码， 所有调用该函数的地方都能得到体现)。</p>
+<p>Python中的函数可以分为如下几类：<br>内置函数：由Python提供，可以直接拿来使用的函数，如：input()、print()、max()、min()等等； 自定义函数：用户根据需求自己定义的函数；<br>匿名函数：没有显式定义的函数，一般只有一行表达式，只能使用一次。</p>
+<hr>
+<h3>第 3 页 · 5.1  内置函数</h3>
+<p>5.1  内置函数</p>
+<p>Python提供了69个内置函数，可通过查询Python的官方文档了解内置函数的功能；  Python官方网站：https://docs.python.org/zcn/3.7/library/functions.html<br><br>注意</p>
+<p>注意</p>
+<p>标识符命名时不要使用内置函数名，虽然使用 内置函数名命名时Python不会报错，但是会导 致同名的内置函数被覆盖，从而无法使用。</p>
+<hr>
+<h3>第 4 页 · 5.2  自定义函数（创造属于你的函数）</h3>
+<p>5.2  自定义函数（创造属于你的函数）</p>
+<figure><img loading="lazy" src="../media/D138/D138_s04_01.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D138/D138_s04_02.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>如果想实现的功能内置函数无法完成，该如何处理呢？</p>
+<hr>
+<h3>第 5 页 · 自定义函数语法：</h3>
+<p>自定义函数语法：<br>def 函数名(形参)：  # 形参根据需求设置，可有可无，多个形参用逗号隔开<br>    &lt;代码块&gt; # 注意冒号和语句缩进<br>    return 表达式 # return函数返回值关键字，函数执行完毕后给调用者的结果称为函数的“返回值”，没有<br>                      return时返回结果为None<br>函数名(实参) # 调用函数，有参函数传递实参，实参与形参一一对应</p>
+<p>在Python中，用户可以自己创建函数，这类用户自己创建的函数称为自定义函数。<br>自定义函数：是指用一些符号代替变量赋值，等到使用这个算法的时候再把具体的变量金额填充进去，将原先适用于一种情况的算法改造成一个通用的算法。</p>
+<p>5.2.1  函数的定义与调用</p>
+<hr>
+<h3>第 6 页 · 5.2.1  函数的定义与调用</h3>
+<p>5.2.1  函数的定义与调用</p>
+<p>注意事项：<br>函数形参不需要声明类型，也不需要指定函数返回值类型；<br>即使该函数不需要接收任何参数，也必须保留一对空的圆括号；<br>括号后面的冒号必不可少；<br>函数体相对于def关键字必须保持一定的空格缩进；<br>Python允许嵌套定义函数。</p>
+<hr>
+<h3>第 7 页 · 5.1  函数定义</h3>
+<p>5.1  函数定义</p>
+<p>5.2.1  函数的定义与调用</p>
+<p>def dfb(x):<br>    &#x27;&#x27;&#x27;一系列操作&#x27;&#x27;&#x27;<br>    return &#x27;一碗%s饭&#x27; %x<br><br><br>a = dfb(&#x27;米&#x27;)<br>b = dfb(&#x27;米&#x27;)<br><br><br>print(a)<br>print(b)</p>
+<hr>
+<h3>第 8 页 · 5.2.1  函数的定义与调用</h3>
+<p>5.2.1  函数的定义与调用</p>
+<p>在自定义函数的时侯，尽量为函数的定义加上注释，可以为用户提供友好的提示。</p>
+<figure><img loading="lazy" src="../media/D138/D138_s08_03.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>注意：</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

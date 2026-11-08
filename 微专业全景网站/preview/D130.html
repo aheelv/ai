@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 集合 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D130_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E9%9B%86%E5%90%88.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D130_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E9%9B%86%E5%90%88.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 集合</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>集合.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容一/集合.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>258.9 KB</td></tr><tr><th>Word 版本</th><td>D130_课件PPT_[宁悦PPT.zip] 集合.docx</td></tr></table><div class="content"><h3>第 1 页 · 3.5 集合</h3>
+<p>3.5 集合</p>
+<p>集合是无序、可变序列，使用一对大括号界定，元素不可重复，同一个集合中每个元素都是唯一的，由{ }引导。<br>集合中只能包含数字、字符串、元组等不可变类型（或者说可哈希）的数据，而不能包含列表、字典、集合等可变类型的数据。</p>
+<hr>
+<h3>第 2 页 · 使用set()将其他类型数据转换为集合</h3>
+<p>使用set()将其他类型数据转换为集合<br>&gt;&gt;&gt; a_set = set(range(8,14))<br>&gt;&gt;&gt; a_set<br>{8, 9, 10, 11, 12, 13}<br>&gt;&gt;&gt; b_set = set([0, 1, 2, 3, 0, 1, 2, 3, 7, 8])   #自动去除重复<br>&gt;&gt;&gt; b_set<br>{0, 1, 2, 3, 7, 8}<br>&gt;&gt;&gt; c_set = set()                                 #空集合<br>&gt;&gt;&gt; c_set<br>set()</p>
+<p>3.5.1 集合的创建与删除</p>
+<hr>
+<h3>第 3 页 · 3.5.1 集合的创建与删除</h3>
+<p>3.5.1 集合的创建与删除</p>
+<p>使用del()删除整个集合。集合的pop()方法弹出并删除其中一个元素，remove()方法直接删除指定元素，clear()方法清空集合。<br>&gt;&gt;&gt; a = {1, 4, 2, 3}<br>&gt;&gt;&gt; a.pop()<br>1<br>&gt;&gt;&gt; a.pop()<br>2<br>&gt;&gt;&gt; a<br>{3, 4}<br>&gt;&gt;&gt; a.add(2)<br>&gt;&gt;&gt; a<br>{2, 3, 4}<br>&gt;&gt;&gt; a.remove(3)<br>&gt;&gt;&gt; a<br>{2, 4}</p>
+<hr>
+<h3>第 4 页 · 3.5.2 集合运算</h3>
+<p>3.5.2 集合运算</p>
+<p>交集、并集、差集、对称差集等运算。<br>&gt;&gt;&gt; a_set = set([8, 9, 10, 11, 12, 13])<br>&gt;&gt;&gt; b_set = {0, 1, 2, 3, 7, 8}<br>&gt;&gt;&gt; a_set | b_set                             #并集<br>{0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 13}<br>&gt;&gt;&gt; a_set &amp; b_set                             #交集<br>{8}<br>&gt;&gt;&gt; a_set - b_set                             #差集<br>{9, 10, 11, 12, 13}<br>&gt;&gt;&gt; a_set ^ b_set                             #对称差集<br>{0, 1, 2, 3, 7, 9, 10, 11, 12, 13}</p>
+<hr>
+<h3>第 5 页 · 集合包含关系测试</h3>
+<p>集合包含关系测试<br>&gt;&gt;&gt; x = {1, 2, 3}<br>&gt;&gt;&gt; y = {1, 2, 5}<br>&gt;&gt;&gt; z = {1, 2, 3, 4}<br>&gt;&gt;&gt; x &lt; y                                #比较集合大小/包含关系<br>false<br>&gt;&gt;&gt; x &lt; z                                #真子集<br>true<br>&gt;&gt;&gt; y &lt; z<br>false<br>&gt;&gt;&gt; {1, 2, 3} &lt;= {1, 2, 3}               #子集<br>true</p>
+<p>3.5.2 集合运算</p>
+<hr>
+<h3>第 6 页 · 课堂小节</h3>
+<p>课堂小节</p>
+<p>1. 字典<br>字典创建与删除<br>字典元素的读取<br>字典元素的添加与修改<br>字典推导式<br>2. 集合<br>集合的创建与删除<br>集合运算<br>集合推导式</p>
+<hr>
+<h3>第 7 页 · 课后讨论</h3>
+<p>课后讨论</p>
+<p>请根据自己的理解谈谈字典与集合的区别？</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>

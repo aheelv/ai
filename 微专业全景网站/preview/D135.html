@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[宁悦PPT.zip] 数据预处理的过程 · 在线预览</title><link rel="stylesheet" href="../assets/preview.css"></head><body>
+<div class="bar"><a href="../index.html">← 返回课程网站</a>
+<a class="dl" href="../downloads/word/D135_%E8%AF%BE%E4%BB%B6PPT_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E8%BF%87%E7%A8%8B.docx">下载 Word 版本</a><a class="dl ghost" href="../downloads/original/D135_%5B%E5%AE%81%E6%82%A6PPT.zip%5D%20%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E8%BF%87%E7%A8%8B.pptx">下载原始文件</a></div>
+<div class="wrap"><h1>[宁悦PPT.zip] 数据预处理的过程</h1><div class="tags"><span class="tag ">ℹ 来源：宁悦/PPT.zip 压缩包内课件</span></div>
+<table class="meta"><tr><th>文件名</th><td>数据预处理的过程.pptx</td></tr><tr><th>资料来源</th><td>宁悦/PPT.zip → 内容三/数据预处理的过程.pptx</td></tr><tr><th>适用课程</th><td>参考资料 / 会议调研</td></tr><tr><th>模块 / 学期</th><td>专业级 / 通用</td></tr><tr><th>资料类型</th><td>课件PPT</td></tr><tr><th>原始格式</th><td>PPTX</td></tr><tr><th>版本标识</th><td>未标注版本</td></tr><tr><th>文件大小</th><td>3.3 MB</td></tr><tr><th>Word 版本</th><td>D135_课件PPT_[宁悦PPT.zip] 数据预处理的过程.docx</td></tr></table><div class="content"><h3>第 1 页 · 处理缺失值</h3>
+<p>处理缺失值</p>
+<p>缺失值产生原因<br>缺失值的产生的原因多种多样，主要分为机械原因和人为原因。<br>机械原因:<br>测量设备故障<br>测量数据采集错误<br>数据存储的失败、存储器损坏<br>人为原因:<br>人的主观失误历史局限性<br>被采访者有意隐瞒回答问题无效</p>
+<hr>
+<h3>第 2 页 · 处理缺失值</h3>
+<p>处理缺失值</p>
+<p>常用处理方法<br>直接删除该条数据<br>在缺失数据不多，不会影响到数据分析时，该方法是可行的。<br>进行缺失值填补<br>利用平均数、中位数或者众数代替缺失值，也可以通过比较其他属性，用相似数据记录的数据值进行代替。<br>面对序列型数据的缺失问题时，可以使用前一条特征数据、后一条特征数据或前后两条特征数据的平均值对缺失值进行填充。<br>重新收集数据</p>
+<hr>
+<h3>第 3 页 · 删除缺失属性数据, 如表2 所示。</h3>
+<div class="tw"><table><tbody><tr><td>处理缺失值</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>用户名</td><td>购买日期</td><td>商品名称</td><td>数量</td><td>单价 (元)</td><td>地址</td></tr><tr><td>张三</td><td>2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr><tr><td>李四王五</td><td>2024-01-03</td><td>手机 无线耳机</td><td>2</td><td>3000</td><td>上海市浦东新区广州市天河区</td></tr></tbody></table></div>
+<div class="tw"><table><tbody><tr><td>赵六</td><td>2024-01-04</td><td>移动电源</td><td>-1</td><td>150</td><td>深圳市南山区</td></tr><tr><td>张三</td><td>2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr></tbody></table></div>
+<p>删除缺失属性数据, 如表2 所示。<br>表 2: 删除缺失数据</p>
+<div class="tw"><table><tbody><tr><td>用户名	购买日期</td><td>商品名称</td><td>数量</td><td>单价 (元)</td><td>地址</td></tr><tr><td>张三	2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr><tr><td>赵六	2024-01-04</td><td>移动电源</td><td>-1</td><td>150</td><td>深圳市南山区</td></tr><tr><td>张三	2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr></tbody></table></div>
+<hr>
+<h3>第 4 页 · 进行缺失值填补</h3>
+<div class="tw"><table><tbody><tr><td>用户名</td><td>购买日期</td><td>商品名称</td><td>数量</td><td>单价 (元)</td><td>地址</td></tr><tr><td>张三</td><td>2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr><tr><td>李四</td><td>2024-01-01</td><td>手机</td><td>1</td><td>3000</td><td>上海市浦东新区</td></tr><tr><td>王五</td><td>2024-01-03</td><td>无线耳机</td><td>2</td><td>1</td><td>广州市天河区</td></tr><tr><td>赵六</td><td>2024-01-04</td><td>移动电源</td><td>-1</td><td>150</td><td>深圳市南山区</td></tr><tr><td>张三</td><td>2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr></tbody></table></div>
+<div class="tw"><table><tbody><tr><td>处理缺失值</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>用户名</td><td>购买日期</td><td>商品名称</td><td>数量</td><td>单价 (元)</td><td>地址</td></tr><tr><td>张三</td><td>2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr><tr><td>李四王五</td><td>2024-01-03</td><td>手机 无线耳机</td><td>2</td><td>3000</td><td>上海市浦东新区广州市天河区</td></tr></tbody></table></div>
+<div class="tw"><table><tbody><tr><td>赵六</td><td>2024-01-04</td><td>移动电源</td><td>-1</td><td>150</td><td>深圳市南山区</td></tr><tr><td>张三</td><td>2024-01-01</td><td>笔记本电脑</td><td>1</td><td>5000</td><td>北京市朝阳区</td></tr></tbody></table></div>
+<p>进行缺失值填补<br>用众数填补购买日期，用平均值填补购买数量。单价需要重新收集数据。如表3 所示。<br>表 3: 填补缺失数据</p>
+<hr>
+<h3>第 5 页 · Python 实现缺失值处理</h3>
+<p>Python 实现缺失值处理</p>
+<p>借助 df.dropna() 删除缺失值</p>
+<figure><img loading="lazy" src="../media/D135/D135_s05_13.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 6 页 · Python 实现缺失值处理</h3>
+<p>Python 实现缺失值处理</p>
+<p>借助 df.fillna() 填补缺失值</p>
+<figure><img loading="lazy" src="../media/D135/D135_s06_14.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s06_15.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s06_16.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 7 页 · Python 实现缺失值处理</h3>
+<p>Python 实现缺失值处理</p>
+<p>借助 df.fillna() 填补缺失值——序列数据填补</p>
+<figure><img loading="lazy" src="../media/D135/D135_s07_17.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s07_18.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s07_19.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 8 页 · 处理异常值</h3>
+<p>处理异常值<br>异常值产生原因<br>异常值又称为离群点，可能是随机因素导致的，也可能是各种机制作用产生的。</p>
+<figure><img loading="lazy" src="../media/D135/D135_s08_20.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 9 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>异常值产生原因<br>异常值又称为离群点，可能是随机因素导致的，也可能是各种机制作用产生的。<br>异常值处理的步骤<br>异常值检测<br>箱形图<br>简单统计量<br>3σ 原则<br>基于概率分布密度的检测基于聚类的离群点检测<br>异常值筛选异常值处理</p>
+<hr>
+<h3>第 10 页 · 处理异常值</h3>
+<p>处理异常值<br>箱形图方法<br>于 1977 年由美国著名统计学家约翰∙图基（John Tukey）发明。能显示出一组数据的最大值、最小值、中位数、及上下四分位数。</p>
+<figure><img loading="lazy" src="../media/D135/D135_s10_29.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 11 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>箱形图方法<br>于 1977 年由美国著名统计学家约翰∙图基（John Tukey）发明。能显示出一组数据的最大值、最小值、中位数、及上下四分位数。<br>上四分位数: 箱型图上边界，即所有数值从小到大排列，第<br>75% 分位数。<br>中位数: 箱型图中的竖线，即所有数值从小到大排列，第<br>50% 分位数。<br>下四分位数: 箱型图下边界，即所有数值从小到大排列，第<br>25% 分位数。<br>四分位距 IQR: 箱型图上边界与下边界之差，即所有数值从小到大排列，第 75% 分位数与第 25% 分位数之差。</p>
+<hr>
+<h3>第 12 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>例</p>
+<p>箱形图方法<br>于 1977 年由美国著名统计学家约翰∙图基（John Tukey）发明。能显示出一组数据的最大值、最小值、中位数、及上下四分位数。<br>上四分位数: 箱型图上边界，即所有数值从小到大排列，第<br>75% 分位数。<br>中位数: 箱型图中的竖线，即所有数值从小到大排列，第<br>50% 分位数。<br>下四分位数: 箱型图下边界，即所有数值从小到大排列，第<br>25% 分位数。<br>四分位距 IQR: 箱型图上边界与下边界之差，即所有数值从小到大排列，第 75% 分位数与第 25% 分位数之差。<br><br>以一组序列数为例：12，15，17，19，20，23，25，28，30，33，<br>34，35，36，37 （共 14 个）请计算箱形图相关因数。</p>
+<hr>
+<h3>第 13 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>箱形图方法<br>箱型图对异常值进行检验通过四分位距（IQR）作为筛选基准，数据集中值大于上四分位 +1.5*IQR（上限）<br>或值小于下四分位-1.5*IQR（下限）为异常值。</p>
+<hr>
+<h3>第 14 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>箱形图方法<br>箱型图对异常值进行检验通过四分位距（IQR）作为筛选基准，数据集中值大于上四分位 +1.5*IQR（上限）<br>或值小于下四分位-1.5*IQR（下限）为异常值。<br>例子展示了数据集为<br>{4,4,5,5,5,5,6,6,6,7,8,16} 的箱型图，<br>该数据集的上边缘、上四分位数、中<br>位数、下四分位数、下边缘分别为：8.75、6.5、5.5、5、2.75，且存在异常值 16<br>(16 &gt; 6.5 + 1.5 ∗ (6.5 − 5) = 8.75)。</p>
+<figure><img loading="lazy" src="../media/D135/D135_s14_38.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 15 页 · Python 实现箱形图绘制</h3>
+<p>Python 实现箱形图绘制</p>
+<figure><img loading="lazy" src="../media/D135/D135_s15_39.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<p>借助 plt.boxplot() 实现</p>
+<hr>
+<h3>第 16 页 · 处理异常值</h3>
+<p>处理异常值<br>简单统计量方法<br>观察数据的极大值和极小值。如学生的成绩，若出现负数肯定为异常值。</p>
+<hr>
+<h3>第 17 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>简单统计量方法<br>观察数据的极大值和极小值。如学生的成绩，若出现负数肯定为异常值。<br>3σ 方法<br>根据正态分布规律，99.73% 的数据位于均值 ±3σ 范围内，超出范围的数据视为异常值。[µ − 3σ, µ + 3σ]</p>
+<hr>
+<h3>第 18 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>简单统计量方法<br>观察数据的极大值和极小值。如学生的成绩，若出现负数肯定为异常值。<br>3σ 方法<br>根据正态分布规律，99.73% 的数据位于均值 ±3σ 范围内，超出范围的数据视为异常值。[µ − 3σ, µ + 3σ]<br>基于概率分布密度检测<br>通过概率密度函数判断数据的奇异程度。</p>
+<hr>
+<h3>第 19 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>简单统计量方法<br>观察数据的极大值和极小值。如学生的成绩，若出现负数肯定为异常值。<br>3σ 方法<br>根据正态分布规律，99.73% 的数据位于均值 ±3σ 范围内，超出范围的数据视为异常值。[µ − 3σ, µ + 3σ]</p>
+<figure><img loading="lazy" src="../media/D135/D135_s19_40.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 20 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>简单统计量方法<br>观察数据的极大值和极小值。如学生的成绩，若出现负数肯定为异常值。<br>3σ 方法<br>根据正态分布规律，99.73% 的数据位于均值 ±3σ 范围内，超出范围的数据视为异常值。[µ − 3σ, µ + 3σ]<br>基于概率分布密度检测<br>通过概率密度函数判断数据的奇异程度。<br>基于聚类的离群点检测<br>通过聚类算法，将离群点检测出来，此类离群点可能属于异常值。</p>
+<hr>
+<h3>第 21 页 · 处理异常值</h3>
+<p>处理异常值</p>
+<p>异常值处理方法<br>删除：删除含有异常值的记录<br>视为缺失值：将异常值视为缺失值，按照缺失值进行处理；平均值修正：可用前后两个观测值的平均值修正该异常值；<br>不处理：忽视该异常值，或者不直接在具有异常值的数据集上进行数据挖掘。</p>
+<hr>
+<h3>第 22 页 · 知识点回顾及新知学习</h3>
+<p>知识点回顾及新知学习<br>数据预处理<br>数据缺失值处理：删除缺失值、用均值、中位数、众数代替缺失值；</p>
+<hr>
+<h3>第 23 页 · 知识点回顾及新知学习</h3>
+<p>知识点回顾及新知学习</p>
+<p>数据预处理<br>数据缺失值处理：删除缺失值、用均值、中位数、众数代替缺失值；<br>异常值处理：删除异常值、视为缺失值、平均值修正、不处理；<br>异常值检测：箱形图；</p>
+<hr>
+<h3>第 24 页 · 知识点回顾及新知学习</h3>
+<p>知识点回顾及新知学习</p>
+<p>数据预处理<br>数据缺失值处理：删除缺失值、用均值、中位数、众数代替缺失值；<br>异常值处理：删除异常值、视为缺失值、平均值修正、不处理；<br>异常值检测：箱形图；<br>噪声数据处理：人工检查、回归方法、分箱法。<br>等深分箱法：定义箱子内数值个数等宽分箱法：定义固定的区间范围用户自定义区间法</p>
+<hr>
+<h3>第 25 页 · 知识点回顾及新知学习</h3>
+<p>知识点回顾及新知学习</p>
+<p>数据预处理<br>数据缺失值处理：删除缺失值、用均值、中位数、众数代替缺失值；<br>异常值处理：删除异常值、视为缺失值、平均值修正、不处理；<br>异常值检测：箱形图；<br>噪声数据处理：人工检查、回归方法、分箱法。<br>等深分箱法：定义箱子内数值个数等宽分箱法：定义固定的区间范围用户自定义区间法<br>处理重复数据和数据冲突处理</p>
+<hr>
+<h3>第 26 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>数据中的噪声（Noise）通常是由测量或记载误差所导致的，这些数据对数据分析造成了干扰。</p>
+<div class="tw"><table><tbody><tr><td>电商场景</td><td>数据类型</td><td>噪声数据具体表现</td></tr><tr><td>用户身份管理</td><td>跨平台账号</td><td>同一用户在不同平台被识别为不同 ID，但手机号 / 收货地址重合度≥70%</td></tr><tr><td>交易真实性校验</td><td>订单 + 评价</td><td>1. 订单：短时间大量相同商品下单2. 评价：文案雷同、含推广链接</td></tr><tr><td>商品信息管理</td><td>商品属性</td><td>1. 规格错误：“500ml 饮料” 标为 “5L”2. 分类错误：服装类商品归为 “3C 数码”</td></tr></tbody></table></div>
+<hr>
+<h3>第 27 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>数据中的噪声（Noise）通常是由测量或记载误差所导致的，这些数据对数据分析造成了干扰。<br>噪声数据处理方法<br>人工检查<br>根据业务和对数据本身的理解，人为的进行数据筛选<br>回归方法<br>试图发现两个或多个相关变量之间的变化模式，通过令数据拟合一个函数来平滑数据；<br>分箱（Binning）方法<br>通过考察相邻数据来确定最终值。主要包括等深分箱法、等宽分箱法、用户自定义区间法。</p>
+<hr>
+<h3>第 28 页 · 处理噪声数据</h3>
+<p>处理噪声数据<br>等深分箱法<br>等深分箱法, 又称统一权重法，是将数据集等分成 n 个等深箱，每个箱的观测值个数相同。</p>
+<hr>
+<h3>第 29 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>例</p>
+<p>等深分箱法<br>等深分箱法, 又称统一权重法，是将数据集等分成 n 个等深箱，每个箱的观测值个数相同。<br><br>社区某日上午参与疫苗接种的居民年龄按从小到大进行排序后的值为：<br>{18,18,19,20,21,24,27,30,31,33,34,37,38,40,41,43,44,46,47,49}<br>箱 1：{18,18,19,20,21}<br>箱 2：{24,27,30,31,33}<br>箱 3：{34,37,38,40,41}<br>箱 4：{43,44,46,47,49}</p>
+<hr>
+<h3>第 30 页 · 处理噪声数据 Python 实现</h3>
+<p>处理噪声数据 Python 实现</p>
+<p>Listing 5: 等深分箱<br>def equal_depth_binning(data, n):<br># 计算每个箱的大小（每个箱包含的元素个数）<br>bin_size = len(data) // n<br>remainder = len(data) % n  # 处理余数<br>bins = [] start = 0<br>for i in range(n):<br># 如果有余数，前remainder个箱多分配一个元素<br>if i &lt; remainder:<br>end = start + bin_size + 1 else:<br>end = start + bin_size bins.append(data[start:end]) start = end<br>return bins</p>
+<figure><img loading="lazy" src="../media/D135/D135_s30_67.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 31 页 · 处理噪声数据</h3>
+<p>处理噪声数据<br>等宽分箱法<br>等宽分箱法。也称统一区间法，使数据集在整个属性值的区间上平均分布，即每个箱的区间范围是一个常量，称为箱子宽度。</p>
+<hr>
+<h3>第 32 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>例</p>
+<p>等宽分箱法<br>等宽分箱法。也称统一区间法，使数据集在整个属性值的区间上平均分布，即每个箱的区间范围是一个常量，称为箱子宽度。<br><br>接上例，设定区间范围（箱子宽度）为 8 岁，上述例子分箱后的结果如下：<br>箱 1：{18,18,19,20,21,24}<br>箱 2：{27,30,31,33,34}<br>箱 3：{37,38,40,41,43,44}<br>箱 4：{46,47,49}</p>
+<hr>
+<h3>第 33 页 · 处理噪声数据 Python 实现</h3>
+<p>处理噪声数据 Python 实现</p>
+<p>Listing 6: 等宽分箱</p>
+<p># 向上取整</p>
+<p>def equal_width_binning(data, width):<br># 计算最小值和最大值 min_val = data[0] max_val = data[-1]<br># 计算需要的箱的数量<br>num_bins = ((max_val - min_val) + width - 1) // width bins = [[] for _ in range(num_bins)]<br># 遍历数据，将每个值分配到对应的箱中<br>for value in data:<br># 计算该值属于哪个箱<br>bin_index = (value - min_val) // width bins[bin_index].append(value)<br>return bins</p>
+<figure><img loading="lazy" src="../media/D135/D135_s33_68.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 34 页 · 处理噪声数据</h3>
+<p>处理噪声数据<br>用户自定义区间<br>用户可以根据需要自定义区间，当用户明确希望观察某些区间范围内的数据分布时，使用这种方法可以方便地帮助用户达到目 的。</p>
+<hr>
+<h3>第 35 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>例</p>
+<p>用户自定义区间<br>用户可以根据需要自定义区间，当用户明确希望观察某些区间范围内的数据分布时，使用这种方法可以方便地帮助用户达到目 的。<br><br>接上例，用户自定义：如将疫苗接种居民年龄划分为 20 岁以下<br>（不包含 20 岁）、20-29 岁、30-39 岁、40-49 岁和 50 岁以上（包含 50 岁）几组，分箱后结果如下：<br>箱 1：{18,18,19}<br>箱 2：{20,21,24,27}<br>箱 3：{30,31,33,34,37,38}<br>箱 4：{40,41,43,44,46,47,49}</p>
+<hr>
+<h3>第 36 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>分箱后平滑处理<br>数据平滑方法又可以细分为平均值平滑、边界值平滑和按中位数平滑。<br>1. 平均值平滑<br>对同一箱值中的数据求平均值，用平均值替代该箱子中的所有数据。</p>
+<hr>
+<h3>第 37 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>分箱后平滑处理<br>数据平滑方法又可以细分为平均值平滑、边界值平滑和按中位数平滑。<br>1. 平均值平滑<br>对同一箱值中的数据求平均值，用平均值替代该箱子中的所有数据。</p>
+<p>例</p>
+<p>接上例，等深分箱法分箱后的数据进行平滑处理后，各分箱的平均数 19.2，29，38，45.8 即为各分箱的代表数值。</p>
+<hr>
+<h3>第 38 页 · 处理噪声数据 Python 实现</h3>
+<p>处理噪声数据 Python 实现</p>
+<p>Listing 7: 均值平滑<br>def mean_smoothing(binned_data):<br>&quot;&quot;&quot;<br>对分箱后的数据进行均值平滑处理<br>:param binned_data: 分箱后的数据（二维列表）<br>:return: 均值平滑处理后的数据<br>&quot;&quot;&quot;<br>smoothed_data = []<br>for bin in binned_data:<br># 计算当前箱的平均值<br>mean_value = sum(bin) / len(bin) # 用平均值替代该箱中的所有数据<br>smoothed_bin = [mean_value] * len(bin) smoothed_data.extend(smoothed_bin)<br>return smoothed_data</p>
+<figure><img loading="lazy" src="../media/D135/D135_s38_69.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 39 页 · 处理噪声数据</h3>
+<p>处理噪声数据<br>2. 边界值平滑<br>先确定两个边界，然后依次计算除边界值外的其他值与两个边界的距离，与之距离最小的边界确定为平滑边界值。</p>
+<hr>
+<h3>第 40 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>例</p>
+<p>例：社区某日上午参与疫苗接种的居民年龄按从小到大进行排序后的值为：<br>{18,18,19,20,21,24,27,30,31,33,34,37,38,40,41,43,44,46,47,49}<br>箱 1：{18,18,19,20,21}<br>箱 2：{24,27,30,31,33}<br>箱 3：{34,37,38,40,41}<br>箱 4：{43,44,46,47,49}</p>
+<hr>
+<h3>第 41 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>例</p>
+<p>2. 边界值平滑<br>先确定两个边界，然后依次计算除边界值外的其他值与两个边界的距离，与之距离最小的边界确定为平滑边界值。<br><br>接上例，以等深分箱法分箱后的数据为例：<br>箱 1：<br>|18-18| = 0; |18-21| = 3;<br>|19-18| = 1; |19-21| = 2;<br>|20-18| = 2; |20-21| = 1;<br>(0+1+2) &lt; (3+2+1)<br>故选 18 作为平滑边界值。以此类推计算箱 2、箱 3、箱 4 的平滑边界值。</p>
+<hr>
+<h3>第 42 页 · 处理噪声数据 Python 实现</h3>
+<p>处理噪声数据 Python 实现</p>
+<p>Listing 8: 边界值平滑<br>def boundary_smoothing(binned_data):<br>smoothed_data = []<br>for bin in binned_data:<br>min_val = bin[0]  # 确定当前箱的两个边界值（最小值和最大值）<br>max_val = bin[-1] smoothed_bin = [] for value in bin:<br>if value == min_val or value == max_val: smoothed_bin.append(value) # 如果是边界值，直接保留<br>else:<br>distance_min = value - min_val # 计算与两个边界的距离<br>distance_max = max_val - value<br>if distance_min &lt; distance_max: # 选择距离最小的边界值<br>smoothed_bin.append(min_val) else:<br>smoothed_bin.append(max_val) smoothed_data.extend(smoothed_bin)<br>return smoothed_data</p>
+<figure><img loading="lazy" src="../media/D135/D135_s42_71.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 43 页 · 处理噪声数据</h3>
+<p>处理噪声数据<br>3. 中位数平滑<br>取箱子的中位数，用来代替箱子中的所有数据。</p>
+<hr>
+<h3>第 44 页 · 处理噪声数据</h3>
+<p>处理噪声数据</p>
+<p>3. 中位数平滑<br>取箱子的中位数，用来代替箱子中的所有数据。</p>
+<p>例</p>
+<p>接上例，以等深分箱法分箱后的数据为例，其各箱的中位数 19， 30，38，46 即为各箱的代表数值。</p>
+<hr>
+<h3>第 45 页 · 处理噪声数据 Python 实现</h3>
+<p>处理噪声数据 Python 实现</p>
+<figure><img loading="lazy" src="../media/D135/D135_s45_72.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 46 页 · 等深分箱法+均值平滑</h3>
+<p>等深分箱法+均值平滑</p>
+<figure><img loading="lazy" src="../media/D135/D135_s46_73.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s46_74.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 47 页 · 等宽分箱法+均值平滑</h3>
+<p>等宽分箱法+均值平滑</p>
+<figure><img loading="lazy" src="../media/D135/D135_s47_75.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s47_76.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 48 页 · 等深分箱法+边界平滑</h3>
+<p>等深分箱法+边界平滑</p>
+<figure><img loading="lazy" src="../media/D135/D135_s48_77.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s48_78.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 49 页 · 等宽分箱法+边界平滑</h3>
+<p>等宽分箱法+边界平滑</p>
+<figure><img loading="lazy" src="../media/D135/D135_s49_79.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s49_80.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 50 页 · 等深分箱法+中位数平滑</h3>
+<p>等深分箱法+中位数平滑</p>
+<figure><img loading="lazy" src="../media/D135/D135_s50_81.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 51 页 · 等宽分箱法+中位数平滑</h3>
+<p>等宽分箱法+中位数平滑</p>
+<figure><img loading="lazy" src="../media/D135/D135_s51_82.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<figure><img loading="lazy" src="../media/D135/D135_s51_83.jpg" alt="文档内嵌图片"><figcaption>文档内嵌图片</figcaption></figure>
+<hr>
+<h3>第 52 页 · 处理重复数据和数据冲突</h3>
+<p>处理重复数据和数据冲突<br>处理重复数据<br>查找相同的数据并删除<br>Listing 9: 去重操作<br># 去重操作<br>df_cleaned = df.drop_duplicates()</p>
+<hr>
+<h3>第 53 页 · 处理重复数据和数据冲突</h3>
+<p>处理重复数据和数据冲突</p>
+<p>处理重复数据<br>查找相同的数据并删除<br>Listing 11: 去重操作<br># 去重操作<br>df_cleaned = df.drop_duplicates()<br><br>处理数据冲突<br>对两个数据源进行合并处理<br>Listing 12: 数据冲突处理<br># 数据冲突处理<br>df_merged = pd.concat([df1, df2], ignore_index=True) # 按照 id 和 name 进行分组，取平均值<br>df_resolved = df_merged.groupby([&#x27;id&#x27;, &#x27;name&#x27;],\ as_index=False).agg({&#x27;score&#x27;: &#x27;mean&#x27;})</p>
+<hr></div>
+<p class="foot">本页由原始文件自动抽取生成，仅用于在线浏览；完整版式与全部内容请以 Word 版本 / 原始文件为准。</p>
+</div></body></html>
