@@ -245,6 +245,26 @@ function checkItem(it) {
 /* ---------------- 建设参考：微专业PPT总结（按主题融入现有视图） ---------------- */
 var BP = D.bestPractices || {};
 var BP_THEMES = BP.themes || [];
+var WKP = D.weekParity || {};
+
+/* 48 学时课程单周 / 双周列示口径（与定稿 Word 同源，见 week_parity.py） */
+function parityBlock() {
+  if (!WKP.title) return '';
+  var o = WKP.odd || {}, e = WKP.even || {}, t = WKP.total || {};
+  var rows = [o, e].map(function (x) {
+    return '<tr><td><b>' + esc(x.label) + '</b></td><td>' + esc(x.weeks) + '</td><td>' +
+      (x.count || 0) + ' 周</td><td>' + (x.hoursPerWeek || 0) + ' 学时 / 周</td><td><b>' +
+      (x.subtotal || 0) + ' 学时</b></td></tr>';
+  }).join('');
+  rows += '<tr><td><b>合计</b></td><td>第 1—16 周</td><td>' + (t.weeks || 16) +
+    ' 周</td><td>' + (t.hoursPerWeek || 3) + ' 学时 / 周</td><td><b>' + (t.hours || 48) +
+    ' 学时</b></td></tr>';
+  return '<div class="table-scroll"><table class="t"><thead><tr><th>分组</th>' +
+    '<th>对应周次</th><th>周数</th><th>周学时</th><th>小计</th></tr></thead><tbody>' +
+    rows + '</tbody></table></div>' +
+    '<p class="tiny" style="margin:10px 0 0">适用范围：' + esc(WKP.docs) + '。</p>' +
+    note('info', '<b>口径说明：</b>' + esc(WKP.note));
+}
 
 function bpTheme(id) {
   for (var i = 0; i < BP_THEMES.length; i++) {
@@ -717,6 +737,14 @@ function viewGovernance() {
   h += note('info', '<b>融入位置：</b>政策坐标与课程结构 → 课程设置与基线；产教融合与项目实战 → 课程档案 C5 / C6；' +
     '多元评价与质量闭环 → 资料完整性核查；制度规范与路线图要点 → 本页。' +
     '全部沿用现有区块、卡片与提示块样式，未新增导航路由，页面结构与表达风格保持一致。');
+  if (WKP.title) {
+    h += sec('八、48 学时课程 · 单周 / 双周列示口径');
+    h += '<p class="lead">' + esc(WKP.short) + '</p>';
+    h += parityBlock();
+    h += '<p class="tiny muted" style="margin:9px 0 0">适用课程：' + esc(WKP.scope) +
+      '；规则定义：<span class="mono">' + esc(WKP.source) + '</span>。' +
+      '教学大纲汇编网页的「单双周口径」专节与本页口径一致。</p>';
+  }
   return h;
 }
 
